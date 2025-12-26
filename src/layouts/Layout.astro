@@ -33,7 +33,6 @@ const alternateURL = new URL(alternatePath, Astro.site)
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
 
     <!-- SEO Meta Tags -->
     <title>{title}</title>
@@ -44,7 +43,11 @@ const alternateURL = new URL(alternatePath, Astro.site)
     <!-- i18n Hreflang -->
     <link rel="alternate" hreflang={lang} href={canonicalURL} />
     <link rel="alternate" hreflang={alternateLang} href={alternateURL} />
-    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL("/", Astro.site)}
+    />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
