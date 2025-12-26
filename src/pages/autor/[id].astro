@@ -22,16 +22,33 @@ const { id: authorIdField, name, bio, color, initials, x, github } = entry.data
 const photo = `/authors/${authorIdField}.webp`
 
 const lang = Astro.currentLocale || "es"
-const authorBio = bio[lang] || bio["es"]
+const authorBio = bio[lang] || bio['es']
 
 // Get all tips by this author in Spanish
 const allTips = await getCollection("tips", ({ id }) => id.startsWith("es/"))
 const authorTips = allTips
   .filter((tip) => tip.data.author === entry.id)
   .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
+
+// Schema.org Person data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": name,
+  "description": authorBio,
+  "image": `https://100cosas.dev${photo}`,
+  "sameAs": [x, github].filter(Boolean)
+}
 ---
 
-<Layout title={`${name} | Autor | 100cosas.dev`}>
+<Layout 
+  title={`${name} | Autor | 100cosas.dev`}
+  description={authorBio}
+  ogType="profile"
+>
+  <!-- Schema.org Microdata -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
   <Navbar />
 
   <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
@@ -57,19 +74,26 @@ const authorTips = allTips
 
     <header
       class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12"
+      itemscope 
+      itemtype="https://schema.org/Person"
     >
       <div
         class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left"
       >
         <div
           class:list={[
-            "w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl",
+            "w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-linear-to-br flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl",
             color,
           ]}
         >
           {
             photo ? (
-              <img src={photo} alt={name} class="w-full h-full object-cover" />
+              <img 
+                src={photo} 
+                alt={name} 
+                class="w-full h-full object-cover" 
+                itemprop="image"
+              />
             ) : (
               initials
             )
@@ -77,10 +101,10 @@ const authorTips = allTips
         </div>
 
         <div class="flex-grow">
-          <h1 class="text-4xl md:text-5xl font-bold text-slate-100 mb-4">
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-100 mb-4" itemprop="name">
             {name}
           </h1>
-          <p class="text-xl text-slate-400 leading-relaxed mb-6 max-w-3xl">
+          <p class="text-xl text-slate-400 leading-relaxed mb-6 max-w-3xl" itemprop="description">
             {authorBio}
           </p>
 
@@ -92,6 +116,7 @@ const authorTips = allTips
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-900 border border-white/5 rounded-lg text-slate-300 hover:text-white transition-all"
+                  itemprop="sameAs"
                 >
                   <span>Twitter / X</span>
                 </a>
@@ -104,6 +129,7 @@ const authorTips = allTips
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-900 border border-white/5 rounded-lg text-slate-300 hover:text-white transition-all"
+                  itemprop="sameAs"
                 >
                   <span>GitHub</span>
                 </a>
