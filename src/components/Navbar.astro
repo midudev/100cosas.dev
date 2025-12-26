@@ -1,6 +1,11 @@
 ---
+interface Props {
+    total?: number;
+}
+
+const { total = 100 } = Astro.props;
 ---
-<nav class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/[0.05] supports-[backdrop-filter]:bg-slate-950/60">
+<nav id="navbar" data-total={total} class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/[0.05] supports-[backdrop-filter]:bg-slate-950/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 relative">
             <!-- Logo area -->
@@ -17,7 +22,7 @@
                 <div class="w-32 h-1 bg-slate-800 rounded-full overflow-hidden">
                     <div id="progress-bar" class="h-full bg-sky-500 w-[0%]" style="transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"></div>
                 </div>
-                <span id="progress-text" class="text-xs font-mono text-slate-400 font-medium tabular-nums min-w-[85px]">0/97 leídos</span>
+                <span id="progress-text" class="text-xs font-mono text-slate-400 font-medium tabular-nums min-w-[85px]">0/{total} leídos</span>
             </div>
 
             <!-- Right Actions -->
@@ -34,7 +39,7 @@
 
                 <!-- Mobile Progress -->
                 <div class="flex md:hidden items-center gap-3">
-                    <span id="progress-text-mobile" class="text-[10px] font-mono text-sky-400 font-bold">0/97</span>
+                    <span id="progress-text-mobile" class="text-[10px] font-mono text-sky-400 font-bold">0/{total}</span>
                     <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden">
                         <div id="progress-bar-mobile" class="h-full bg-sky-500 w-[0%]" style="transition: width 0.5s ease;"></div>
                     </div>
@@ -45,7 +50,6 @@
 </nav>
 
 <script>
-    const TOTAL_TIPS = 97;
     const STORAGE_KEY = 'read-tips';
 
     function getReadTips() {
@@ -63,9 +67,11 @@
     }
 
     function updateProgress() {
+        const navbar = document.getElementById('navbar');
+        const total = parseInt(navbar?.dataset.total || '100');
         const readTips = getReadTips();
         const count = readTips.length;
-        const percentage = Math.round((count / TOTAL_TIPS) * 100);
+        const percentage = Math.round((count / total) * 100);
 
         const progressBars = [
             document.getElementById('progress-bar'),
@@ -83,14 +89,14 @@
         progressTexts.forEach(text => {
             if (text) {
                 const isMobile = text.id.includes('mobile');
-                text.textContent = isMobile ? `${count}/${TOTAL_TIPS}` : `${count}/${TOTAL_TIPS} leídos`;
+                text.textContent = isMobile ? `${count}/${total}` : `${count}/${total} leídos`;
             }
         });
     }
 
     function handleCheckboxChange(e) {
-        const id = e.target.getAttribute('data-id');
-        const isChecked = e.target.checked;
+        const id = (e.target as HTMLInputElement).getAttribute('data-id');
+        const isChecked = (e.target as HTMLInputElement).checked;
         saveReadTip(id, isChecked);
     }
 
@@ -102,7 +108,7 @@
         const checkboxes = document.querySelectorAll('.read-toggle');
         checkboxes.forEach(checkbox => {
             const id = checkbox.getAttribute('data-id');
-            checkbox.checked = readTips.includes(id);
+            (checkbox as HTMLInputElement).checked = readTips.includes(id);
 
             // Evitar duplicar listeners
             checkbox.removeEventListener('change', handleCheckboxChange);
