@@ -45,7 +45,7 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
 <div
   class="tip-card bg-slate-800/50 rounded-xl cursor-pointer group relative"
   data-category={category}
-  itemscope 
+  itemscope
   itemtype="https://schema.org/Article"
 >
   <a
@@ -60,7 +60,7 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
         class="font-mono text-xs text-slate-500 border border-slate-700 px-2 py-1 rounded"
         >#{id}</span
       >
-      <span 
+      <span
         class:list={["font-mono text-xs px-2 py-1 rounded", categoryColor]}
         itemprop="articleSection"
       >
@@ -78,10 +78,10 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
     <div
       class="mt-auto pt-6 border-t border-slate-700/50 flex items-center justify-between"
     >
-      <div 
+      <div
         class="flex items-center gap-2"
-        itemprop="author" 
-        itemscope 
+        itemprop="author"
+        itemscope
         itemtype="https://schema.org/Person"
       >
         <div

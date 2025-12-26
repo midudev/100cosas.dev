@@ -1,16 +1,17 @@
 ---
 import { getCollection, getEntry } from "astro:content"
-import Layout from "../../layouts/Layout.astro"
-import Navbar from "../../components/Navbar.astro"
-import Footer from "../../components/Footer.astro"
+import Layout from "../../../layouts/Layout.astro"
+import Navbar from "../../../components/Navbar.astro"
+import Footer from "../../../components/Footer.astro"
 import { getRelativeLocaleUrl } from "astro:i18n"
 
 export async function getStaticPaths() {
   const tipsEntries = await getCollection("tips", ({ id }) => {
-    return id.startsWith("es/")
+    return id.startsWith("en/")
   })
+
   return tipsEntries.map((entry) => {
-    const slug = entry.slug.replace(/^es\//, "")
+    const slug = entry.slug.replace(/^en\//, "")
     return {
       params: { slug },
       props: { entry },
@@ -22,7 +23,7 @@ const { entry } = Astro.props
 const { Content } = await entry.render()
 const { id, title, category, author: authorId, categoryColor } = entry.data
 
-const lang = Astro.currentLocale || "es"
+const lang = Astro.currentLocale || "en"
 
 const authorEntry = await getEntry("authors", authorId)
 
@@ -47,7 +48,7 @@ const jsonLd = {
   author: {
     "@type": "Person",
     name: authorName,
-    url: `https://100cosas.dev/autor/${authorId}`,
+    url: `https://100cosas.dev/en/autor/${authorId}`,
   },
   publisher: {
     "@type": "Organization",
@@ -88,7 +89,7 @@ const jsonLd = {
           stroke-width="2"
           d="M15 19l-7-7 7-7"></path>
       </svg>
-      Volver a la lista
+      Back to list
     </a>
 
     <article
@@ -142,7 +143,9 @@ const jsonLd = {
             }
           </div>
           <div>
-            <p class="text-sm text-slate-500 uppercase tracking-wider">Autor</p>
+            <p class="text-sm text-slate-500 uppercase tracking-wider">
+              Author
+            </p>
             <p
               class="text-lg text-slate-200 font-medium group-hover:text-sky-400 transition-colors"
               itemprop="name"
@@ -170,7 +173,7 @@ const jsonLd = {
 </Layout>
 
 <script define:vars={{ id }}>
-  // Marcar como leído al entrar en la página
+  // Mark as read
   const STORAGE_KEY = "read-tips"
   const stored = localStorage.getItem(STORAGE_KEY)
   const readTips = stored ? JSON.parse(stored) : []

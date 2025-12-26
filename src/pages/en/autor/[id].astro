@@ -1,9 +1,9 @@
 ---
 import { getCollection, getEntry } from "astro:content"
-import Layout from "../../layouts/Layout.astro"
-import Navbar from "../../components/Navbar.astro"
-import TipCard from "../../components/TipCard.astro"
-import Footer from "../../components/Footer.astro"
+import Layout from "../../../layouts/Layout.astro"
+import Navbar from "../../../components/Navbar.astro"
+import TipCard from "../../../components/TipCard.astro"
+import Footer from "../../../components/Footer.astro"
 import { getRelativeLocaleUrl } from "astro:i18n"
 
 export async function getStaticPaths() {
@@ -21,11 +21,11 @@ const { entry } = Astro.props
 const { id: authorIdField, name, bio, color, initials, x, github } = entry.data
 const photo = `/authors/${authorIdField}.webp`
 
-const lang = Astro.currentLocale || "es"
-const authorBio = bio[lang] || bio["es"]
+const lang = Astro.currentLocale || "en"
+const authorBio = bio[lang] || bio["en"]
 
-// Get all tips by this author in Spanish
-const allTips = await getCollection("tips", ({ id }) => id.startsWith("es/"))
+// Get all tips by this author in English
+const allTips = await getCollection("tips", ({ id }) => id.startsWith("en/"))
 const authorTips = allTips
   .filter((tip) => tip.data.author === entry.id)
   .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
@@ -42,7 +42,7 @@ const jsonLd = {
 ---
 
 <Layout
-  title={`${name} | Autor | 100cosas.dev`}
+  title={`${name} | Author | 100cosas.dev`}
   description={authorBio}
   ogType="profile"
 >
@@ -69,7 +69,7 @@ const jsonLd = {
           stroke-width="2"
           d="M15 19l-7-7 7-7"></path>
       </svg>
-      Volver a la lista
+      Back to list
     </a>
 
     <header
@@ -150,7 +150,7 @@ const jsonLd = {
       <h2
         class="text-2xl font-bold text-slate-100 mb-8 flex items-center gap-3"
       >
-        Consejos de {name}
+        Tips by {name}
         <span
           class="text-sm font-mono font-normal text-slate-500 bg-slate-800 px-2 py-1 rounded"
         >
