@@ -1,9 +1,12 @@
 {
+    "id": "anders-hejlsberg",
     "name": "Anders Hejlsberg",
     "initials": "AH",
     "color": "from-blue-600 to-sky-400",
-    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Anders_Hejlsberg.jpg",
-    "bio": "Ingeniero de software danés que ha diseñado varios lenguajes de programación populares. Fue el autor principal de Turbo Pascal y el arquitecto jefe de Delphi. En Microsoft, fue el arquitecto jefe de C# y actualmente lidera el desarrollo de TypeScript.",
+    "bio": {
+        "es": "Ingeniero de software danés que ha diseñado varios lenguajes de programación populares. Fue el autor principal de Turbo Pascal y el arquitecto jefe de Delphi. En Microsoft, fue el arquitecto jefe de C# y actualmente lidera el desarrollo de TypeScript.",
+        "en": "Danish software engineer who has designed several popular programming languages. He was the original author of Turbo Pascal and the chief architect of Delphi. At Microsoft, he was the chief architect of C# and currently leads the development of TypeScript."
+    },
     "x": "https://x.com/ahejlsberg",
     "github": "https://github.com/ahejlsberg"
 }
