@@ -19,7 +19,10 @@ const sortedTips = tipsEntries.sort(
 )
 ---
 
-<Layout title={`${t("hero.title")} ${t("hero.subtitle")} | 100cosas.dev`}>
+<Layout 
+  title={`${t("hero.title")} ${t("hero.subtitle")} | 100cosas.dev`}
+  description={t("hero.description")}
+>
   <Navbar total={sortedTips.length} />
 
   <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
