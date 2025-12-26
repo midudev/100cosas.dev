@@ -32,7 +32,7 @@ body {
     border: 1px solid rgba(255,255,255,0.05);
 }
 
-.tip-card:hover {
+.tip-card:not(.is-placeholder):hover {
     transform: translateY(-4px);
     border-color: rgba(56, 189, 248, 0.3);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
@@ -50,13 +50,13 @@ body {
     z-index: 1;
 }
 
-.tip-card:hover::before {
+.tip-card:not(.is-placeholder):hover::before {
     opacity: 1;
 }
 
 /* Estado: NO LEÍDO (Por defecto) */
 .status-text::after {
-    content: 'pendiente';
+    content: attr(data-pending);
 }
 
 .card-border-indicator {
@@ -77,7 +77,7 @@ body {
 }
 
 .tip-card:has(.read-toggle:checked) .status-text::after {
-    content: 'completado';
+    content: attr(data-completed);
     color: var(--success);
     font-weight: bold;
 }
