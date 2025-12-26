@@ -4,14 +4,27 @@ import "../styles/global.css"
 interface Props {
   title?: string
   description?: string
+  image?: string
+  ogType?: "website" | "article" | "profile"
 }
 
 const {
   title = "100cosas.dev | Consejos para Programadores",
   description = 'Una colección interactiva basada en "97 Things Every Programmer Should Know". Lee, aprende y marca tu progreso.',
+  image = "/og-image.png", // Asegúrate de tener una imagen por defecto
+  ogType = "website",
 } = Astro.props
 
 const lang = Astro.currentLocale || "es"
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+// Logic for hreflang
+const alternateLang = lang === "es" ? "en" : "es"
+const alternatePath =
+  lang === "es"
+    ? `/en${Astro.url.pathname}`
+    : Astro.url.pathname.replace(/^\/en/, "") || "/"
+const alternateURL = new URL(alternatePath, Astro.site)
 ---
 
 <!doctype html>
@@ -20,14 +33,62 @@ const lang = Astro.currentLocale || "es"
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- i18n Hreflang -->
+    <link rel="alternate" hreflang={lang} href={canonicalURL} />
+    <link rel="alternate" hreflang={alternateLang} href={alternateURL} />
+    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:site_name" content="100cosas.dev" />
+    <meta property="og:locale" content={lang === "es" ? "es_ES" : "en_US"} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta name="twitter:creator" content="@midudev" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "100cosas.dev",
+        "url": "https://100cosas.dev",
+        "description": "Consejos fundamentales para programadores",
+        "publisher": {
+          "@type": "Organization",
+          "name": "midudev",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://100cosas.dev/favicon.svg"
+          }
+        }
+      }
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <slot />
