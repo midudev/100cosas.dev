@@ -1,5 +1,9 @@
 ---
+import { useTranslations } from "../i18n/utils"
 import FilterButton from "./FilterButton.astro"
+
+const lang = (Astro.currentLocale || "es") as "es" | "en"
+const t = useTranslations(lang)
 ---
 
 <header
@@ -18,18 +22,17 @@ import FilterButton from "./FilterButton.astro"
   <h1
     class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]"
   >
-    Mejora tu código,<br />
+    {t("hero.title")}<br />
     <span
       class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-sky-400 bg-[length:200%_auto] animate-gradient"
-      >un consejo a la vez.</span
+      >{t("hero.subtitle")}</span
     >
   </h1>
 
   <p
     class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
   >
-    100 cosas que todo programador debería saber. Lee, aprende y marca tu
-    progreso.
+    {t("hero.description")}
   </p>
 
   <!-- Filtros -->
@@ -42,24 +45,42 @@ import FilterButton from "./FilterButton.astro"
       class="relative flex flex-wrap justify-center gap-2 font-mono text-sm py-2 px-4 bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-white/5 shadow-2xl"
       id="filter-container"
     >
-      <FilterButton active filter="all">Todos</FilterButton>
-      <FilterButton filter="Clean Code">Clean Code</FilterButton>
-      <FilterButton filter="Principios">Principios</FilterButton>
-      <FilterButton filter="Arquitectura">Arquitectura</FilterButton>
-      <FilterButton filter="Profesionalismo">Profesionalismo</FilterButton>
-      <FilterButton filter="Diseño">Diseño</FilterButton>
-      <FilterButton filter="Testing">Testing</FilterButton>
-      <FilterButton filter="Prácticas">Prácticas</FilterButton>
-      <FilterButton filter="Soft Skills">Soft Skills</FilterButton>
-      <FilterButton filter="Paradigma">Paradigma</FilterButton>
-      <FilterButton filter="Herramientas">Herramientas</FilterButton>
-      <FilterButton filter="Automatización">Automatización</FilterButton>
-      <FilterButton filter="Fundamentos">Fundamentos</FilterButton>
-      <FilterButton filter="Tipado">Tipado</FilterButton>
-      <FilterButton filter="UX/UI">UX/UI</FilterButton>
-      <FilterButton filter="Refactor">Refactor</FilterButton>
-      <FilterButton filter="DDD">DDD</FilterButton>
-      <FilterButton filter="DRY">DRY</FilterButton>
+      <FilterButton active filter="all">{t("filter.all")}</FilterButton>
+      <FilterButton filter={t("cat.clean_code")}
+        >{t("cat.clean_code")}</FilterButton
+      >
+      <FilterButton filter={t("cat.principles")}
+        >{t("cat.principles")}</FilterButton
+      >
+      <FilterButton filter={t("cat.architecture")}
+        >{t("cat.architecture")}</FilterButton
+      >
+      <FilterButton filter={t("cat.professionalism")}
+        >{t("cat.professionalism")}</FilterButton
+      >
+      <FilterButton filter={t("cat.design")}>{t("cat.design")}</FilterButton>
+      <FilterButton filter={t("cat.testing")}>{t("cat.testing")}</FilterButton>
+      <FilterButton filter={t("cat.practices")}
+        >{t("cat.practices")}</FilterButton
+      >
+      <FilterButton filter={t("cat.soft_skills")}
+        >{t("cat.soft_skills")}</FilterButton
+      >
+      <FilterButton filter={t("cat.paradigm")}>{t("cat.paradigm")}</FilterButton
+      >
+      <FilterButton filter={t("cat.tools")}>{t("cat.tools")}</FilterButton>
+      <FilterButton filter={t("cat.automation")}
+        >{t("cat.automation")}</FilterButton
+      >
+      <FilterButton filter={t("cat.fundamentals")}
+        >{t("cat.fundamentals")}</FilterButton
+      >
+      <FilterButton filter={t("cat.typing")}>{t("cat.typing")}</FilterButton>
+      <FilterButton filter={t("cat.ux_ui")}>{t("cat.ux_ui")}</FilterButton>
+      <FilterButton filter={t("cat.refactor")}>{t("cat.refactor")}</FilterButton
+      >
+      <FilterButton filter={t("cat.ddd")}>{t("cat.ddd")}</FilterButton>
+      <FilterButton filter={t("cat.dry")}>{t("cat.dry")}</FilterButton>
     </div>
   </div>
 </header>
