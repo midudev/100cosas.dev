@@ -3,11 +3,11 @@ import { defineCollection, z } from 'astro:content';
 const authors = defineCollection({
 	type: 'data',
 	schema: z.object({
+		id: z.string(),
 		name: z.string(),
 		initials: z.string(),
 		color: z.string().optional(),
-		photo: z.string().optional(),
-		bio: z.string(),
+		bio: z.record(z.string()),
 		x: z.string().optional(),
 		github: z.string().optional(),
 	}),
