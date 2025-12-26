@@ -1,0 +1,19 @@
+---
+interface Props {
+    active?: boolean;
+    filter?: string;
+}
+
+const { active = false, filter } = Astro.props;
+
+const baseStyles = "px-4 py-2 rounded-full border transition-all filter-btn";
+const activeStyles = "bg-sky-500/10 text-sky-400 border-sky-500/20 hover:bg-sky-500/20";
+const inactiveStyles = "bg-slate-800 text-slate-400 border-white/5 hover:border-slate-600 hover:text-slate-200";
+---
+<button 
+    class:list={[baseStyles, active ? activeStyles : inactiveStyles]}
+    data-filter={filter}
+    data-active={active ? "true" : "false"}
+>
+    <slot />
+</button>
