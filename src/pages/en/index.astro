@@ -7,8 +7,8 @@ import Footer from "../../components/Footer.astro"
 import { getCollection } from "astro:content"
 import { useTranslations } from "../../i18n/utils"
 
-const lang = Astro.currentLocale || 'en'
-const t = useTranslations(lang as 'es' | 'en')
+const lang = Astro.currentLocale || "en"
+const t = useTranslations(lang as "es" | "en")
 
 const tipsEntries = await getCollection("tips", ({ id }) => {
   return id.startsWith("en/")
@@ -20,7 +20,10 @@ const sortedTips = tipsEntries.sort(
 )
 ---
 
-<Layout title={`${t('hero.title')} ${t('hero.subtitle')} | 100cosas.dev`}>
+<Layout
+  title={`${t("hero.title")} ${t("hero.subtitle")} | 100cosas.dev`}
+  description={t("hero.description")}
+>
   <Navbar total={sortedTips.length} />
 
   <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
