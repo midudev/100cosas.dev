@@ -1,46 +1,78 @@
-# Astro Starter Kit: Basics
+# 🚀 100cosas.dev
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+A collection of 100 development tips, best practices, and wisdom from world-renowned programmers. This project aims to provide a curated list of insights to help developers of all levels improve their craft and build better software.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com), and ❤️ by the community.
 
-## 🚀 Project Structure
+## 🌟 Features
 
-Inside of your Astro project, you'll see the following folders and files:
+- **100 Curated Tips:** Essential wisdom from software engineering legends.
+- **Multilingual Support:** Available in both Spanish and English.
+- **Community Driven:** Anyone can contribute their favorite tips or improve existing ones.
+- **High Performance:** Optimized for speed and accessibility using Astro.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## 🛠️ Tech Stack
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- **Framework:** [Astro](https://astro.build)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com)
+- **Content Management:** Astro Content Collections
+- **Deployment:** Vercel / Netlify (or any static hosting)
 
-## 🧞 Commands
+## 🚀 Getting Started
 
-All commands are run from the root of the project, from a terminal:
+To run the project locally, follow these steps:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+1. **Clone the repository:**
 
-## 👀 Want to learn more?
+   ```bash
+   git clone https://github.com/midudev/100cosas.dev.git
+   ```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+2. **Install dependencies:**
+   This project uses `pnpm`. If you don't have it installed, you can get it [here](https://pnpm.io/installation).
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Run the development server:**
+
+   ```bash
+   pnpm dev
+   ```
+   Open [http://localhost:4321](http://localhost:4321) in your browser.
+
+## 🤝 Contributing
+
+We welcome contributions! Whether it's adding a new tip, correcting a translation, or improving the UI, your help is appreciated.
+
+### How to Add a New Tip
+
+1. **Fork the repository** on GitHub.
+2. **Create a new branch** for your changes:
+   ```bash
+   git checkout -b feat/add-new-tip
+   ```
+3. **Add the content:**
+   - **Spanish tips:** Add a `.md` or `.mdx` file to `src/content/tips/es/`.
+   - **English tips:** Add a `.md` or `.mdx` file to `src/content/tips/en/`.
+   - Ensure you follow the frontmatter format (check existing files for reference).
+4. **Author Information:**
+   - If the author isn't already in the project, add their JSON profile to `src/content/authors/`.
+   - Add their profile picture (WebP format) to `public/authors/`.
+5. **Verify your changes:**
+   Run `pnpm dev` and check the tip detail page.
+6. **Submit a Pull Request** with a clear description of your changes.
+
+## 📄 License
+
+This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**. 
+
+- **Attribution:** You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+- **NonCommercial:** You may not use the material for commercial purposes.
+
+See the [LICENSE](LICENSE) file or visit [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/) for more details.
+
+---
+
+Made with passion for the developer community.
