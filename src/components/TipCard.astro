@@ -1,5 +1,6 @@
 ---
 import { getEntry } from "astro:content"
+import { getRelativeLocaleUrl } from "astro:i18n"
 
 interface Props {
   id: string
@@ -21,6 +22,8 @@ const {
   slug = "#",
 } = Astro.props
 
+const lang = (Astro.currentLocale || "es") as "es" | "en"
+
 const authorEntry = await getEntry("authors", authorId)
 
 if (!authorEntry) {
@@ -28,10 +31,15 @@ if (!authorEntry) {
 }
 
 const {
+  id: authorIdField,
   name: authorName,
   initials: authorInitials,
   color: authorColor,
 } = authorEntry.data
+
+const authorPhoto = `/authors/${authorIdField}.webp`
+
+const slugWithoutLang = slug.replace(/^(es|en)\//, "")
 ---
 
 <div
@@ -39,7 +47,7 @@ const {
   data-category={category}
 >
   <a
-    href={`/consejo/${slug}`}
+    href={getRelativeLocaleUrl(lang, `/consejo/${slugWithoutLang}`)}
     class="block p-6 h-full flex flex-col relative z-0"
   >
     <div class="card-border-indicator"></div>
@@ -55,7 +63,7 @@ const {
     </div>
 
     <h3
-      class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-sky-300 transition-colors"
+      class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-sky-300 transition-colors text-balance"
     >
       {title}
     </h3>
@@ -66,10 +74,16 @@ const {
       <div class="flex items-center gap-2">
         <div
           class:list={[
-            "w-6 h-6 rounded-full bg-gradient-to-br flex items-center justify-center text-[10px] font-bold text-white",
+            "w-6 h-6 rounded-full bg-gradient-to-br flex items-center justify-center text-[10px] font-bold text-white overflow-hidden",
             authorColor,
           ]}
         >
+          <img
+            src={authorPhoto}
+            alt={authorName}
+            class="w-full h-full object-cover"
+            onerror="this.style.display='none'"
+          />
           {authorInitials}
         </div>
         <span
