@@ -1,0 +1,96 @@
+---
+import FilterButton from "./FilterButton.astro"
+---
+
+<header
+  class="relative pt-24 pb-16 px-4 text-center max-w-5xl mx-auto overflow-hidden"
+>
+  <!-- Spotlight background effect -->
+  <div
+    class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none"
+  >
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-sky-500/10 blur-[120px] rounded-full"
+    >
+    </div>
+  </div>
+
+  <h1
+    class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]"
+  >
+    Mejora tu código,<br />
+    <span
+      class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-sky-400 bg-[length:200%_auto] animate-gradient"
+      >un consejo a la vez.</span
+    >
+  </h1>
+
+  <p
+    class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+  >
+    Una colección interactiva basada en el clásico <strong
+      class="text-slate-200 font-semibold"
+      >"97 Things Every Programmer Should Know"</strong
+    >. Lee, aprende y marca tu progreso hacia la maestría.
+  </p>
+
+  <!-- Filtros -->
+  <div class="relative group">
+    <div
+      class="absolute -inset-1 bg-gradient-to-r from-sky-500/20 to-blue-500/20 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"
+    >
+    </div>
+    <div
+      class="relative flex flex-wrap justify-center gap-2 font-mono text-sm py-2 px-4 bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-white/5 shadow-2xl"
+      id="filter-container"
+    >
+      <FilterButton active filter="all">Todos</FilterButton>
+      <FilterButton filter="Clean Code">Clean Code</FilterButton>
+      <FilterButton filter="Principios">Principios</FilterButton>
+      <FilterButton filter="Arquitectura">Arquitectura</FilterButton>
+      <FilterButton filter="Profesionalismo">Profesionalismo</FilterButton>
+      <FilterButton filter="Diseño">Diseño</FilterButton>
+      <FilterButton filter="Testing">Testing</FilterButton>
+      <FilterButton filter="Prácticas">Prácticas</FilterButton>
+      <FilterButton filter="Soft Skills">Soft Skills</FilterButton>
+      <FilterButton filter="Paradigma">Paradigma</FilterButton>
+      <FilterButton filter="Herramientas">Herramientas</FilterButton>
+      <FilterButton filter="Automatización">Automatización</FilterButton>
+      <FilterButton filter="Fundamentos">Fundamentos</FilterButton>
+      <FilterButton filter="UX/UI">UX/UI</FilterButton>
+      <FilterButton filter="Refactor">Refactor</FilterButton>
+      <FilterButton filter="DDD">DDD</FilterButton>
+      <FilterButton filter="DRY">DRY</FilterButton>
+    </div>
+  </div>
+</header>
+
+<style>
+  @keyframes gradient {
+    0% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 100% center;
+    }
+    100% {
+      background-position: 0% center;
+    }
+  }
+  .animate-gradient {
+    animation: gradient 8s linear infinite;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+</style>
