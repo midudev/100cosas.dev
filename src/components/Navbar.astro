@@ -1,126 +1,178 @@
 ---
 interface Props {
-    total?: number;
+  total?: number
 }
 
-const { total = 100 } = Astro.props;
+const { total = 100 } = Astro.props
 ---
-<nav id="navbar" data-total={total} class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/[0.05] supports-[backdrop-filter]:bg-slate-950/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16 relative">
-            <!-- Logo area -->
-            <div class="flex items-center z-10">
-                <a href="/" class="group flex items-center gap-2 transition-all duration-300">
-                    <span class="text-sky-400 font-mono text-xl font-black tracking-tighter transition-transform group-hover:scale-[1.02]">
-                        &lt;<span class="text-white group-hover:text-sky-400 transition-colors">100cosas</span>.dev /&gt;
-                    </span>
-                </a>
-            </div>
 
-            <!-- Progress Section (Centered) -->
-            <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-3">
-                <div class="w-32 h-1 bg-slate-800 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-sky-500 w-[0%]" style="transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"></div>
-                </div>
-                <span id="progress-text" class="text-xs font-mono text-slate-400 font-medium tabular-nums min-w-[85px]">0/{total} leídos</span>
-            </div>
+<nav
+  id="navbar"
+  data-total={total}
+  class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/[0.05] supports-[backdrop-filter]:bg-slate-950/60"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 relative">
+      <!-- Logo area -->
+      <div class="flex items-center z-10">
+        <a
+          href="/"
+          class="group flex items-center gap-2 transition-all duration-300"
+        >
+          <span
+            class="text-sky-400 font-mono text-xl font-black tracking-tighter transition-transform group-hover:scale-[1.02]"
+          >
+            &lt;<span
+              class="text-white group-hover:text-sky-400 transition-colors"
+              >100cosas</span
+            >.dev /&gt;
+          </span>
+        </a>
+      </div>
 
-            <!-- Right Actions -->
-            <div class="flex items-center gap-1 z-10">
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="/sobre-el-proyecto" class="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]">
-                        Sobre el proyecto
-                    </a>
-                    <a href="https://github.com" target="_blank" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]">
-                        <span>GitHub</span>
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
-                    </a>
-                </div>
-
-                <!-- Mobile Progress -->
-                <div class="flex md:hidden items-center gap-3">
-                    <span id="progress-text-mobile" class="text-[10px] font-mono text-sky-400 font-bold">0/{total}</span>
-                    <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden">
-                        <div id="progress-bar-mobile" class="h-full bg-sky-500 w-[0%]" style="transition: width 0.5s ease;"></div>
-                    </div>
-                </div>
-            </div>
+      <!-- Progress Section (Centered) -->
+      <div
+        class="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-3"
+      >
+        <div class="w-32 h-1 bg-slate-800 rounded-full overflow-hidden">
+          <div
+            id="progress-bar"
+            class="h-full bg-sky-500 w-[0%]"
+            style="transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
+          >
+          </div>
         </div>
+        <span
+          id="progress-text"
+          class="text-xs font-mono text-slate-400 font-medium tabular-nums min-w-[85px]"
+          >0/{total} leídos</span
+        >
+      </div>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-1 z-10">
+        <div class="hidden md:flex items-center gap-1">
+          <a
+            href="/sobre-el-proyecto"
+            class="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]"
+          >
+            Sobre el proyecto
+          </a>
+          <a
+            href="https://github.com"
+            target="_blank"
+            class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]"
+          >
+            <span>GitHub</span>
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+              ></path></svg
+            >
+          </a>
+        </div>
+
+        <!-- Mobile Progress -->
+        <div class="flex md:hidden items-center gap-3">
+          <span
+            id="progress-text-mobile"
+            class="text-[10px] font-mono text-sky-400 font-bold">0/{total}</span
+          >
+          <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden">
+            <div
+              id="progress-bar-mobile"
+              class="h-full bg-sky-500 w-[0%]"
+              style="transition: width 0.5s ease;"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </nav>
 
 <script>
-    const STORAGE_KEY = 'read-tips';
+  const STORAGE_KEY = "read-tips"
 
-    function getReadTips() {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        return stored ? JSON.parse(stored) : [];
-    }
+  function getReadTips() {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : []
+  }
 
-    function saveReadTip(id, isRead) {
-        const readTips = getReadTips();
-        const newReadTips = isRead 
-            ? [...new Set([...readTips, id])]
-            : readTips.filter(tipId => tipId !== id);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(newReadTips));
-        updateProgress();
-    }
+  function saveReadTip(id, isRead) {
+    const readTips = getReadTips()
+    const newReadTips = isRead
+      ? [...new Set([...readTips, id])]
+      : readTips.filter((tipId) => tipId !== id)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newReadTips))
+    updateProgress()
+  }
 
-    function updateProgress() {
-        const navbar = document.getElementById('navbar');
-        const total = parseInt(navbar?.dataset.total || '100');
-        const readTips = getReadTips();
-        const count = readTips.length;
-        const percentage = Math.round((count / total) * 100);
+  function updateProgress() {
+    const navbar = document.getElementById("navbar")
+    const total = parseInt(navbar?.dataset.total || "100")
+    const readTips = getReadTips()
+    const count = readTips.length
+    const percentage = Math.round((count / total) * 100)
 
-        const progressBars = [
-            document.getElementById('progress-bar'),
-            document.getElementById('progress-bar-mobile')
-        ];
-        const progressTexts = [
-            document.getElementById('progress-text'),
-            document.getElementById('progress-text-mobile')
-        ];
+    const progressBars = [
+      document.getElementById("progress-bar"),
+      document.getElementById("progress-bar-mobile"),
+    ]
+    const progressTexts = [
+      document.getElementById("progress-text"),
+      document.getElementById("progress-text-mobile"),
+    ]
 
-        progressBars.forEach(bar => {
-            if (bar) bar.style.width = `${percentage}%`;
-        });
+    progressBars.forEach((bar) => {
+      if (bar) bar.style.width = `${percentage}%`
+    })
 
-        progressTexts.forEach(text => {
-            if (text) {
-                const isMobile = text.id.includes('mobile');
-                text.textContent = isMobile ? `${count}/${total}` : `${count}/${total} leídos`;
-            }
-        });
-    }
+    progressTexts.forEach((text) => {
+      if (text) {
+        const isMobile = text.id.includes("mobile")
+        text.textContent = isMobile
+          ? `${count}/${total}`
+          : `${count}/${total} leídos`
+      }
+    })
+  }
 
-    function handleCheckboxChange(e) {
-        const id = (e.target as HTMLInputElement).getAttribute('data-id');
-        const isChecked = (e.target as HTMLInputElement).checked;
-        saveReadTip(id, isChecked);
-    }
+  function handleCheckboxChange(e) {
+    const id = (e.target as HTMLInputElement).getAttribute("data-id")
+    const isChecked = (e.target as HTMLInputElement).checked
+    saveReadTip(id, isChecked)
+  }
 
-    // Initialize checkboxes and progress
-    function init() {
-        const readTips = getReadTips();
-        
-        // Update all checkboxes on the page
-        const checkboxes = document.querySelectorAll('.read-toggle');
-        checkboxes.forEach(checkbox => {
-            const id = checkbox.getAttribute('data-id');
-            (checkbox as HTMLInputElement).checked = readTips.includes(id);
+  // Initialize checkboxes and progress
+  function init() {
+    const readTips = getReadTips()
 
-            // Evitar duplicar listeners
-            checkbox.removeEventListener('change', handleCheckboxChange);
-            checkbox.addEventListener('change', handleCheckboxChange);
-        });
+    // Update all checkboxes on the page
+    const checkboxes = document.querySelectorAll(".read-toggle")
+    checkboxes.forEach((checkbox) => {
+      const id = checkbox.getAttribute("data-id")
+      ;(checkbox as HTMLInputElement).checked = readTips.includes(id)
 
-        updateProgress();
-    }
+      // Evitar duplicar listeners
+      checkbox.removeEventListener("change", handleCheckboxChange)
+      checkbox.addEventListener("change", handleCheckboxChange)
+    })
 
-    // Run on initial load
-    init();
+    updateProgress()
+  }
 
-    // Support for Astro View Transitions if used
-    document.addEventListener('astro:after-swap', init);
+  // Run on initial load
+  init()
+
+  // Support for Astro View Transitions if used
+  document.addEventListener("astro:after-swap", init)
 </script>
