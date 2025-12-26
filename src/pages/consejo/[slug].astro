@@ -36,9 +36,38 @@ const {
   color: authorColor,
 } = authorEntry.data
 const authorPhoto = `/authors/${authorEntry.data.id}.webp`
+
+// Schema.org Article data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": entry.body.slice(0, 160).replace(/[#>]/g, '').trim(),
+  "image": `https://100cosas.dev/authors/${authorEntry.data.id}.webp`,
+  "author": {
+    "@type": "Person",
+    "name": authorName,
+    "url": `https://100cosas.dev/autor/${authorId}`
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "100cosas.dev",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://100cosas.dev/favicon.svg"
+    }
+  }
+}
 ---
 
-<Layout title={`${title} | 100cosas.dev`}>
+<Layout 
+  title={`${title} | 100cosas.dev`}
+  description={entry.body.slice(0, 160).replace(/[#>]/g, '').trim()}
+  ogType="article"
+>
+  <!-- Schema.org Microdata -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
   <Navbar />
 
   <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
@@ -64,6 +93,8 @@ const authorPhoto = `/authors/${authorEntry.data.id}.webp`
 
     <article
       class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm"
+      itemscope 
+      itemtype="https://schema.org/Article"
     >
       <header class="mb-10">
         <div class="flex flex-wrap gap-4 items-center mb-6">
@@ -73,12 +104,14 @@ const authorPhoto = `/authors/${authorEntry.data.id}.webp`
           >
           <span
             class:list={["font-mono text-sm px-3 py-1 rounded", categoryColor]}
+            itemprop="articleSection"
             >{category}</span
           >
         </div>
 
         <h1
           class="text-4xl md:text-5xl font-bold text-slate-100 mb-8 leading-tight"
+          itemprop="headline"
         >
           {title}
         </h1>
@@ -86,10 +119,13 @@ const authorPhoto = `/authors/${authorEntry.data.id}.webp`
         <a
           href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
           class="inline-flex items-center gap-4 pt-6 border-t border-slate-700/50 hover:opacity-80 transition-opacity group"
+          itemprop="author" 
+          itemscope 
+          itemtype="https://schema.org/Person"
         >
           <div
             class:list={[
-              "w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center text-lg font-bold text-white overflow-hidden",
+              "w-12 h-12 rounded-full bg-linear-to-br flex items-center justify-center text-lg font-bold text-white overflow-hidden",
               authorColor,
             ]}
           >
@@ -99,6 +135,7 @@ const authorPhoto = `/authors/${authorEntry.data.id}.webp`
                   src={authorPhoto}
                   alt={authorName}
                   class="w-full h-full object-cover"
+                  itemprop="image"
                 />
               ) : (
                 authorInitials
@@ -109,6 +146,7 @@ const authorPhoto = `/authors/${authorEntry.data.id}.webp`
             <p class="text-sm text-slate-500 uppercase tracking-wider">Autor</p>
             <p
               class="text-lg text-slate-200 font-medium group-hover:text-sky-400 transition-colors"
+              itemprop="name"
             >
               {authorName}
             </p>
@@ -122,6 +160,7 @@ const authorPhoto = `/authors/${authorEntry.data.id}.webp`
                 prose-strong:text-slate-200 prose-code:text-sky-300
                 prose-ul:text-slate-400 prose-li:my-2
                 prose-pre:bg-slate-900/50 prose-pre:border prose-pre:border-white/5"
+        itemprop="articleBody"
       >
         <Content />
       </div>
