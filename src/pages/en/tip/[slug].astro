@@ -3,20 +3,44 @@ import { getCollection } from "astro:content"
 import TipPage from "../../../components/TipPage.astro"
 
 export async function getStaticPaths() {
-  const tipsEntries = await getCollection("tips", ({ id }) => {
-    return id.startsWith("en/")
-  })
+  const tipsEntries = (
+    await getCollection("tips", ({ id }) => {
+      return id.startsWith("en/")
+    })
+  ).sort((a, b) => a.id.localeCompare(b.id))
 
-  return tipsEntries.map((entry) => {
+  return tipsEntries.map((entry, index) => {
     const slug = entry.id.replace(/^en\//, "")
+    const prevEntry = index > 0 ? tipsEntries[index - 1] : null
+    const nextEntry =
+      index < tipsEntries.length - 1 ? tipsEntries[index + 1] : null
+
+    const prev = prevEntry
+      ? {
+          slug: prevEntry.id.replace(/^en\//, ""),
+          title: prevEntry.data.title,
+        }
+      : null
+    const next = nextEntry
+      ? {
+          slug: nextEntry.id.replace(/^en\//, ""),
+          title: nextEntry.data.title,
+        }
+      : null
+
     return {
       params: { slug },
-      props: { entry, total: tipsEntries.length },
+      props: {
+        entry,
+        total: tipsEntries.length,
+        prev,
+        next,
+      },
     }
   })
 }
 
-const { entry, total } = Astro.props
+const { entry, total, prev, next } = Astro.props
 const { id } = entry.data
 
 // Find the equivalent tip in Spanish for the language switcher
@@ -28,4 +52,10 @@ const spanishSlug =
 const alternateUrl = spanishSlug ? `/consejo/${spanishSlug}` : "/"
 ---
 
-<TipPage entry={entry} total={total} alternateUrl={alternateUrl} />
+<TipPage
+  entry={entry}
+  total={total}
+  alternateUrl={alternateUrl}
+  prev={prev}
+  next={next}
+/>
