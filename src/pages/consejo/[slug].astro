@@ -3,18 +3,26 @@ import { getCollection, getEntry } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
 import Navbar from "../../components/Navbar.astro"
 import Footer from "../../components/Footer.astro"
+import { getRelativeLocaleUrl } from "astro:i18n"
 
 export async function getStaticPaths() {
-  const tipsEntries = await getCollection("tips")
-  return tipsEntries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }))
+  const tipsEntries = await getCollection("tips", ({ id }) => {
+    return id.startsWith("es/")
+  })
+  return tipsEntries.map((entry) => {
+    const slug = entry.slug.replace(/^es\//, "")
+    return {
+      params: { slug },
+      props: { entry },
+    }
+  })
 }
 
 const { entry } = Astro.props
 const { Content } = await entry.render()
 const { id, title, category, author: authorId, categoryColor } = entry.data
+
+const lang = Astro.currentLocale || "es"
 
 const authorEntry = await getEntry("authors", authorId)
 
@@ -26,8 +34,8 @@ const {
   name: authorName,
   initials: authorInitials,
   color: authorColor,
-  photo: authorPhoto,
 } = authorEntry.data
+const authorPhoto = `/authors/${authorEntry.data.id}.webp`
 ---
 
 <Layout title={`${title} | 100cosas.dev`}>
@@ -35,7 +43,7 @@ const {
 
   <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
     <a
-      href="/"
+      href={getRelativeLocaleUrl(lang, "/")}
       class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-8 transition-colors group"
     >
       <svg
@@ -76,7 +84,7 @@ const {
         </h1>
 
         <a
-          href={`/autor/${authorEntry.id}`}
+          href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
           class="inline-flex items-center gap-4 pt-6 border-t border-slate-700/50 hover:opacity-80 transition-opacity group"
         >
           <div
@@ -125,7 +133,11 @@ const {
 
 <script define:vars={{ id }}>
   // Marcar como leído al entrar en la página
-  const readTips = JSON.parse(localStorage.getItem("read-tips") || "{}")
-  readTips[id] = true
-  localStorage.setItem("read-tips", JSON.stringify(readTips))
+  const STORAGE_KEY = "read-tips"
+  const stored = localStorage.getItem(STORAGE_KEY)
+  const readTips = stored ? JSON.parse(stored) : []
+  if (!readTips.includes(id)) {
+    readTips.push(id)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(readTips))
+  }
 </script>
