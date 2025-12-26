@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout title="Sobre el proyecto | 100cosas.dev">
+	<Navbar />
+	
+	<main class="flex-grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+		<header class="mb-12">
+			<h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tight">
+				Sobre el <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">proyecto</span>
+			</h1>
+			<p class="text-xl text-slate-400 leading-relaxed">
+				Una iniciativa de <a href="https://midu.dev" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">midudev</a> para fortalecer los cimientos del desarrollo de software.
+			</p>
+		</header>
+
+		<div class="prose prose-invert prose-sky max-w-none space-y-8 text-slate-300">
+			<section>
+				<h2 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-2">
+					<span class="text-sky-500">#</span> ¿Por qué este proyecto?
+				</h2>
+				<p>
+					Este proyecto nace de la necesidad de recopilar y modernizar consejos fundamentales para programadores. Está inspirado en la obra colectiva <strong>"97 Things Every Programmer Should Know"</strong>, adaptando su contenido a un formato interactivo y accesible.
+				</p>
+				<p>
+					El objetivo es ofrecer una hoja de ruta de conocimientos que trascienden lenguajes de programación y frameworks específicos.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-2">
+					<span class="text-sky-500">#</span> ¿Qué aporta?
+				</h2>
+				<p>
+					100cosas.dev no es solo una lista de consejos; es una herramienta para:
+				</p>
+				<ul class="list-disc pl-6 space-y-2">
+					<li><strong>Reflexionar</strong> sobre la práctica diaria de la programación.</li>
+					<li><strong>Descubrir</strong> principios de diseño y arquitectura que a menudo se pasan por alto.</li>
+					<li><strong>Mantener un registro</strong> de tu aprendizaje, marcando los conceptos que ya dominas.</li>
+				</ul>
+			</section>
+
+			<section class="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 mt-12">
+				<h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+					<span class="text-sky-500">#</span> Programación en la era de la IA
+				</h2>
+				<p class="mb-4">
+					Vivimos en una época donde la Inteligencia Artificial puede generar código en segundos. Sin embargo, esto hace que <strong>tener unas bases sólidas sea más importante que nunca</strong>.
+				</p>
+				<p class="mb-4 text-slate-200 font-medium">
+					¿Por qué? Porque la IA es una herramienta, no un sustituto del criterio profesional.
+				</p>
+				<p>
+					Entender el "por qué" detrás del código, saber cuándo una solución es escalable, detectar olores en el código y aplicar principios de diseño robustos es lo que permite a un programador guiar a la IA, en lugar de ser guiado por ella. <strong>Las bases son el cimiento que te permite discernir si lo que la IA genera es realmente la mejor solución para tu problema.</strong>
+				</p>
+			</section>
+		</div>
+
+		<div class="mt-16 flex justify-center">
+			<a href="/" class="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all border border-slate-700">
+				Volver al inicio
+			</a>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>

@@ -14,8 +14,8 @@ export const ui = {
     'hero.subtitle': 'un consejo a la vez.',
     'hero.description': '100 cosas que todo programador debería saber. Lee, aprende y marca tu progreso.',
     'footer.based': 'Basado en la idea de "97 Things Every Programmer Should Know".',
-    'footer.collected': 'Recopilados por',
-    'footer.license': 'Licencia CC Attribution 3.0',
+    'footer.collected': 'Una iniciativa de',
+    'footer.license': 'Licencia CC BY-NC 4.0',
     'filter.all': 'Todos',
     'cat.clean_code': 'Clean Code',
     'cat.principles': 'Principios',
@@ -34,6 +34,13 @@ export const ui = {
     'cat.refactor': 'Refactor',
     'cat.ddd': 'DDD',
     'cat.dry': 'DRY',
+    'status.pending': 'Pendiente',
+    'status.completed': 'Completado',
+    'tip.upcoming': 'Próximamente',
+    'tip.back': 'Volver a la lista',
+    'tip.author': 'Autor de la cita',
+    'author.title': 'Autor',
+    'author.tips': 'Consejos de',
   },
   en: {
     'nav.about': 'About the project',
@@ -43,8 +50,8 @@ export const ui = {
     'hero.subtitle': 'one tip at a time.',
     'hero.description': '100 things every programmer should know. Read, learn and track your progress.',
     'footer.based': 'Based on the idea of "97 Things Every Programmer Should Know".',
-    'footer.collected': 'Collected by',
-    'footer.license': 'CC Attribution 3.0 License',
+    'footer.collected': 'An initiative by',
+    'footer.license': 'CC BY-NC 4.0 License',
     'filter.all': 'All',
     'cat.clean_code': 'Clean Code',
     'cat.principles': 'Principles',
@@ -63,5 +70,21 @@ export const ui = {
     'cat.refactor': 'Refactor',
     'cat.ddd': 'DDD',
     'cat.dry': 'DRY',
+    'status.pending': 'Pending',
+    'status.completed': 'Completed',
+    'tip.upcoming': 'Coming Soon',
+    'tip.back': 'Back to list',
+    'tip.author': 'Quote author',
+    'author.title': 'Author',
+    'author.tips': 'Tips by',
   },
 } as const;
+
+export const routes = {
+  es: {
+    'about': 'sobre-el-proyecto',
+  },
+  en: {
+    'about': 'about-the-project',
+  },
+};

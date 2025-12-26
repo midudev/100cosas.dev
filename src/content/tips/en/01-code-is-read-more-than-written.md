@@ -6,8 +6,6 @@ categoryColor: "text-blue-400 bg-blue-900/20"
 author: "guido-van-rossum"
 ---
 
-> Code is read much more often than it is written
-
 It is one of the most uncomfortable and, at the same time, most ignored truths of our profession: **we spend the vast majority of our time trying to understand code, not writing it.**
 
 This maxim, popularized by **Guido van Rossum** (creator of Python), is not just a curious observation; it is the pillar upon which sustainable software engineering is built. Different studies and authors, such as Robert C. Martin in his book *Clean Code*, suggest that the ratio of time spent reading code versus writing it is **more than 10 to 1**.

@@ -1,0 +1,97 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Navbar from "./Navbar.astro"
+import Hero from "./Hero.astro"
+import TipCard from "./TipCard.astro"
+import Footer from "./Footer.astro"
+import { type CollectionEntry } from "astro:content"
+import { useTranslations } from "../i18n/utils"
+
+interface Props {
+  sortedTips: CollectionEntry<"tips">[]
+}
+
+const { sortedTips } = Astro.props
+const lang = (Astro.currentLocale as "es" | "en") || "es"
+const t = useTranslations(lang)
+
+const allTips = Array.from({ length: 100 }, (_, i) => {
+  const tipId = (i + 1).toString().padStart(2, "0")
+  const existingTip = sortedTips.find((tip) => tip.data.id === tipId)
+
+  if (existingTip) {
+    return {
+      ...existingTip.data,
+      slug: existingTip.id,
+      isPlaceholder: false,
+    }
+  }
+
+  return {
+    id: tipId,
+    title: t("tip.upcoming"),
+    category: "???",
+    author: "midudev",
+    isPlaceholder: true,
+  }
+})
+---
+
+<Layout
+  title={`${t("hero.title")} ${t("hero.subtitle")} | 100cosas.dev`}
+  description={t("hero.description")}
+>
+  <Navbar total={sortedTips.length} />
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
+    <Hero />
+
+    <div
+      id="tips-grid"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      {allTips.map((tip) => <TipCard {...tip} />)}
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const filterButtons = document.querySelectorAll(".filter-btn")
+  const tipCards = document.querySelectorAll(".tip-card")
+
+  // Lógica de filtrado
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = (button as HTMLElement).dataset.filter
+
+      filterButtons.forEach((btn) => {
+        btn.setAttribute("data-active", "false")
+        btn.classList.remove(
+          "bg-sky-500/10",
+          "text-sky-400",
+          "border-sky-500/20"
+        )
+        btn.classList.add("bg-slate-800", "text-slate-400", "border-white/5")
+      })
+
+      button.setAttribute("data-active", "true")
+      button.classList.add("bg-sky-500/10", "text-sky-400", "border-sky-500/20")
+      button.classList.remove(
+        "bg-slate-800",
+        "text-slate-400",
+        "border-white/5"
+      )
+
+      tipCards.forEach((card) => {
+        const category = (card as HTMLElement).dataset.category
+        if (filter === "all" || category === filter) {
+          ;(card as HTMLElement).style.display = "block"
+        } else {
+          ;(card as HTMLElement).style.display = "none"
+        }
+      })
+    })
+  })
+</script>

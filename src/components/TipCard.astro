@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content"
 import { getRelativeLocaleUrl } from "astro:i18n"
+import { useTranslations } from "../i18n/utils"
 
 interface Props {
   id: string
@@ -10,6 +11,7 @@ interface Props {
   author: string
   checked?: boolean
   slug?: string
+  isPlaceholder?: boolean
 }
 
 const {
@@ -20,37 +22,65 @@ const {
   author: authorId,
   checked = false,
   slug = "#",
+  isPlaceholder = false,
 } = Astro.props
 
 const lang = (Astro.currentLocale || "es") as "es" | "en"
+const t = useTranslations(lang)
 
-const authorEntry = await getEntry("authors", authorId)
+let authorName = "Autor"
+let authorColor = "from-sky-500 to-blue-600"
+let authorPhoto = "/authors/kent-c-dodds.webp"
 
-if (!authorEntry) {
-  throw new Error(`Author with id "${authorId}" not found for tip "${id}"`)
+if (!isPlaceholder) {
+  const authorEntry = await getEntry("authors", authorId)
+
+  if (!authorEntry) {
+    throw new Error(`Author with id "${authorId}" not found for tip "${id}"`)
+  }
+
+  const {
+    id: authorIdField,
+    name: authorNameData,
+    color: authorColorData,
+  } = authorEntry.data
+
+  authorName = authorNameData
+  authorColor = authorColorData || authorColor
+  authorPhoto = `/authors/${authorIdField}.webp`
 }
 
-const {
-  id: authorIdField,
-  name: authorName,
-  initials: authorInitials,
-  color: authorColor,
-} = authorEntry.data
-
-const authorPhoto = `/authors/${authorIdField}.webp`
-
 const slugWithoutLang = slug.replace(/^(es|en)\//, "")
+const tipPath = lang === "es" ? "consejo" : "tip"
 ---
 
 <div
-  class="tip-card bg-slate-800/50 rounded-xl cursor-pointer group relative"
+  class:list={[
+    "tip-card bg-slate-800/50 rounded-xl relative",
+    !isPlaceholder && "cursor-pointer group",
+    isPlaceholder && "is-placeholder",
+  ]}
   data-category={category}
   itemscope
   itemtype="https://schema.org/Article"
 >
+  {
+    isPlaceholder && (
+      <div class="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/20 backdrop-blur-[1px]">
+        <span class="bg-sky-500 text-white px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-lg transform -rotate-2 border border-white/20">
+          {t("tip.upcoming")}
+        </span>
+      </div>
+    )
+  }
   <a
-    href={getRelativeLocaleUrl(lang, `/consejo/${slugWithoutLang}`)}
-    class="p-6 h-full flex flex-col relative z-0"
+    href={isPlaceholder
+      ? null
+      : getRelativeLocaleUrl(lang, `/${tipPath}/${slugWithoutLang}`)}
+    class:list={[
+      "p-6 h-full flex flex-col relative z-0",
+      isPlaceholder && "blur-[2px] opacity-40 select-none pointer-events-none",
+    ]}
     itemprop="url"
   >
     <div class="card-border-indicator"></div>
@@ -86,7 +116,7 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
       >
         <div
           class:list={[
-            "w-6 h-6 rounded-full bg-linear-to-br flex items-center justify-center text-[10px] font-bold text-white overflow-hidden",
+            "w-8 h-8 rounded-full bg-linear-to-br flex items-center justify-center text-[10px] font-bold text-white overflow-hidden",
             authorColor,
           ]}
         >
@@ -97,7 +127,6 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
             onerror="this.style.display='none'"
             itemprop="image"
           />
-          {authorInitials}
         </div>
         <span
           class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors"
@@ -113,36 +142,39 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
   </a>
 
   <!-- Checkbox area - Absolute positioned so it doesn't trigger the link if clicked precisely -->
-  <div
-    class="absolute bottom-6 right-6 z-10 flex items-center gap-3 toggle-container"
-  >
-    <label class="flex items-center gap-3 cursor-pointer">
-      <input
-        type="checkbox"
-        class="read-toggle sr-only"
-        checked={checked}
-        data-id={id}
-      />
-      <span
-        class="text-[10px] font-mono uppercase tracking-wider status-text text-slate-500"
-      ></span>
-      <div
-        class="check-icon w-5 h-5 rounded border border-slate-700 flex items-center justify-center transition-colors group-has-checked:bg-sky-500 group-has-checked:border-sky-500"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-3 w-3 text-white scale-0 group-has-checked:scale-100 transition-transform"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-            clip-rule="evenodd"></path>
-        </svg>
+  {
+    !isPlaceholder && (
+      <div class="absolute bottom-6 right-6 z-10 flex items-center gap-3 toggle-container">
+        <label class="flex items-center gap-3 cursor-pointer group/checkbox">
+          <input
+            type="checkbox"
+            class="read-toggle sr-only"
+            checked={checked}
+            data-id={id}
+          />
+          <span
+            class="text-[10px] font-mono uppercase tracking-wider status-text text-slate-500"
+            data-pending={t("status.pending")}
+            data-completed={t("status.completed")}
+          />
+          <div class="check-icon w-5 h-5 rounded border border-slate-700 flex items-center justify-center transition-colors group-has-checked/checkbox:bg-sky-500 group-has-checked/checkbox:border-sky-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-3 w-3 text-white scale-0 group-has-checked/checkbox:scale-100 transition-transform"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </label>
       </div>
-    </label>
-  </div>
+    )
+  }
 </div>
 
 <script>
@@ -156,7 +188,7 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
     target.style.setProperty("--mouse-y", `${y}px`)
   }
 
-  const cards = document.querySelectorAll(".tip-card")
+  const cards = document.querySelectorAll(".tip-card:not(.is-placeholder)")
   cards.forEach((card) => {
     ;(card as HTMLElement).onmousemove = (e) => handleOnMouseMove(e)
   })

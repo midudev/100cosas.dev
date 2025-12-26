@@ -6,6 +6,8 @@ categoryColor: "text-blue-400 bg-blue-900/20"
 author: "guido-van-rossum"
 ---
 
+> El código se lee mucho más a menudo de lo que se escribe
+
 Es una de las verdades más incómodas y, a la vez, más ignoradas de nuestra profesión: **pasamos la gran mayoría de nuestro tiempo intentando entender código, no escribiéndolo.**
 
 Esta máxima, popularizada por **Guido van Rossum** (creador de Python), no es solo una observación curiosa; es el pilar sobre el que se construye la ingeniería de software sostenible. Diferentes estudios y autores, como Robert C. Martin en su libro *Clean Code*, sugieren que la proporción entre el tiempo que pasamos leyendo código frente al que pasamos escribiéndolo es de **más de 10 a 1**.

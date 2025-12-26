@@ -1,9 +1,50 @@
 ---
 import { useTranslations } from "../i18n/utils"
 import FilterButton from "./FilterButton.astro"
+import { getCollection } from "astro:content"
+
+import { ui, defaultLang } from "../i18n/ui"
 
 const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
+
+const tipsEntries = await getCollection("tips", ({ id }) => {
+  return id.startsWith(`${lang}/`)
+})
+
+const usedCategories = new Set(tipsEntries.map((tip) => tip.data.category))
+
+const CATEGORY_KEYS = [
+  "clean_code",
+  "principles",
+  "architecture",
+  "professionalism",
+  "design",
+  "testing",
+  "practices",
+  "soft_skills",
+  "paradigm",
+  "tools",
+  "automation",
+  "fundamentals",
+  "typing",
+  "ux_ui",
+  "refactor",
+  "ddd",
+  "dry",
+] as const
+
+const displayedCategories = CATEGORY_KEYS.map((key) => {
+  const translationKey = `cat.${key}` as keyof (typeof ui)[typeof defaultLang]
+  return t(translationKey)
+}).filter((name) => usedCategories.has(name)) as string[]
+
+// Add any categories that might not be in our predefined list but are used
+const otherCategories = [...usedCategories].filter(
+  (name) => !displayedCategories.includes(name)
+)
+
+const allToDisplay = [...displayedCategories, ...otherCategories]
 ---
 
 <header
@@ -30,7 +71,7 @@ const t = useTranslations(lang)
   </h1>
 
   <p
-    class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+    class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed text-balance"
   >
     {t("hero.description")}
   </p>
@@ -46,41 +87,11 @@ const t = useTranslations(lang)
       id="filter-container"
     >
       <FilterButton active filter="all">{t("filter.all")}</FilterButton>
-      <FilterButton filter={t("cat.clean_code")}
-        >{t("cat.clean_code")}</FilterButton
-      >
-      <FilterButton filter={t("cat.principles")}
-        >{t("cat.principles")}</FilterButton
-      >
-      <FilterButton filter={t("cat.architecture")}
-        >{t("cat.architecture")}</FilterButton
-      >
-      <FilterButton filter={t("cat.professionalism")}
-        >{t("cat.professionalism")}</FilterButton
-      >
-      <FilterButton filter={t("cat.design")}>{t("cat.design")}</FilterButton>
-      <FilterButton filter={t("cat.testing")}>{t("cat.testing")}</FilterButton>
-      <FilterButton filter={t("cat.practices")}
-        >{t("cat.practices")}</FilterButton
-      >
-      <FilterButton filter={t("cat.soft_skills")}
-        >{t("cat.soft_skills")}</FilterButton
-      >
-      <FilterButton filter={t("cat.paradigm")}>{t("cat.paradigm")}</FilterButton
-      >
-      <FilterButton filter={t("cat.tools")}>{t("cat.tools")}</FilterButton>
-      <FilterButton filter={t("cat.automation")}
-        >{t("cat.automation")}</FilterButton
-      >
-      <FilterButton filter={t("cat.fundamentals")}
-        >{t("cat.fundamentals")}</FilterButton
-      >
-      <FilterButton filter={t("cat.typing")}>{t("cat.typing")}</FilterButton>
-      <FilterButton filter={t("cat.ux_ui")}>{t("cat.ux_ui")}</FilterButton>
-      <FilterButton filter={t("cat.refactor")}>{t("cat.refactor")}</FilterButton
-      >
-      <FilterButton filter={t("cat.ddd")}>{t("cat.ddd")}</FilterButton>
-      <FilterButton filter={t("cat.dry")}>{t("cat.dry")}</FilterButton>
+      {
+        allToDisplay.map((categoryName) => (
+          <FilterButton filter={categoryName}>{categoryName}</FilterButton>
+        ))
+      }
     </div>
   </div>
 </header>

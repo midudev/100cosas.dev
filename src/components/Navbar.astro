@@ -1,21 +1,27 @@
 ---
 import { useTranslations } from "../i18n/utils"
 import { getRelativeLocaleUrl } from "astro:i18n"
+import { routes } from "../i18n/ui"
 
 interface Props {
   total?: number
+  alternateUrl?: string
 }
 
-const { total = 100 } = Astro.props
+const { total = 100, alternateUrl } = Astro.props
 
 const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
+
+const aboutPath = routes[lang].about
+const esUrl = lang === "es" ? Astro.url.pathname : alternateUrl || "/"
+const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
 ---
 
 <nav
   id="navbar"
   data-total={total}
-  class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/[0.05] supports-[backdrop-filter]:bg-slate-950/60"
+  class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/5 supports-backdrop-filter:bg-slate-950/60"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16 relative">
@@ -59,15 +65,15 @@ const t = useTranslations(lang)
       <div class="flex items-center gap-1 z-10">
         <div class="hidden md:flex items-center gap-1">
           <a
-            href={getRelativeLocaleUrl(lang, "/sobre-el-proyecto")}
-            class="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]"
+            href={getRelativeLocaleUrl(lang, `/${aboutPath}`)}
+            class="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/5"
           >
             {t("nav.about")}
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/midudev/100cosas.dev"
             target="_blank"
-            class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]"
+            class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/5"
           >
             <span>{t("nav.github")}</span>
             <svg
@@ -91,7 +97,7 @@ const t = useTranslations(lang)
             class="flex gap-1 bg-white/5 p-1 rounded-lg border border-white/5"
           >
             <a
-              href={Astro.url.pathname.replace(/^\/en/, "") || "/"}
+              href={esUrl}
               class:list={[
                 "px-2 py-1 text-[10px] font-bold rounded transition-all",
                 lang === "es"
@@ -102,7 +108,7 @@ const t = useTranslations(lang)
               ES
             </a>
             <a
-              href={`/en${Astro.url.pathname.replace(/^\/en/, "") || ""}`}
+              href={enUrl}
               class:list={[
                 "px-2 py-1 text-[10px] font-bold rounded transition-all",
                 lang === "en"
@@ -139,17 +145,28 @@ const t = useTranslations(lang)
   const STORAGE_KEY = "read-tips"
 
   function getReadTips() {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    return stored ? JSON.parse(stored) : []
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      if (!stored) return []
+      const parsed = JSON.parse(stored)
+      return Array.isArray(parsed) ? parsed : []
+    } catch (e) {
+      console.error("Error parsing read tips from localStorage", e)
+      return []
+    }
   }
 
   function saveReadTip(id: string, isRead: boolean) {
-    const readTips = getReadTips()
-    const newReadTips = isRead
-      ? [...new Set([...readTips, id])]
-      : readTips.filter((tipId: string) => tipId !== id)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newReadTips))
-    updateProgress()
+    try {
+      const readTips = getReadTips()
+      const newReadTips = isRead
+        ? [...new Set([...readTips, id])]
+        : readTips.filter((tipId: string) => tipId !== id)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newReadTips))
+      updateProgress()
+    } catch (e) {
+      console.error("Error saving read tip to localStorage", e)
+    }
   }
 
   function updateProgress() {
@@ -184,9 +201,12 @@ const t = useTranslations(lang)
   }
 
   function handleCheckboxChange(e: Event) {
-    const id = (e.target as HTMLInputElement).getAttribute("data-id")
-    const isChecked = (e.target as HTMLInputElement).checked
-    if (id) saveReadTip(id, isChecked)
+    const target = e.target as HTMLInputElement
+    if (target && target.classList.contains("read-toggle")) {
+      const id = target.getAttribute("data-id")
+      const isChecked = target.checked
+      if (id) saveReadTip(id, isChecked)
+    }
   }
 
   // Initialize checkboxes and progress
@@ -198,17 +218,20 @@ const t = useTranslations(lang)
     checkboxes.forEach((checkbox) => {
       const id = checkbox.getAttribute("data-id")
       ;(checkbox as HTMLInputElement).checked = readTips.includes(id)
-
-      // Evitar duplicar listeners
-      checkbox.removeEventListener("change", handleCheckboxChange)
-      checkbox.addEventListener("change", handleCheckboxChange)
     })
 
     updateProgress()
   }
 
-  // Run on initial load
-  init()
+  // Use event delegation for better reliability
+  document.addEventListener("change", handleCheckboxChange)
+
+  // Run on initial load and handle possible racing conditions
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init)
+  } else {
+    init()
+  }
 
   // Support for Astro View Transitions if used
   document.addEventListener("astro:after-swap", init)
