@@ -1,0 +1,9 @@
+{
+    "name": "Guido van Rossum",
+    "initials": "GvR",
+    "color": "from-blue-500 to-yellow-500",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido_van_Rossum_oscon.jpg",
+    "bio": "Creador del lenguaje de programación Python. Es conocido como el 'Benevolent Dictator For Life' (BDFL) de la comunidad Python hasta que se retiró del cargo en 2018. Ha trabajado en Google, Dropbox y actualmente en Microsoft.",
+    "x": "https://x.com/gvanrossum",
+    "github": "https://github.com/gvanrossum"
+}

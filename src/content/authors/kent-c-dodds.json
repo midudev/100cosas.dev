@@ -1,0 +1,9 @@
+{
+    "name": "Kent C. Dodds",
+    "initials": "KD",
+    "color": "from-red-500 to-orange-500",
+    "photo": "https://kentcdodds.com/images/kent.png",
+    "bio": "Educador de software, ingeniero y conferenciante. Conocido por sus cursos sobre React, Testing Library y Remix. Es un gran defensor de las buenas prácticas en el desarrollo web y el testing.",
+    "x": "https://x.com/kentcdodds",
+    "github": "https://github.com/kentcdodds"
+}
