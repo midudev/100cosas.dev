@@ -1,31 +1,35 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css"
 
 interface Props {
-	title?: string;
-	description?: string;
+  title?: string
+  description?: string
 }
 
-const { 
-	title = '100cosas.dev | Consejos para Programadores',
-	description = 'Una colección interactiva basada en "97 Things Every Programmer Should Know". Lee, aprende y marca tu progreso.'
-} = Astro.props;
+const {
+  title = "100cosas.dev | Consejos para Programadores",
+  description = 'Una colección interactiva basada en "97 Things Every Programmer Should Know". Lee, aprende y marca tu progreso.',
+} = Astro.props
+
+const lang = Astro.currentLocale || "es"
 ---
 
 <!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<meta name="description" content={description} />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-	</head>
-	<body class="min-h-screen flex flex-col">
-		<slot />
-	</body>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <slot />
+  </body>
 </html>
