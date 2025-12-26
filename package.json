@@ -2,6 +2,7 @@
   "name": "100cosas-dev",
   "type": "module",
   "version": "0.0.1",
+  "license": "CC-BY-NC-4.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
