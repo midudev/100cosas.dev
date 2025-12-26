@@ -1,0 +1,102 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --accent: #38bdf8;
+    --success: #4ade80;
+    --text-main: #e2e8f0;
+    --text-dim: #94a3b8;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    /* Patrón de fondo sutil tipo grid */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Animaciones y Efectos de Tarjeta */
+.tip-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.tip-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Efecto de "Glow" en hover */
+.tip-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tip-card:hover::before {
+    opacity: 1;
+}
+
+/* Estado: NO LEÍDO (Por defecto) */
+.status-text::after {
+    content: 'pendiente';
+}
+
+.card-border-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--text-dim);
+    opacity: 0.3;
+    transition: all 0.3s;
+}
+
+/* Estado: LEÍDO */
+.tip-card:has(.read-toggle:checked) .card-border-indicator {
+    background-color: var(--success);
+    opacity: 1;
+}
+
+.tip-card:has(.read-toggle:checked) .status-text::after {
+    content: 'completado';
+    color: var(--success);
+    font-weight: bold;
+}
+
+.tip-card:has(.read-toggle:checked) .status-text {
+    color: var(--success) !important;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
