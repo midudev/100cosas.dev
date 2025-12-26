@@ -45,10 +45,13 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
 <div
   class="tip-card bg-slate-800/50 rounded-xl cursor-pointer group relative"
   data-category={category}
+  itemscope 
+  itemtype="https://schema.org/Article"
 >
   <a
     href={getRelativeLocaleUrl(lang, `/consejo/${slugWithoutLang}`)}
     class="block p-6 h-full flex flex-col relative z-0"
+    itemprop="url"
   >
     <div class="card-border-indicator"></div>
 
@@ -57,13 +60,17 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
         class="font-mono text-xs text-slate-500 border border-slate-700 px-2 py-1 rounded"
         >#{id}</span
       >
-      <span class:list={["font-mono text-xs px-2 py-1 rounded", categoryColor]}
-        >{category}</span
+      <span 
+        class:list={["font-mono text-xs px-2 py-1 rounded", categoryColor]}
+        itemprop="articleSection"
       >
+        {category}
+      </span>
     </div>
 
     <h3
       class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-sky-300 transition-colors text-balance"
+      itemprop="headline"
     >
       {title}
     </h3>
@@ -71,10 +78,15 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
     <div
       class="mt-auto pt-6 border-t border-slate-700/50 flex items-center justify-between"
     >
-      <div class="flex items-center gap-2">
+      <div 
+        class="flex items-center gap-2"
+        itemprop="author" 
+        itemscope 
+        itemtype="https://schema.org/Person"
+      >
         <div
           class:list={[
-            "w-6 h-6 rounded-full bg-gradient-to-br flex items-center justify-center text-[10px] font-bold text-white overflow-hidden",
+            "w-6 h-6 rounded-full bg-linear-to-br flex items-center justify-center text-[10px] font-bold text-white overflow-hidden",
             authorColor,
           ]}
         >
@@ -83,13 +95,16 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
             alt={authorName}
             class="w-full h-full object-cover"
             onerror="this.style.display='none'"
+            itemprop="image"
           />
           {authorInitials}
         </div>
         <span
           class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors"
-          >{authorName}</span
+          itemprop="name"
         >
+          {authorName}
+        </span>
       </div>
 
       <div class="w-24 h-6"></div>
@@ -112,11 +127,11 @@ const slugWithoutLang = slug.replace(/^(es|en)\//, "")
         class="text-[10px] font-mono uppercase tracking-wider status-text text-slate-500"
       ></span>
       <div
-        class="check-icon w-5 h-5 rounded border border-slate-700 flex items-center justify-center transition-colors group-has-[:checked]:bg-sky-500 group-has-[:checked]:border-sky-500"
+        class="check-icon w-5 h-5 rounded border border-slate-700 flex items-center justify-center transition-colors group-has-checked:bg-sky-500 group-has-checked:border-sky-500"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-3 w-3 text-white scale-0 group-has-[:checked]:scale-100 transition-transform"
+          class="h-3 w-3 text-white scale-0 group-has-checked:scale-100 transition-transform"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
