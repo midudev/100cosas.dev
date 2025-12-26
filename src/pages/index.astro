@@ -1,11 +1,68 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import TipCard from '../components/TipCard.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const tipsEntries = await getCollection('tips');
+// Sort by ID to maintain order
+const sortedTips = tipsEntries.sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id));
 ---
 
 <Layout>
-	<Welcome />
+	<Navbar total={sortedTips.length} />
+	
+	<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
+		<Hero />
+		
+		<div id="tips-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{sortedTips.map((tip) => (
+				<TipCard {...tip.data} slug={tip.slug} />
+			))}
+		</div>
+	</main>
+
+	<Footer />
 </Layout>
+
+<script>
+	const filterButtons = document.querySelectorAll('.filter-btn');
+	const tipCards = document.querySelectorAll('.tip-card');
+
+	// Lógica de filtrado
+	filterButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const filter = (button as HTMLElement).dataset.filter;
+			
+			filterButtons.forEach(btn => {
+				btn.setAttribute('data-active', 'false');
+				btn.classList.remove('bg-sky-500/10', 'text-sky-400', 'border-sky-500/20');
+				btn.classList.add('bg-slate-800', 'text-slate-400', 'border-white/5');
+			});
+			
+			button.setAttribute('data-active', 'true');
+			button.classList.add('bg-sky-500/10', 'text-sky-400', 'border-sky-500/20');
+			button.classList.remove('bg-slate-800', 'text-slate-400', 'border-white/5');
+
+			tipCards.forEach(card => {
+				const category = (card as HTMLElement).dataset.category;
+				if (filter === 'all' || category === filter) {
+					(card as HTMLElement).style.display = 'block';
+				} else {
+					(card as HTMLElement).style.display = 'none';
+				}
+			});
+		});
+	});
+
+	// Cargar estado de "leído" desde localStorage
+	const readTips = JSON.parse(localStorage.getItem('read-tips') || '{}');
+	Object.entries(readTips).forEach(([id, isRead]) => {
+		const checkbox = document.querySelector(`.read-toggle[data-id="${id}"]`) as HTMLInputElement;
+		if (checkbox && isRead) {
+			checkbox.checked = true;
+		}
+	});
+</script>
