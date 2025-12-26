@@ -1,9 +1,15 @@
 ---
+import { useTranslations } from "../i18n/utils"
+import { getRelativeLocaleUrl } from "astro:i18n"
+
 interface Props {
   total?: number
 }
 
 const { total = 100 } = Astro.props
+
+const lang = (Astro.currentLocale || "es") as "es" | "en"
+const t = useTranslations(lang)
 ---
 
 <nav
@@ -16,7 +22,7 @@ const { total = 100 } = Astro.props
       <!-- Logo area -->
       <div class="flex items-center z-10">
         <a
-          href="/"
+          href={getRelativeLocaleUrl(lang, "/")}
           class="group flex items-center gap-2 transition-all duration-300"
         >
           <span
@@ -45,7 +51,7 @@ const { total = 100 } = Astro.props
         <span
           id="progress-text"
           class="text-xs font-mono text-slate-400 font-medium tabular-nums min-w-[85px]"
-          >0/{total} leídos</span
+          data-text-read={t("nav.read")}>0/{total} {t("nav.read")}</span
         >
       </div>
 
@@ -53,17 +59,17 @@ const { total = 100 } = Astro.props
       <div class="flex items-center gap-1 z-10">
         <div class="hidden md:flex items-center gap-1">
           <a
-            href="/sobre-el-proyecto"
+            href={getRelativeLocaleUrl(lang, "/sobre-el-proyecto")}
             class="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]"
           >
-            Sobre el proyecto
+            {t("nav.about")}
           </a>
           <a
             href="https://github.com"
             target="_blank"
             class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/[0.05]"
           >
-            <span>GitHub</span>
+            <span>{t("nav.github")}</span>
             <svg
               class="w-4 h-4"
               viewBox="0 0 24 24"
@@ -77,6 +83,36 @@ const { total = 100 } = Astro.props
               ></path></svg
             >
           </a>
+
+          <div class="h-4 w-px bg-white/10 mx-2"></div>
+
+          <!-- Language Switcher -->
+          <div
+            class="flex gap-1 bg-white/5 p-1 rounded-lg border border-white/5"
+          >
+            <a
+              href={Astro.url.pathname.replace(/^\/en/, "") || "/"}
+              class:list={[
+                "px-2 py-1 text-[10px] font-bold rounded transition-all",
+                lang === "es"
+                  ? "bg-sky-500 text-white shadow-lg"
+                  : "text-slate-500 hover:text-slate-300",
+              ]}
+            >
+              ES
+            </a>
+            <a
+              href={`/en${Astro.url.pathname.replace(/^\/en/, "") || ""}`}
+              class:list={[
+                "px-2 py-1 text-[10px] font-bold rounded transition-all",
+                lang === "en"
+                  ? "bg-sky-500 text-white shadow-lg"
+                  : "text-slate-500 hover:text-slate-300",
+              ]}
+            >
+              EN
+            </a>
+          </div>
         </div>
 
         <!-- Mobile Progress -->
@@ -107,11 +143,11 @@ const { total = 100 } = Astro.props
     return stored ? JSON.parse(stored) : []
   }
 
-  function saveReadTip(id, isRead) {
+  function saveReadTip(id: string, isRead: boolean) {
     const readTips = getReadTips()
     const newReadTips = isRead
       ? [...new Set([...readTips, id])]
-      : readTips.filter((tipId) => tipId !== id)
+      : readTips.filter((tipId: string) => tipId !== id)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newReadTips))
     updateProgress()
   }
@@ -139,17 +175,18 @@ const { total = 100 } = Astro.props
     progressTexts.forEach((text) => {
       if (text) {
         const isMobile = text.id.includes("mobile")
+        const readText = text.dataset.textRead || "leídos"
         text.textContent = isMobile
           ? `${count}/${total}`
-          : `${count}/${total} leídos`
+          : `${count}/${total} ${readText}`
       }
     })
   }
 
-  function handleCheckboxChange(e) {
+  function handleCheckboxChange(e: Event) {
     const id = (e.target as HTMLInputElement).getAttribute("data-id")
     const isChecked = (e.target as HTMLInputElement).checked
-    saveReadTip(id, isChecked)
+    if (id) saveReadTip(id, isChecked)
   }
 
   // Initialize checkboxes and progress
