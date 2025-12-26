@@ -1,81 +1,136 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.astro';
-import TipCard from '../../components/TipCard.astro';
-import Footer from '../../components/Footer.astro';
+import { getCollection, getEntry } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
+import Navbar from "../../components/Navbar.astro"
+import TipCard from "../../components/TipCard.astro"
+import Footer from "../../components/Footer.astro"
+import { getRelativeLocaleUrl } from "astro:i18n"
 
 export async function getStaticPaths() {
-  const authorsEntries = await getCollection('authors');
-  return authorsEntries.map(entry => ({
-    params: { id: entry.id }, props: { entry },
-  }));
+  const authorsEntries = await getCollection("authors")
+
+  return authorsEntries.map((entry) => {
+    return {
+      params: { id: entry.id },
+      props: { entry },
+    }
+  })
 }
 
-const { entry } = Astro.props;
-const { name, bio, photo, color, initials, x, github } = entry.data;
+const { entry } = Astro.props
+const { id: authorIdField, name, bio, color, initials, x, github } = entry.data
+const photo = `/authors/${authorIdField}.webp`
 
-// Get all tips by this author
-const allTips = await getCollection('tips');
+const lang = Astro.currentLocale || "es"
+const authorBio = bio[lang] || bio["es"]
+
+// Get all tips by this author in Spanish
+const allTips = await getCollection("tips", ({ id }) => id.startsWith("es/"))
 const authorTips = allTips
-    .filter(tip => tip.data.author === entry.id)
-    .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id));
+  .filter((tip) => tip.data.author === entry.id)
+  .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
 ---
 
 <Layout title={`${name} | Autor | 100cosas.dev`}>
-    <Navbar />
-    
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <a href="/" class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-8 transition-colors group">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Volver a la lista
-        </a>
+  <Navbar />
 
-        <header class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12">
-            <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
-                <div class:list={["w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl", color]}>
-                    {photo ? <img src={photo} alt={name} class="w-full h-full object-cover" /> : initials}
-                </div>
-                
-                <div class="flex-grow">
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-100 mb-4">{name}</h1>
-                    <p class="text-xl text-slate-400 leading-relaxed mb-6 max-w-3xl">
-                        {bio}
-                    </p>
-                    
-                    <div class="flex flex-wrap justify-center md:justify-start gap-4">
-                        {x && (
-                            <a href={x} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-900 border border-white/5 rounded-lg text-slate-300 hover:text-white transition-all">
-                                <span>Twitter / X</span>
-                            </a>
-                        )}
-                        {github && (
-                            <a href={github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-900 border border-white/5 rounded-lg text-slate-300 hover:text-white transition-all">
-                                <span>GitHub</span>
-                            </a>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </header>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    <a
+      href={getRelativeLocaleUrl(lang, "/")}
+      class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-8 transition-colors group"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Volver a la lista
+    </a>
 
-        <section>
-            <h2 class="text-2xl font-bold text-slate-100 mb-8 flex items-center gap-3">
-                Consejos de {name}
-                <span class="text-sm font-mono font-normal text-slate-500 bg-slate-800 px-2 py-1 rounded">
-                    {authorTips.length}
-                </span>
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {authorTips.map(tip => (
-                    <TipCard {...tip.data} slug={tip.slug} />
-                ))}
-            </div>
-        </section>
-    </main>
+    <header
+      class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12"
+    >
+      <div
+        class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left"
+      >
+        <div
+          class:list={[
+            "w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl",
+            color,
+          ]}
+        >
+          {
+            photo ? (
+              <img src={photo} alt={name} class="w-full h-full object-cover" />
+            ) : (
+              initials
+            )
+          }
+        </div>
 
-    <Footer />
+        <div class="flex-grow">
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-100 mb-4">
+            {name}
+          </h1>
+          <p class="text-xl text-slate-400 leading-relaxed mb-6 max-w-3xl">
+            {authorBio}
+          </p>
+
+          <div class="flex flex-wrap justify-center md:justify-start gap-4">
+            {
+              x && (
+                <a
+                  href={x}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-900 border border-white/5 rounded-lg text-slate-300 hover:text-white transition-all"
+                >
+                  <span>Twitter / X</span>
+                </a>
+              )
+            }
+            {
+              github && (
+                <a
+                  href={github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-900 border border-white/5 rounded-lg text-slate-300 hover:text-white transition-all"
+                >
+                  <span>GitHub</span>
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2
+        class="text-2xl font-bold text-slate-100 mb-8 flex items-center gap-3"
+      >
+        Consejos de {name}
+        <span
+          class="text-sm font-mono font-normal text-slate-500 bg-slate-800 px-2 py-1 rounded"
+        >
+          {authorTips.length}
+        </span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {authorTips.map((tip) => <TipCard {...tip.data} slug={tip.slug} />)}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
 </Layout>
