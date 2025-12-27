@@ -1,0 +1,12 @@
+{
+    "id": "dan-abramov",
+    "name": "Dan Abramov",
+    "initials": "DA",
+    "color": "from-purple-500 to-indigo-600",
+    "bio": {
+        "es": "Cocreador de Redux y Create React App. Ex-miembro del equipo de React en Meta. Es una figura influyente en el ecosistema JavaScript, conocido por su capacidad para explicar conceptos complejos de forma sencilla y su enfoque crítico hacia las 'mejores prácticas' dogmáticas.",
+        "en": "Co-creator of Redux and Create React App. Former member of the React team at Meta. He is an influential figure in the JavaScript ecosystem, known for his ability to explain complex concepts simply and his critical approach to dogmatic 'best practices'."
+    },
+    "x": "https://x.com/dan_abramov",
+    "github": "https://github.com/gaearon"
+}
