@@ -1,0 +1,12 @@
+{
+    "id": "grace-hopper",
+    "name": "Grace Hopper",
+    "initials": "GH",
+    "color": "from-blue-800 to-slate-900",
+    "bio": {
+        "es": "Pionera de la informática y contraalmirante de la Marina de los EE. UU. Fue una de las primeras programadoras del Harvard Mark I y creó el primer compilador para un lenguaje de programación. Su visión llevó al desarrollo de COBOL, uno de los primeros lenguajes de alto nivel.",
+        "en": "Computer science pioneer and US Navy Rear Admiral. She was one of the first programmers of the Harvard Mark I and created the first compiler for a programming language. Her vision led to the development of COBOL, one of the first high-level languages."
+    },
+    "x": "https://x.com/gracehopper",
+    "github": "https://github.com/gracehopper"
+}
