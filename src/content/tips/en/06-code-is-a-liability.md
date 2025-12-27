@@ -54,26 +54,35 @@ function scrollToTopNative() {
 }
 ```
 
+## Svelte vs. React: A Matter of Liability
+
+This philosophy is what gave birth to **Svelte**. Rich Harris questioned why modern frameworks forced users to download a heavy library (the "runtime") to manage the DOM.
+
+- **React:** Ships a significant amount of code to the browser (the Virtual DOM, the event system, etc.). That code is a liability: it consumes memory, takes time to download, and must be executed on the user's device.
+- **Svelte:** Moves that liability to **build time**. Svelte disappears in production, leaving only the minimal code necessary to update the DOM.
+
+By reducing the amount of code that travels over the wire and that the browser must process, Svelte applies the mantra that the best code is the one that doesn't exist (on the client).
+
 ## The Dilemma: Build vs. Buy (or Use a Library)
 
-Sometimes, the temptation to "avoid dependencies" leads us to write hundreds of lines of "custom" code to solve common problems (like form validation or date handling). This is where **opportunity cost** comes in.
+Sometimes, the temptation to "avoid dependencies" leads us to write hundreds of lines of "custom" code for common problems. This is where **opportunity cost** comes in.
 
 Every hour you spend debugging your own validation system is an hour you're not spending on the features that actually differentiate your product.
 
 ### The Value of Community and Tests
 
-A small, well-maintained library with an exhaustive test suite (like `date-fns` or `zod`) is often a **lower liability** than 500 lines of untested custom code.
+A small, well-maintained library with tests (like `date-fns` or `zod`) is often a **lower liability** than 500 lines of untested custom code.
 
 - **Security:** Hundreds of eyes have reviewed that code.
 - **Edge Cases:** Libraries often handle edge cases you haven't even considered.
-- **Documentación:** You don't have to write manuals for something that already has its own documentation.
+- **Documentation:** It already exists, you don't have to write it yourself.
 
 ## What Really Adds Value?
 
-Your success as a developer is not measured by how many lines of "original" code you've written, but by how much value you've delivered with the **minimum maintenance cost** possible.
+Your success is not measured by how many lines of "original" code you've written, but by how much value you've delivered with the **minimum maintenance cost** possible.
 
 1. **Maintenance:** The code you don't write never breaks.
-2. **Cognitive Load:** Less code means new developers can understand the project faster.
+2. **Cognitive Load:** Less code means the team understands the project faster.
 3. **Error Surface:** Every line of your own code is an opportunity for a bug that only you can fix.
 
 The next time you're about to write a new feature, ask yourself: **"Is this code an asset for my company, or a burden for my future self?"**.

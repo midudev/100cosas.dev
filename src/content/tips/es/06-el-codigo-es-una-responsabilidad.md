@@ -54,26 +54,35 @@ function scrollToTopNative() {
 }
 ```
 
+## Svelte vs. React: Una cuestión de responsabilidad
+
+Esta filosofía es la que dio origen a **Svelte**. Rich Harris cuestionó por qué los frameworks modernos obligaban al usuario a descargar una librería pesada (el "runtime") para gestionar el DOM.
+
+- **React:** Envía una gran cantidad de código al navegador (el Virtual DOM, el sistema de eventos, etc.). Ese código es una responsabilidad: consume memoria, tarda en descargarse y debe ejecutarse en el dispositivo del usuario.
+- **Svelte:** Mueve esa responsabilidad al **tiempo de compilación**. Svelte desaparece en producción, dejando solo el código mínimo necesario para actualizar el DOM.
+
+Al reducir la cantidad de código que viaja por el cable y que el navegador debe procesar, Svelte aplica el mantra de que el mejor código es el que no existe (en el cliente).
+
 ## El dilema: ¿Hacerlo nosotros o usar una librería?
 
-A veces, la tentación de "no añadir dependencias" nos lleva a escribir cientos de líneas de código "personalizado" para resolver problemas comunes (como validación de formularios o manejo de fechas). Aquí es donde entra el **coste de oportunidad**.
+A veces, la tentación de "no añadir dependencias" nos lleva a escribir cientos de líneas de código "personalizado" para problemas comunes. Aquí entra el **coste de oportunidad**.
 
-Cada hora que pasas depurando tu propio sistema de validación es una hora que no estás dedicando a la funcionalidad que realmente diferencia a tu producto.
+Cada hora que pasas depurando tu propio sistema de validación es una hora que no dedicas a lo que realmente diferencia a tu producto.
 
 ### El valor de la comunidad y los tests
 
-Una biblioteca pequeña, bien mantenida y con una suite de tests exhaustiva (como `date-fns` o `zod`) suele ser una **menor responsabilidad** que 500 líneas de código propio sin testear.
+Una biblioteca pequeña, bien mantenida y con tests (como `date-fns` o `zod`) suele ser una **menor responsabilidad** que 500 líneas de código propio sin testear.
 
 - **Seguridad:** Cientos de ojos han revisado ese código.
-- **Casos borde:** Las librerías suelen manejar edge-cases que tú ni siquiera has considerado.
-- **Documentación:** No tienes que escribir manuales para algo que ya tiene su propia documentación.
+- **Casos borde:** Las librerías suelen manejar edge-cases que tú ni has considerado.
+- **Documentación:** Ya existe, no tienes que escribirla tú.
 
 ## ¿Qué aporta valor realmente?
 
-Tu éxito como desarrollador no se mide por cuántas líneas de código "original" has escrito, sino por cuánto valor has entregado con el **mínimo coste de mantenimiento** posible.
+Tu éxito no se mide por cuántas líneas de código "original" has escrito, sino por cuánto valor has entregado con el **mínimo coste de mantenimiento** posible.
 
 1. **Mantenimiento:** El código que no escribes nunca se rompe.
-2. **Carga cognitiva:** Menos código significa que los nuevos desarrolladores pueden entender el proyecto más rápido.
+2. **Carga cognitiva:** Menos código significa que el equipo entiende el proyecto más rápido.
 3. **Superficie de error:** Cada línea propia es una oportunidad para un error que solo tú puedes arreglar.
 
 La próxima vez que vayas a escribir una nueva funcionalidad, pregúntate: **"¿Es este código un activo para mi empresa o una carga para mi futuro yo?"**.
