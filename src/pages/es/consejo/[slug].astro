@@ -40,7 +40,6 @@ if (!authorEntry) {
 const {
   name: authorName,
   initials: authorInitials,
-  color: authorColor,
   photo: authorPhoto,
 } = authorEntry.data
 ---
@@ -95,10 +94,7 @@ const {
           class="inline-flex items-center gap-4 pt-6 border-t border-slate-700/50 hover:opacity-80 transition-opacity group"
         >
           <div
-            class:list={[
-              "w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center text-lg font-bold text-white overflow-hidden",
-              authorColor,
-            ]}
+            class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-lg font-bold text-white overflow-hidden"
           >
             {
               authorPhoto ? (

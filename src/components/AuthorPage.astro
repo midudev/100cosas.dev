@@ -15,7 +15,7 @@ interface Props {
 }
 
 const { entry, authorTips, totalTips, alternateUrl } = Astro.props
-const { id: authorIdField, name, bio, color, initials, x, github } = entry.data
+const { id: authorIdField, name, bio, initials, x, github } = entry.data
 const photo = `/authors/${authorIdField}.webp`
 
 const lang = (Astro.currentLocale as "es" | "en") || "es"
@@ -70,10 +70,7 @@ const authorBio = bio[lang] || bio[lang === "es" ? "es" : "en"]
         class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left"
       >
         <div
-          class:list={[
-            "w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-linear-to-br flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl",
-            color,
-          ]}
+          class="w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-slate-700 flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl"
         >
           {
             photo ? (

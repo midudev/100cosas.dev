@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { name, bio, photo, color, initials, x, github } = entry.data;
+const { name, bio, photo, initials, x, github } = entry.data;
 
 // Get all tips by this author in Spanish
 const allTips = await getCollection('tips', ({ id }) => id.startsWith('es/'));
@@ -43,7 +43,7 @@ const authorTips = allTips
 
         <header class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm mb-12">
             <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
-                <div class:list={["w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl", color]}>
+                <div class="w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-slate-700 flex items-center justify-center text-4xl font-bold text-white overflow-hidden shrink-0 shadow-2xl">
                     {photo ? <img src={photo} alt={name} class="w-full h-full object-cover" /> : initials}
                 </div>
                 

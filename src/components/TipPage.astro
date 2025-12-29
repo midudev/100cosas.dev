@@ -36,7 +36,6 @@ if (!authorEntry) {
 const {
   name: authorName,
   initials: authorInitials,
-  color: authorColor,
 } = authorEntry.data
 const authorPhoto = `/authors/${authorEntry.data.id}.webp`
 
@@ -126,10 +125,7 @@ const jsonLd = {
           itemtype="https://schema.org/Person"
         >
           <div
-            class:list={[
-              "w-12 h-12 rounded-full bg-linear-to-br flex items-center justify-center text-lg font-bold text-white overflow-hidden",
-              authorColor,
-            ]}
+            class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-lg font-bold text-white overflow-hidden"
           >
             {
               authorPhoto ? (

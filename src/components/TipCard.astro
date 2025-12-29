@@ -29,7 +29,6 @@ const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
 
 let authorName = "Autor"
-let authorColor = "from-sky-500 to-blue-600"
 let authorPhoto = "/authors/kent-c-dodds.webp"
 
 if (!isPlaceholder) {
@@ -39,14 +38,9 @@ if (!isPlaceholder) {
     throw new Error(`Author with id "${authorId}" not found for tip "${id}"`)
   }
 
-  const {
-    id: authorIdField,
-    name: authorNameData,
-    color: authorColorData,
-  } = authorEntry.data
+  const { id: authorIdField, name: authorNameData } = authorEntry.data
 
   authorName = authorNameData
-  authorColor = authorColorData || authorColor
   authorPhoto = `/authors/${authorIdField}.webp`
 }
 
@@ -115,10 +109,7 @@ const tipPath = lang === "es" ? "consejo" : "tip"
         itemtype="https://schema.org/Person"
       >
         <div
-          class:list={[
-            "w-8 h-8 rounded-full bg-linear-to-br flex items-center justify-center text-[10px] font-bold text-white overflow-hidden",
-            authorColor,
-          ]}
+          class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white overflow-hidden"
         >
           <img
             src={authorPhoto}
