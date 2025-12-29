@@ -1,0 +1,12 @@
+{
+    "id": "una-kravets",
+    "name": "Una Kravets",
+    "initials": "UK",
+    "color": "from-pink-500 to-rose-600",
+    "bio": {
+        "es": "Defensora de los desarrolladores en Google para Chrome. Experta en CSS y diseño web, es conocida por su enfoque en usar las capacidades nativas de la web para crear experiencias de usuario rápidas y accesibles.",
+        "en": "Developer Advocate at Google for Chrome. Expert in CSS and web design, she is known for her focus on using native web capabilities to create fast and accessible user experiences."
+    },
+    "x": "https://x.com/una",
+    "github": "https://github.com/una"
+}
