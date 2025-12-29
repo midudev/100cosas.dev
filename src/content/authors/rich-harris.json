@@ -2,7 +2,6 @@
     "id": "rich-harris",
     "name": "Rich Harris",
     "initials": "RH",
-    "color": "from-orange-500 to-red-600",
     "bio": {
         "es": "Creador de Svelte, SvelteKit y Rollup. Ha trabajado como editor de gráficos en The New York Times. Es conocido por su enfoque en la eficiencia, el rendimiento y por cuestionar las ortodoxias del desarrollo web moderno, como el uso excesivo del Virtual DOM.",
         "en": "Creator of Svelte, SvelteKit, and Rollup. He has worked as a graphics editor at The New York Times. He is known for his focus on efficiency, performance, and for questioning modern web development orthodoxies, such as the overuse of the Virtual DOM."

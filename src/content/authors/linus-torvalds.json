@@ -2,7 +2,6 @@
     "id": "linus-torvalds",
     "name": "Linus Torvalds",
     "initials": "LT",
-    "color": "from-gray-700 to-blue-900",
     "bio": {
         "es": "Creador del kernel Linux y del sistema de control de versiones Git. Revolucionó el desarrollo de software de código abierto y es conocido por su enfoque pragmático y directo en la ingeniería de software.",
         "en": "Creator of the Linux kernel and the Git version control system. He revolutionized open-source software development and is known for his pragmatic and direct approach to software engineering."
