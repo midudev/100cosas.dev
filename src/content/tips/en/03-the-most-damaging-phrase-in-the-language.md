@@ -1,5 +1,5 @@
 ---
-id: "07"
+id: "03"
 title: "The most damaging phrase: 'It's always been done this way'"
 category: "Mindset"
 categoryColor: "text-emerald-400 bg-emerald-900/20"

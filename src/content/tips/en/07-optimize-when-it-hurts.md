@@ -1,5 +1,5 @@
 ---
-id: "03"
+id: "07"
 title: "Optimize when it hurts, not before"
 category: "Practices"
 categoryColor: "text-red-400 bg-red-900/20"

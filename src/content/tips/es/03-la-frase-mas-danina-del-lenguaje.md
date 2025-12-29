@@ -1,6 +1,6 @@
 ---
-id: "07"
-title: "La frase más dañina: 'Siempre se ha hecho así'"
+id: "03"
+title: "'Siempre se ha hecho así'"
 category: "Mentalidad"
 categoryColor: "text-emerald-400 bg-emerald-900/20"
 author: "grace-hopper"

@@ -1,5 +1,5 @@
 ---
-id: "03"
+id: "07"
 title: "Optimiza cuando duele, no antes"
 category: "Prácticas"
 categoryColor: "text-red-400 bg-red-900/20"
