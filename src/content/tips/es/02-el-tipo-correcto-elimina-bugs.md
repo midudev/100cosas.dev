@@ -65,8 +65,6 @@ function processOrder(order: Order) {
 }
 ```
 
-### Conclusión
-
 El tipado no es burocracia. Es una conversación con el compilador donde tú le explicas las reglas de tu negocio y él se encarga de que nadie las rompa por accidente. Invertir tiempo en diseñar los tipos correctos al principio de una funcionalidad es, probablemente, la forma más barata y efectiva de hacer control de calidad en toda la historia de la informática. 
 
 Como dice Anders Hejlsberg: *"Los tipos te dan la confianza necesaria para refactorizar sin miedo"*. Y un desarrollador sin miedo es un desarrollador mucho más creativo y productivo.

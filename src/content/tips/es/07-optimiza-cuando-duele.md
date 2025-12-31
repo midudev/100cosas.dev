@@ -48,8 +48,6 @@ const handleClick = () => {
 
 La ironía es que, a veces, la propia infraestructura de la optimización (como las comparaciones que hace React en `useMemo`) puede ser más costosa que la propia tarea que intentamos optimizar.
 
-### Conclusión
-
 Optimizar es una transacción. Estás intercambiando **claridad** por **velocidad**. Como en cualquier negocio, solo debes realizar el intercambio si el beneficio compensa el coste. 
 
 Si no tienes una métrica que diga que algo va lento, no lo toques. La simplicidad es la optimización definitiva porque reduce el tiempo de desarrollo, el número de bugs y el estrés del equipo. Como dice Kent C. Dodds: *"Asegúrate de que tus optimizaciones son necesarias antes de que sean permanentes"*.
