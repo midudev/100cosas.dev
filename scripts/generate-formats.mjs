@@ -21,6 +21,18 @@ async function getAuthor(authorId) {
   }
 }
 
+async function imageToBase64(filePath) {
+  try {
+    const bitmap = await fs.readFile(filePath);
+    const extension = path.extname(filePath).replace('.', '');
+    const base64 = Buffer.from(bitmap).toString('base64');
+    return `data:image/${extension === 'jpg' ? 'jpeg' : extension};base64,${base64}`;
+  } catch (error) {
+    console.error(`Error converting image to base64: ${filePath}`, error);
+    return null;
+  }
+}
+
 async function generateFormats() {
   await fs.ensureDir(OUTPUT_DIR);
 
@@ -43,13 +55,28 @@ async function generateFormats() {
       const { data, content: body } = matter(fileContent);
       const author = await getAuthor(data.author);
       
+      const html = await marked(body);
+      const publicPath = path.join(process.cwd(), 'public');
+      
+      // Fix image paths: replace absolute paths starting with / with base64 data URLs
+      let fixedHtml = html;
+      const imgMatches = html.matchAll(/src="\/([^"]+)"/g);
+      for (const match of imgMatches) {
+        const relativePath = match[1];
+        const absolutePath = path.join(publicPath, relativePath);
+        const base64 = await imageToBase64(absolutePath);
+        if (base64) {
+          fixedHtml = fixedHtml.replace(match[0], `src="${base64}"`);
+        }
+      }
+
       tips.push({
         id: data.id,
         title: data.title,
         author: author.name,
         category: data.category,
         content: body,
-        html: await marked(body),
+        html: fixedHtml,
         slug: path.basename(file, '.md')
       });
     }
@@ -102,6 +129,7 @@ async function generateFormats() {
           blockquote { border-left: 4px solid #ddd; padding-left: 20px; margin-left: 0; color: #666; font-style: italic; }
           .tip { break-before: page; }
           .title-page { break-after: page; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+          img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
           @media print {
             .tip:first-of-type { break-before: avoid; }
           }
