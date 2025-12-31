@@ -1,5 +1,5 @@
 ---
-id: "05"
+id: "08"
 title: "Clean code is not the end goal"
 category: "Philosophy"
 categoryColor: "text-amber-400 bg-amber-900/20"

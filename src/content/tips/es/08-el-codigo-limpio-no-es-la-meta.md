@@ -1,5 +1,5 @@
 ---
-id: "05"
+id: "08"
 title: "El código limpio no es el objetivo final"
 category: "Filosofía"
 categoryColor: "text-amber-400 bg-amber-900/20"
