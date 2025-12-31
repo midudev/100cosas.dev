@@ -1,6 +1,10 @@
 {
+  "id": "barbara-liskov",
   "name": "Barbara Liskov",
-  "bio": "Pionera en la computación, ganadora del Premio Turing en 2008 por su trabajo en diseño de lenguajes de programación y metodología de software que llevó al desarrollo de la programación orientada a objetos.",
-  "avatar": "/authors/barbara-liskov.webp",
-  "twitter": ""
+  "initials": "BL",
+  "bio": {
+    "es": "Pionera en la computación, ganadora del Premio Turing en 2008 por su trabajo en diseño de lenguajes de programación y metodología de software que llevó al desarrollo de la programación orientada a objetos.",
+    "en": "Computer science pioneer, winner of the 2008 Turing Award for her work in programming language design and software methodology that led to the development of object-oriented programming."
+  },
+  "x": "https://x.com/barbaraliskov"
 }
