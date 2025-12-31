@@ -3,6 +3,7 @@ import path from 'path';
 import { glob } from 'glob';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { createHighlighter } from 'shiki';
 import Epub from 'epub-gen';
 import puppeteer from 'puppeteer';
 
@@ -36,6 +37,28 @@ async function imageToBase64(filePath) {
 async function generateFormats() {
   await fs.ensureDir(OUTPUT_DIR);
 
+  const highlighter = await createHighlighter({
+    themes: ['github-dark'],
+    langs: [
+      'javascript', 'typescript', 'jsx', 'tsx',
+      'html', 'css', 'json', 'bash', 'sh',
+      'python', 'rust', 'go', 'php', 'ruby',
+      'sql', 'yaml', 'markdown', 'astro'
+    ]
+  });
+
+  marked.use({
+    async: true,
+    renderer: {
+      code({ text, lang }) {
+        return highlighter.codeToHtml(text, {
+          lang: lang || 'text',
+          theme: 'github-dark'
+        });
+      }
+    }
+  });
+
   for (const lang of LANGUAGES) {
     console.log(`Processing language: ${lang}`);
     
@@ -55,7 +78,7 @@ async function generateFormats() {
       const { data, content: body } = matter(fileContent);
       const author = await getAuthor(data.author);
       
-      const html = await marked(body);
+      const html = await marked.parse(body);
       const publicPath = path.join(process.cwd(), 'public');
       
       // Fix image paths: replace absolute paths starting with / with base64 data URLs
@@ -124,8 +147,9 @@ async function generateFormats() {
           h2 { color: #444; margin-top: 30px; }
           .tip-meta { color: #666; font-style: italic; margin-bottom: 20px; }
           .page-break { page-break-after: always; }
-          pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: monospace; }
-          code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-family: monospace; }
+          pre { padding: 15px; border-radius: 5px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px; }
+          code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+          :not(pre) > code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; }
           blockquote { border-left: 4px solid #ddd; padding-left: 20px; margin-left: 0; color: #666; font-style: italic; }
           .tip { break-before: page; }
           .title-page { break-after: page; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
