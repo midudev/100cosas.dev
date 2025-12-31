@@ -100,3 +100,42 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #475569;
 }
+
+/* Estilos para los blockquotes (cajas informativas) */
+article blockquote {
+    border-left: none;
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    position: relative;
+    font-style: normal;
+    color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    quotes: none;
+}
+
+article blockquote::before,
+article blockquote::after {
+    content: none !important;
+}
+
+article blockquote p {
+    margin: 0 !important;
+    line-height: 1.6;
+}
+
+article blockquote strong {
+    color: #38bdf8;
+    font-weight: 600;
+}
+
+/* Título especial para la primera línea del blockquote si es negrita */
+article blockquote p:first-child strong:first-child {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 0.5rem;
+}
