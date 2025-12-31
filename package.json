@@ -23,6 +23,7 @@
     "glob": "13.0.0",
     "gray-matter": "4.0.3",
     "marked": "17.0.1",
-    "puppeteer": "24.34.0"
+    "puppeteer": "24.34.0",
+    "shiki": "^3.20.0"
   }
 }

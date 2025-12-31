@@ -25,23 +25,26 @@ importers:
         version: 4.1.18
     devDependencies:
       epub-gen:
-        specifier: ^0.1.0
+        specifier: 0.1.0
         version: 0.1.0
       fs-extra:
-        specifier: ^11.3.3
+        specifier: 11.3.3
         version: 11.3.3
       glob:
-        specifier: ^13.0.0
+        specifier: 13.0.0
         version: 13.0.0
       gray-matter:
-        specifier: ^4.0.3
+        specifier: 4.0.3
         version: 4.0.3
       marked:
-        specifier: ^17.0.1
+        specifier: 17.0.1
         version: 17.0.1
       puppeteer:
-        specifier: ^24.34.0
+        specifier: 24.34.0
         version: 24.34.0(typescript@5.9.3)
+      shiki:
+        specifier: ^3.20.0
+        version: 3.20.0
 
 packages:
 
