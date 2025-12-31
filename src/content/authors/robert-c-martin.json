@@ -1,0 +1,11 @@
+{
+    "id": "robert-c-martin",
+    "name": "Robert C. Martin",
+    "initials": "RM",
+    "bio": {
+        "es": "Autor de 'Clean Code' (Código Limpio) y uno de los firmantes del Manifiesto Ágil. Es una de las figuras más influyentes en la ingeniería de software, conocido por popularizar los principios SOLID y defender la profesionalidad en el desarrollo.",
+        "en": "Author of 'Clean Code' and one of the signatories of the Agile Manifesto. He is one of the most influential figures in software engineering, known for popularizing SOLID principles and advocating for professionalism in development."
+    },
+    "x": "https://x.com/unclebobmartin",
+    "github": "https://github.com/unclebob"
+}
