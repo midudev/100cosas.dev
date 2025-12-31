@@ -86,6 +86,26 @@ body {
     color: var(--success) !important;
 }
 
+/* Shiki custom styles */
+pre.shiki {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+code {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+article p :not(pre) > code {
+  background-color: #1e293b;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  color: #38bdf8;
+  font-size: 0.9em;
+}
+
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
     width: 8px;
