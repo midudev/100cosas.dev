@@ -65,8 +65,6 @@ function processOrder(order: Order) {
 }
 ```
 
-### Conclusion
-
 Typing is not bureaucracy. It is a conversation with the compiler where you explain your business rules and it makes sure no one breaks them by accident. Investing time in designing the right types at the beginning of a feature is probably the cheapest and most effective form of quality control in the history of computing.
 
 As Anders Hejlsberg says: *"Types give you the confidence to refactor without fear"*. And a developer without fear is a much more creative and productive developer.
