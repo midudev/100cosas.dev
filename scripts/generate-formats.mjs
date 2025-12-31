@@ -38,7 +38,7 @@ async function generateFormats() {
   await fs.ensureDir(OUTPUT_DIR);
 
   const highlighter = await createHighlighter({
-    themes: ['github-dark'],
+    themes: ['github-light'],
     langs: [
       'javascript', 'typescript', 'jsx', 'tsx',
       'html', 'css', 'json', 'bash', 'sh',
@@ -53,7 +53,7 @@ async function generateFormats() {
       code({ text, lang }) {
         return highlighter.codeToHtml(text, {
           lang: lang || 'text',
-          theme: 'github-dark'
+          theme: 'github-light'
         });
       }
     }
@@ -147,7 +147,7 @@ async function generateFormats() {
           h2 { color: #444; margin-top: 30px; }
           .tip-meta { color: #666; font-style: italic; margin-bottom: 20px; }
           .page-break { page-break-after: always; }
-          pre { padding: 15px; border-radius: 5px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px; }
+          pre { padding: 15px; border-radius: 5px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px; border: 1px solid #eee; }
           code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
           :not(pre) > code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; }
           blockquote { border-left: 4px solid #ddd; padding-left: 20px; margin-left: 0; color: #666; font-style: italic; }
