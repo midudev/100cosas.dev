@@ -13,6 +13,11 @@ export default defineConfig({
   },
 
   integrations: [mdx()],
+  markdown: {
+    shikiConfig: {
+      theme: 'nord',
+    },
+  },
 
   i18n: {
     defaultLocale: 'es',
