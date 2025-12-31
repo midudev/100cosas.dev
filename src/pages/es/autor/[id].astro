@@ -6,25 +6,23 @@ import TipCard from '../../../components/TipCard.astro';
 import Footer from '../../../components/Footer.astro';
 
 export async function getStaticPaths() {
-  const authorsEntries = await getCollection('authors', ({ id }) => {
-    return id.startsWith('es/')
-  });
+  const authorsEntries = await getCollection('authors');
   
   return authorsEntries.map(entry => {
-    const id = entry.id.replace(/^es\//, '')
     return {
-      params: { id }, 
+      params: { id: entry.id }, 
       props: { entry },
     }
   });
 }
 
 const { entry } = Astro.props;
-const { name, bio, photo, initials, x, github } = entry.data;
+const { name, bio, initials, x, github } = entry.data;
+const photo = `/authors/${entry.id}.webp`;
 
 // Get all tips by this author in Spanish
 const allTips = await getCollection('tips', ({ id }) => id.startsWith('es/'));
-const authorId = entry.id.replace(/^es\//, '');
+const authorId = entry.id;
 const authorTips = allTips
     .filter(tip => tip.data.author === authorId)
     .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id));
