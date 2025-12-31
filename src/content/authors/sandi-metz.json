@@ -1,0 +1,11 @@
+{
+    "id": "sandi-metz",
+    "name": "Sandi Metz",
+    "initials": "SM",
+    "bio": {
+        "es": "Programadora, conferenciante y autora de 'Practical Object-Oriented Design in Ruby' (POODR). Es una de las voces más influyentes en el diseño orientado a objetos y la refactorización.",
+        "en": "Programmer, speaker, and author of 'Practical Object-Oriented Design in Ruby' (POODR). She is one of the most influential voices in object-oriented design and refactoring."
+    },
+    "x": "https://x.com/sandimetz",
+    "github": "https://github.com/skmetz"
+}
