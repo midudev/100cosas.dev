@@ -8,7 +8,7 @@ author: "grace-hopper"
 
 Grace Hopper, apodada "Amazing Grace" y pionera absoluta de la computación, tenía una frase grabada a fuego: **"La frase más dañina en el lenguaje es... 'siempre se ha hecho así'"**.
 
-A Hopper le encantaba desafiar el status quo. De hecho, tenía un reloj en su oficina que funcionaba al revés (en sentido contrario a las agujas del reloj) solo para recordar a sus visitantes que las convenciones son a menudo arbitrarias. 
+A Hopper le encantaba desafiar el status quo. De hecho, tenía un reloj en su oficina que funcionaba al revés (en sentido contrario a las agujas del reloj) solo para recordar a sus visitantes que las convenciones son a menudo arbitrarias.
 
 <img src="/images/grace-hopper-clock-counterwise.jpg" alt="Reloj de Grace Hopper funcionando al revés" style="max-width: 300px; width: 100%; height: auto; margin: 2rem auto; display: block; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);" />
 
@@ -76,7 +76,7 @@ const posts = await getPostsModern(user.id);
 
 La resistencia al cambio no solo afecta a cómo escribimos código, sino a cómo vemos las nuevas herramientas. A mí mismo me pasó con **Tailwind CSS**. Al principio, ver todas esas clases en el HTML me parecía un error, una vuelta atrás a los tiempos de los estilos en línea. "No me gusta", decía.
 
-Sin embargo, tras usarlo unas cuantas veces en proyectos reales, mi perspectiva cambió por completo. Muchos vieron esto como una contradicción: "¿Pero no decías que Tailwind era una mala idea?". No era una contradicción, era **crecimiento**. 
+Sin embargo, tras usarlo unas cuantas veces en proyectos reales, mi perspectiva cambió por completo. Muchos vieron esto como una contradicción: "¿Pero no decías que Tailwind era una mala idea?". No era una contradicción, era **crecimiento**.
 
 Como desarrolladores, aferrarnos a una opinión antigua por orgullo es una forma de "siempre se ha hecho así" mental. Si recibes nueva información o experimentas una herramienta y tus conclusiones cambian, evolucionar tu opinión es la única respuesta lógica. **No estás contradiciéndote, estás actualizando tu software mental con mejores datos.**
 
