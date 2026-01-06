@@ -20,10 +20,10 @@ The Boy Scout Rule is the antidote to this degradation. If every time a develope
 
 You don't need to rewrite the entire system. "Better" can be something as small as:
 
-1.  **Renaming a variable**: Changing `d` to `daysSinceCreation`.
-2.  **Extracting a function**: If you see a 5-line block inside an `if` that does something specific, extract it into a function with a descriptive name.
-3.  **Deleting dead code**: If you see a function that is no longer used or a comment that no longer applies, delete it.
-4.  **Simplifying an expression**: Replacing a complex `if/else` with a ternary operator or a guard clause.
+1. **Renaming a variable**: Changing `d` to `daysSinceCreation`.
+2. **Extracting a function**: If you see a 5-line block inside an `if` that does something specific, extract it into a function with a descriptive name.
+3. **Deleting dead code**: If you see a function that is no longer used or a comment that no longer applies, delete it.
+4. **Simplifying an expression**: Replacing a complex `if/else` with a ternary operator or a guard clause.
 
 ## Practical Example in TypeScript
 
