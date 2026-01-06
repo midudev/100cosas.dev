@@ -1,0 +1,21 @@
+{
+  "name": "100cosas.dev - Consejos para Programadores",
+  "short_name": "100cosas",
+  "description": "100 cosas que todo programador debería saber. Lee, aprende y marca tu progreso.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es",
+  "categories": ["education", "productivity", "developer tools"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
