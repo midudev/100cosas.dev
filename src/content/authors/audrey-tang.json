@@ -1,0 +1,11 @@
+{
+    "id": "audrey-tang",
+    "name": "Audrey Tang",
+    "initials": "AT",
+    "bio": {
+        "es": "Primera ministra digital de Taiwán y una de las hackers más influyentes del mundo. Programadora autodidacta desde los 8 años, ha contribuido a proyectos de software libre como Perl 6. Pionera en el uso de tecnología cívica para fortalecer la democracia y la participación ciudadana. Defensora del software de código abierto y la transparencia radical.",
+        "en": "First Digital Minister of Taiwan and one of the most influential hackers in the world. Self-taught programmer since age 8, she has contributed to free software projects like Perl 6. Pioneer in using civic technology to strengthen democracy and citizen participation. Advocate for open source software and radical transparency."
+    },
+    "x": "https://x.com/audaboris",
+    "github": "https://github.com/audreyt"
+}

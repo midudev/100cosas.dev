@@ -1,0 +1,11 @@
+{
+    "id": "joy-buolamwini",
+    "name": "Joy Buolamwini",
+    "initials": "JB",
+    "bio": {
+        "es": "Fundadora de la Algorithmic Justice League e investigadora del MIT Media Lab. Su trabajo pionero descubrió sesgos raciales y de género en sistemas de reconocimiento facial de grandes empresas tecnológicas. Su documental 'Coded Bias' expuso cómo los algoritmos pueden perpetuar la discriminación. Es una de las voces más importantes en ética de la IA.",
+        "en": "Founder of the Algorithmic Justice League and researcher at MIT Media Lab. Her pioneering work uncovered racial and gender biases in facial recognition systems from major tech companies. Her documentary 'Coded Bias' exposed how algorithms can perpetuate discrimination. She is one of the most important voices in AI ethics."
+    },
+    "x": "https://x.com/joaborish",
+    "github": "https://github.com/joybuolamwini"
+}

@@ -1,0 +1,10 @@
+{
+    "id": "fei-fei-li",
+    "name": "Fei-Fei Li",
+    "initials": "FL",
+    "bio": {
+        "es": "Profesora en Stanford y cocreadora de ImageNet, el dataset que revolucionó el deep learning y desencadenó la era moderna de la IA. Cofundadora de AI4ALL, organización que promueve la diversidad en inteligencia artificial. Defensora de una IA centrada en el ser humano que augmente nuestras capacidades en lugar de reemplazarnos.",
+        "en": "Professor at Stanford and co-creator of ImageNet, the dataset that revolutionized deep learning and triggered the modern AI era. Co-founder of AI4ALL, an organization promoting diversity in artificial intelligence. Advocate for human-centered AI that augments our capabilities instead of replacing us."
+    },
+    "x": "https://x.com/drfeifei"
+}

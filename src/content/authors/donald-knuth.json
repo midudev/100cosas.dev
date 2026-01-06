@@ -1,0 +1,9 @@
+{
+    "id": "donald-knuth",
+    "name": "Donald Knuth",
+    "initials": "DK",
+    "bio": {
+        "es": "Considerado el 'padre del análisis de algoritmos' y autor de la monumental obra 'The Art of Computer Programming'. Ganador del Premio Turing en 1974, también creó TeX, el sistema de composición tipográfica que revolucionó la publicación académica. Su rigor matemático y su búsqueda de la elegancia en el código lo convierten en una leyenda viva de la informática.",
+        "en": "Considered the 'father of algorithm analysis' and author of the monumental work 'The Art of Computer Programming'. Winner of the Turing Award in 1974, he also created TeX, the typesetting system that revolutionized academic publishing. His mathematical rigor and pursuit of code elegance make him a living legend in computer science."
+    }
+}

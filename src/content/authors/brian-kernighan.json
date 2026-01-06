@@ -1,0 +1,9 @@
+{
+    "id": "brian-kernighan",
+    "name": "Brian Kernighan",
+    "initials": "BK",
+    "bio": {
+        "es": "Co-autor del legendario libro 'The C Programming Language' junto a Dennis Ritchie, conocido simplemente como 'K&R'. Contribuyó al desarrollo de Unix y creó herramientas fundamentales como AWK. Su estilo de escritura claro y sus aforismos sobre programación han educado a generaciones enteras de desarrolladores.",
+        "en": "Co-author of the legendary 'The C Programming Language' book with Dennis Ritchie, known simply as 'K&R'. He contributed to Unix development and created fundamental tools like AWK. His clear writing style and programming aphorisms have educated entire generations of developers."
+    }
+}

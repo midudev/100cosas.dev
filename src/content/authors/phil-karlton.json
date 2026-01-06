@@ -1,0 +1,9 @@
+{
+    "id": "phil-karlton",
+    "name": "Phil Karlton",
+    "initials": "PK",
+    "bio": {
+        "es": "Ingeniero de software en Netscape durante la era dorada de los navegadores. Aunque su nombre no es tan conocido como otros, su frase sobre los 'dos problemas difíciles en informática' (nombrar cosas e invalidación de caché) se ha convertido en uno de los aforismos más citados en la historia del desarrollo de software.",
+        "en": "Software engineer at Netscape during the golden age of browsers. Although his name is not as well-known as others, his quote about the 'two hard problems in computer science' (naming things and cache invalidation) has become one of the most cited aphorisms in the history of software development."
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "id": "richard-feynman",
+    "name": "Richard Feynman",
+    "initials": "RF",
+    "bio": {
+        "es": "Premio Nobel de Física en 1965 por su trabajo en electrodinámica cuántica. Aunque no era programador, su filosofía sobre la comprensión profunda y la claridad en la explicación ha influido enormemente en cómo los desarrolladores piensan sobre la complejidad del código. Su famosa técnica de aprendizaje ('si no puedes explicarlo simplemente, no lo entiendes') es un mantra en la industria del software.",
+        "en": "Nobel Prize winner in Physics in 1965 for his work on quantum electrodynamics. Although not a programmer, his philosophy on deep understanding and clarity in explanation has greatly influenced how developers think about code complexity. His famous learning technique ('if you can't explain it simply, you don't understand it') is a mantra in the software industry."
+    }
+}

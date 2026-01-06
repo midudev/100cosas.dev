@@ -1,0 +1,11 @@
+{
+    "id": "martin-fowler",
+    "name": "Martin Fowler",
+    "initials": "MF",
+    "bio": {
+        "es": "Autor de 'Refactoring' y 'Patterns of Enterprise Application Architecture', libros que definieron cómo diseñamos software moderno. Chief Scientist en Thoughtworks y uno de los firmantes del Manifiesto Ágil. Es conocido por democratizar conceptos complejos de arquitectura de software y hacerlos accesibles para toda la industria.",
+        "en": "Author of 'Refactoring' and 'Patterns of Enterprise Application Architecture', books that defined how we design modern software. Chief Scientist at Thoughtworks and one of the signatories of the Agile Manifesto. He is known for democratizing complex software architecture concepts and making them accessible to the entire industry."
+    },
+    "x": "https://x.com/martinfowler",
+    "github": "https://github.com/martinfowler"
+}

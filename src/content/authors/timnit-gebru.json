@@ -1,0 +1,11 @@
+{
+    "id": "timnit-gebru",
+    "name": "Timnit Gebru",
+    "initials": "TG",
+    "bio": {
+        "es": "Fundadora del Distributed AI Research Institute (DAIR) y una de las investigadoras más influyentes en ética de la IA. Su trabajo en Google sobre los peligros de los modelos de lenguaje grandes provocó un debate global sobre responsabilidad corporativa en IA. Pionera en estudiar cómo los sistemas de IA pueden amplificar desigualdades sociales.",
+        "en": "Founder of the Distributed AI Research Institute (DAIR) and one of the most influential researchers in AI ethics. Her work at Google on the dangers of large language models sparked a global debate on corporate responsibility in AI. Pioneer in studying how AI systems can amplify social inequalities."
+    },
+    "x": "https://x.com/timnitGebru",
+    "github": "https://github.com/timnitgebru"
+}

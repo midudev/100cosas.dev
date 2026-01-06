@@ -1,0 +1,11 @@
+{
+    "id": "andrej-karpathy",
+    "name": "Andrej Karpathy",
+    "initials": "AK",
+    "bio": {
+        "es": "Cofundador de OpenAI y exdirector de IA en Tesla, donde lideró el equipo de Autopilot. Es uno de los investigadores más influyentes en deep learning y redes neuronales. Acuñó el término 'vibe coding' para describir un nuevo paradigma donde los desarrolladores describen lo que quieren en lenguaje natural y la IA genera el código.",
+        "en": "Co-founder of OpenAI and former Director of AI at Tesla, where he led the Autopilot team. He is one of the most influential researchers in deep learning and neural networks. He coined the term 'vibe coding' to describe a new paradigm where developers describe what they want in natural language and AI generates the code."
+    },
+    "x": "https://x.com/karpathy",
+    "github": "https://github.com/karpathy"
+}

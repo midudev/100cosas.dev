@@ -1,0 +1,11 @@
+{
+    "id": "cassidy-williams",
+    "name": "Cassidy Williams",
+    "initials": "CW",
+    "bio": {
+        "es": "Ingeniera de software, speaker y creadora de contenido con una de las comunidades más activas en tecnología. Ha trabajado en Amazon, CodePen, Netlify y actualmente en GitHub. Conocida por desmitificar la programación con humor y hacer que la tecnología sea más accesible. Su newsletter 'rendezvous with cassidoo' es leída por miles de desarrolladores cada semana.",
+        "en": "Software engineer, speaker, and content creator with one of the most active communities in tech. She has worked at Amazon, CodePen, Netlify, and currently at GitHub. Known for demystifying programming with humor and making technology more accessible. Her newsletter 'rendezvous with cassidoo' is read by thousands of developers every week."
+    },
+    "x": "https://x.com/cassidoo",
+    "github": "https://github.com/cassidoo"
+}

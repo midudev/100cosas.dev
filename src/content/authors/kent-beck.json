@@ -1,0 +1,11 @@
+{
+    "id": "kent-beck",
+    "name": "Kent Beck",
+    "initials": "KB",
+    "bio": {
+        "es": "Creador del Test-Driven Development (TDD) y de Extreme Programming (XP), metodologías que transformaron la forma en que escribimos software. Firmante original del Manifiesto Ágil y autor de libros fundamentales como 'Test Driven Development: By Example'. Su mantra 'Make it work, make it right, make it fast' es un pilar del desarrollo profesional.",
+        "en": "Creator of Test-Driven Development (TDD) and Extreme Programming (XP), methodologies that transformed how we write software. Original signatory of the Agile Manifesto and author of fundamental books like 'Test Driven Development: By Example'. His mantra 'Make it work, make it right, make it fast' is a pillar of professional development."
+    },
+    "x": "https://x.com/kentbeck",
+    "github": "https://github.com/kentbeck"
+}

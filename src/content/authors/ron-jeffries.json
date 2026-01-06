@@ -1,0 +1,11 @@
+{
+    "id": "ron-jeffries",
+    "name": "Ron Jeffries",
+    "initials": "RJ",
+    "bio": {
+        "es": "Uno de los tres fundadores de Extreme Programming junto a Kent Beck y Ward Cunningham. Firmante original del Manifiesto Ágil y autor prolífico sobre desarrollo ágil. Es conocido por su enfoque pragmático y sus advertencias sobre la sobreingeniería, abogando siempre por la simplicidad y el código que habla por sí mismo.",
+        "en": "One of the three founders of Extreme Programming along with Kent Beck and Ward Cunningham. Original signatory of the Agile Manifesto and prolific author on agile development. He is known for his pragmatic approach and warnings against over-engineering, always advocating for simplicity and code that speaks for itself."
+    },
+    "x": "https://x.com/ronjeffries",
+    "github": "https://github.com/ronjeffries"
+}

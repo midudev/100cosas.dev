@@ -1,0 +1,9 @@
+{
+    "id": "fred-brooks",
+    "name": "Fred Brooks",
+    "initials": "FB",
+    "bio": {
+        "es": "Autor de 'The Mythical Man-Month', uno de los libros más influyentes en la gestión de proyectos de software. Ganador del Premio Turing en 1999, lideró el desarrollo del IBM System/360 y su sistema operativo. Su ley ('añadir más gente a un proyecto retrasado lo retrasa más') sigue siendo dolorosamente relevante décadas después.",
+        "en": "Author of 'The Mythical Man-Month', one of the most influential books in software project management. Winner of the Turing Award in 1999, he led the development of the IBM System/360 and its operating system. His law ('adding more people to a late project makes it later') remains painfully relevant decades later."
+    }
+}

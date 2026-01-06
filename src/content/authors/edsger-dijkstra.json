@@ -1,0 +1,9 @@
+{
+    "id": "edsger-dijkstra",
+    "name": "Edsger W. Dijkstra",
+    "initials": "ED",
+    "bio": {
+        "es": "Pionero de la informática y ganador del Premio Turing en 1972. Creador del algoritmo de camino más corto que lleva su nombre y defensor acérrimo de la programación estructurada. Sus manuscritos escritos a mano (EWDs) son considerados tesoros de la sabiduría en ciencias de la computación, donde abogaba por la simplicidad y el rigor matemático como pilares del buen software.",
+        "en": "Pioneer of computer science and winner of the Turing Award in 1972. Creator of the shortest path algorithm that bears his name and a fierce advocate of structured programming. His handwritten manuscripts (EWDs) are considered treasures of computer science wisdom, where he advocated for simplicity and mathematical rigor as pillars of good software."
+    }
+}

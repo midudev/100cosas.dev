@@ -1,0 +1,11 @@
+{
+    "id": "sarah-drasner",
+    "name": "Sarah Drasner",
+    "initials": "SD",
+    "bio": {
+        "es": "Directora de Ingeniería en Google y anteriormente VP de Developer Experience en Netlify. Autora de 'SVG Animations' y reconocida speaker internacional. Pionera en animaciones web y defensora de la experiencia de desarrollador (DX) como factor clave para la productividad y la felicidad de los equipos de ingeniería.",
+        "en": "Director of Engineering at Google and formerly VP of Developer Experience at Netlify. Author of 'SVG Animations' and internationally recognized speaker. Pioneer in web animations and advocate for developer experience (DX) as a key factor for engineering team productivity and happiness."
+    },
+    "x": "https://x.com/sarah_edo",
+    "github": "https://github.com/sdras"
+}

@@ -1,0 +1,11 @@
+{
+    "id": "jeff-atwood",
+    "name": "Jeff Atwood",
+    "initials": "JA",
+    "bio": {
+        "es": "Co-fundador de Stack Overflow, la plataforma que revolucionó cómo los desarrolladores buscan y comparten conocimiento. Autor del influyente blog 'Coding Horror', donde ha escrito durante años sobre las realidades del desarrollo de software con un estilo directo y accesible que ha influido a millones de programadores.",
+        "en": "Co-founder of Stack Overflow, the platform that revolutionized how developers seek and share knowledge. Author of the influential blog 'Coding Horror', where he has written for years about the realities of software development with a direct and accessible style that has influenced millions of programmers."
+    },
+    "x": "https://x.com/codinghorror",
+    "github": "https://github.com/coding-horror"
+}

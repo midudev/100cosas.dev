@@ -1,0 +1,9 @@
+{
+    "id": "john-woods",
+    "name": "John Woods",
+    "initials": "JW",
+    "bio": {
+        "es": "Programador cuya identidad exacta se ha perdido en el tiempo, pero cuya cita sobre 'programar como si el mantenedor fuera un psicópata violento que sabe dónde vives' se ha convertido en una de las más memorables de la industria. Esta frase, popularizada en Usenet en los años 90, captura la esencia de escribir código mantenible.",
+        "en": "Programmer whose exact identity has been lost to time, but whose quote about 'programming as if the maintainer were a violent psychopath who knows where you live' has become one of the most memorable in the industry. This phrase, popularized on Usenet in the 90s, captures the essence of writing maintainable code."
+    }
+}

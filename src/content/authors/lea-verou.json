@@ -1,0 +1,11 @@
+{
+    "id": "lea-verou",
+    "name": "Lea Verou",
+    "initials": "LV",
+    "bio": {
+        "es": "Investigadora en el MIT y miembro del CSS Working Group del W3C, donde ayuda a diseñar el futuro de CSS. Creadora de herramientas populares como Prism.js y autora del libro 'CSS Secrets'. Su trabajo combina investigación académica con impacto práctico en los estándares web que usamos cada día.",
+        "en": "Researcher at MIT and member of the W3C CSS Working Group, where she helps design the future of CSS. Creator of popular tools like Prism.js and author of the book 'CSS Secrets'. Her work combines academic research with practical impact on the web standards we use every day."
+    },
+    "x": "https://x.com/LeaVerou",
+    "github": "https://github.com/leaverou"
+}
