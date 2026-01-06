@@ -48,24 +48,36 @@ Los bloques de código (fenced code blocks) deben tener **una línea en blanco a
 
 ❌ Incorrecto:
 
-```markdown
-### Ejemplo
+    ### Ejemplo
+    ```typescript
+    const x = 1;
+    ```
+    Más texto.
 
-```typescript
-const x = 1;
-```
-Más texto.
+✅ Correcto:
+
+    ### Ejemplo
+
+    ```typescript
+    const x = 1;
+    ```
+
+    Más texto.
+
+### MD009: Espacios al final de línea (trailing spaces)
+
+No dejes espacios en blanco al final de las líneas.
+
+❌ Incorrecto:
+
+```markdown
+Esto es un texto con espacios al final.   
 ```
 
 ✅ Correcto:
+
 ```markdown
-### Ejemplo
-
-```typescript
-const x = 1;
-```
-
-Más texto.
+Esto es un texto sin espacios al final.
 ```
 
 ## Resumen rápido
@@ -73,3 +85,4 @@ Más texto.
 1. Listas: `1. Item` (1 espacio, no 2)
 2. Encabezados: línea en blanco antes y después
 3. Bloques de código: línea en blanco antes y después
+4. Sin espacios al final de las líneas (trailing spaces)
