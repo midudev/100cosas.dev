@@ -1,0 +1,47 @@
+# https://100cosas.dev robots.txt
+# Optimizado para SEO
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://100cosas.dev/sitemap-index.xml
+
+# Crawl-delay recomendado para bots responsables
+Crawl-delay: 1
+
+# Bloquear acceso a recursos innecesarios
+Disallow: /_astro/
+Disallow: /404
+
+# Permitir específicamente las páginas importantes
+Allow: /consejo/
+Allow: /tip/
+Allow: /autor/
+Allow: /en/
+Allow: /es/
+
+# Bloquear bots de IA que consumen recursos sin aportar tráfico
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
