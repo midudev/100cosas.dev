@@ -1,0 +1,11 @@
+{
+    "id": "braulio-diez",
+    "name": "Braulio Diez",
+    "initials": "BD",
+    "bio": {
+        "es": "Ingeniero de Software y consultor, especializado en el ecosistema JavaScript y React. Es conocido por su enfoque pragmático del desarrollo y su capacidad para formar equipos de alto rendimiento, defendiendo la profesionalidad por encima del dogmatismo técnico.",
+        "en": "Software Engineer and consultant, specialized in the JavaScript and React ecosystem. He is known for his pragmatic approach to development and his ability to build high-performance teams, advocating for professionalism over technical dogmatism."
+    },
+    "x": "https://x.com/braulio_diez",
+    "github": "https://github.com/brauliodiez"
+}
