@@ -1,0 +1,11 @@
+{
+    "id": "jen-simmons",
+    "name": "Jen Simmons",
+    "initials": "JS",
+    "bio": {
+        "es": "Apple Evangelist en Web Developer Experience para Safari y WebKit. Anteriormente en Mozilla, donde creó el concepto de 'Intrinsic Web Design'. Pionera en CSS Grid y diseño web moderno. Su trabajo ha transformado cómo pensamos sobre layouts en la web, pasando de hacks con floats a sistemas de diseño verdaderamente nativos.",
+        "en": "Apple Evangelist for Web Developer Experience on Safari and WebKit. Previously at Mozilla, where she created the concept of 'Intrinsic Web Design'. Pioneer in CSS Grid and modern web design. Her work has transformed how we think about layouts on the web, moving from float hacks to truly native design systems."
+    },
+    "x": "https://x.com/jensimmons",
+    "github": "https://github.com/jensimmons"
+}

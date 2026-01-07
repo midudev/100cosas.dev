@@ -1,0 +1,11 @@
+{
+    "id": "addy-osmani",
+    "name": "Addy Osmani",
+    "initials": "AO",
+    "bio": {
+        "es": "Líder de ingeniería en Google Chrome, especializado en rendimiento web y herramientas para desarrolladores. Autor de 'Learning JavaScript Design Patterns' e 'Image Optimization'. Ha liderado iniciativas clave como Lighthouse, Workbox y los Core Web Vitals. Su trabajo ha definido cómo medimos y mejoramos el rendimiento en la web moderna.",
+        "en": "Engineering leader at Google Chrome, specialized in web performance and developer tools. Author of 'Learning JavaScript Design Patterns' and 'Image Optimization'. He has led key initiatives like Lighthouse, Workbox, and Core Web Vitals. His work has defined how we measure and improve performance on the modern web."
+    },
+    "x": "https://x.com/addyosmani",
+    "github": "https://github.com/addyosmani"
+}

@@ -1,0 +1,11 @@
+{
+    "id": "john-carmack",
+    "name": "John Carmack",
+    "initials": "JC",
+    "bio": {
+        "es": "Legendario programador de videojuegos, co-fundador de id Software y creador de Doom, Quake y Wolfenstein 3D. Pionero en renderizado 3D en tiempo real. Después de revolucionar los videojuegos, pasó a trabajar en VR en Oculus y ahora se dedica a AGI. Conocido por su enfoque obsesivo en la optimización y el código limpio.",
+        "en": "Legendary game programmer, co-founder of id Software and creator of Doom, Quake, and Wolfenstein 3D. Pioneer in real-time 3D rendering. After revolutionizing video games, he moved to VR at Oculus and now works on AGI. Known for his obsessive focus on optimization and clean code."
+    },
+    "x": "https://x.com/ID_AA_Carmack",
+    "github": "https://github.com/id-Software"
+}

@@ -1,0 +1,11 @@
+{
+    "id": "tania-rascia",
+    "name": "Tania Rascia",
+    "initials": "TR",
+    "bio": {
+        "es": "Desarrolladora full-stack y escritora técnica. Su blog es uno de los recursos de aprendizaje de desarrollo web más populares. Conocida por explicar conceptos complejos de forma clara y accesible. Trabajó en DOKU.",
+        "en": "Full-stack developer and technical writer. Her blog is one of the most popular web development learning resources. Known for explaining complex concepts in a clear and accessible way. Worked at DOKU."
+    },
+    "x": "https://x.com/taniarascia",
+    "github": "https://github.com/taniarascia"
+}

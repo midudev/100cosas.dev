@@ -1,0 +1,11 @@
+{
+    "id": "dhh",
+    "name": "David Heinemeier Hansson",
+    "initials": "DHH",
+    "bio": {
+        "es": "Creador de Ruby on Rails y co-fundador de Basecamp (37signals). Su filosofía de 'convención sobre configuración' y 'Majestic Monolith' han desafiado las tendencias dominantes en arquitectura de software. También es piloto de carreras y autor de varios libros sobre trabajo y productividad.",
+        "en": "Creator of Ruby on Rails and co-founder of Basecamp (37signals). His philosophy of 'convention over configuration' and 'Majestic Monolith' have challenged dominant trends in software architecture. He's also a race car driver and author of several books on work and productivity."
+    },
+    "x": "https://x.com/dhh",
+    "github": "https://github.com/dhh"
+}

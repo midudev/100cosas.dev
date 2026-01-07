@@ -1,0 +1,11 @@
+{
+    "id": "radia-perlman",
+    "name": "Radia Perlman",
+    "initials": "RP",
+    "bio": {
+        "es": "Conocida como 'la madre de Internet', inventó el Spanning Tree Protocol (STP) que hace posible que las redes Ethernet funcionen a gran escala. Tiene más de 100 patentes y ha redefinido cómo pensamos sobre redes y seguridad. No le gusta el título de 'madre de Internet' porque considera que Internet es obra de muchas personas.",
+        "en": "Known as 'the mother of the Internet', she invented the Spanning Tree Protocol (STP) that makes large-scale Ethernet networks possible. She holds over 100 patents and has redefined how we think about networking and security. She dislikes the 'mother of the Internet' title because she considers the Internet to be the work of many people."
+    },
+    "x": "",
+    "github": ""
+}

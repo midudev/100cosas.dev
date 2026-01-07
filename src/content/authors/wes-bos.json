@@ -1,0 +1,11 @@
+{
+    "id": "wes-bos",
+    "name": "Wes Bos",
+    "initials": "WB",
+    "bio": {
+        "es": "Creador de cursos de desarrollo web como JavaScript30, React for Beginners y Syntax.fm (podcast). Canadiense conocido por su estilo de enseñanza práctico y su enfoque en aprender haciendo.",
+        "en": "Creator of web development courses like JavaScript30, React for Beginners, and Syntax.fm (podcast). Canadian known for his practical teaching style and learn-by-doing approach."
+    },
+    "x": "https://x.com/wesbos",
+    "github": "https://github.com/wesbos"
+}

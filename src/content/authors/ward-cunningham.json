@@ -1,0 +1,11 @@
+{
+    "id": "ward-cunningham",
+    "name": "Ward Cunningham",
+    "initials": "WC",
+    "bio": {
+        "es": "Inventor del wiki, co-autor del Manifiesto Ágil y creador del concepto de 'deuda técnica'. Su trabajo ha definido cómo los equipos colaboran y piensan sobre el software. También creó el framework CRC cards para diseño orientado a objetos.",
+        "en": "Inventor of the wiki, co-author of the Agile Manifesto, and creator of the 'technical debt' concept. His work has defined how teams collaborate and think about software. He also created the CRC cards framework for object-oriented design."
+    },
+    "x": "https://x.com/WardCunningham",
+    "github": "https://github.com/WardCunningham"
+}

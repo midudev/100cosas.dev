@@ -1,0 +1,11 @@
+{
+    "id": "kelsey-hightower",
+    "name": "Kelsey Hightower",
+    "initials": "KH",
+    "bio": {
+        "es": "Ingeniero principal en Google Cloud y una de las voces más respetadas en DevOps y Kubernetes. Conocido por su estilo directo y sus demos en vivo legendarias. Autodidacta que empezó como administrador de sistemas, ha inspirado a miles de desarrolladores a simplificar la infraestructura.",
+        "en": "Principal engineer at Google Cloud and one of the most respected voices in DevOps and Kubernetes. Known for his direct style and legendary live demos. Self-taught, starting as a systems administrator, he has inspired thousands of developers to simplify infrastructure."
+    },
+    "x": "https://x.com/kelseyhightower",
+    "github": "https://github.com/kelseyhightower"
+}

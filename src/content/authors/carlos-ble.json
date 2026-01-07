@@ -1,0 +1,11 @@
+{
+    "id": "carlos-ble",
+    "name": "Carlos Blé",
+    "initials": "CB",
+    "bio": {
+        "es": "Fundador de Lean Mind y autor de 'Diseño Ágil con TDD', el primer libro en español sobre Test-Driven Development. Con más de 20 años de experiencia, es uno de los referentes del desarrollo profesional de software en el mundo hispanohablante. Formador, conferenciante y defensor del software bien hecho y la mejora continua.",
+        "en": "Founder of Lean Mind and author of 'Diseño Ágil con TDD', the first book in Spanish about Test-Driven Development. With over 20 years of experience, he is one of the leading figures in professional software development in the Spanish-speaking world. Trainer, speaker, and advocate for well-crafted software and continuous improvement."
+    },
+    "x": "https://x.com/carlosble",
+    "github": "https://github.com/carlosble"
+}

@@ -1,0 +1,11 @@
+{
+    "id": "julia-evans",
+    "name": "Julia Evans",
+    "initials": "JE",
+    "bio": {
+        "es": "Creadora de Wizard Zines, explicaciones visuales de temas técnicos complejos como networking, Linux y Git. Su enfoque de 'aprender en público' y hacer preguntas 'tontas' ha inspirado a una generación de desarrolladores a perder el miedo a no saber. Ingeniera en Stripe.",
+        "en": "Creator of Wizard Zines, visual explanations of complex technical topics like networking, Linux, and Git. Her approach of 'learning in public' and asking 'dumb' questions has inspired a generation of developers to lose the fear of not knowing. Engineer at Stripe."
+    },
+    "x": "https://x.com/b0rk",
+    "github": "https://github.com/jvns"
+}

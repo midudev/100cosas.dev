@@ -1,0 +1,11 @@
+{
+    "id": "guillermo-rauch",
+    "name": "Guillermo Rauch",
+    "initials": "GR",
+    "bio": {
+        "es": "CEO de Vercel y creador de Next.js, Socket.io y Mongoose. Argentino que revolucionó el desarrollo web moderno con su filosofía de deploy instantáneo y experiencia de desarrollador. Su mantra 'Deploy on Friday' desafía el miedo tradicional de la industria.",
+        "en": "CEO of Vercel and creator of Next.js, Socket.io, and Mongoose. Argentine who revolutionized modern web development with his philosophy of instant deploy and developer experience. His 'Deploy on Friday' mantra challenges the industry's traditional fear."
+    },
+    "x": "https://x.com/rauchg",
+    "github": "https://github.com/rauchg"
+}

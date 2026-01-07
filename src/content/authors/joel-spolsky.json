@@ -1,0 +1,11 @@
+{
+    "id": "joel-spolsky",
+    "name": "Joel Spolsky",
+    "initials": "JS",
+    "bio": {
+        "es": "Co-fundador de Stack Overflow y Trello, ex-gerente de programa en Microsoft Excel. Su blog 'Joel on Software' ha influenciado a generaciones de programadores. Formuló la Ley de las Abstracciones con Fugas y el Test de Joel para evaluar equipos de desarrollo.",
+        "en": "Co-founder of Stack Overflow and Trello, former program manager at Microsoft Excel. His blog 'Joel on Software' has influenced generations of programmers. He formulated the Law of Leaky Abstractions and the Joel Test for evaluating development teams."
+    },
+    "x": "https://x.com/spolsky",
+    "github": "https://github.com/spolsky"
+}
