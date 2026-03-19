@@ -12,11 +12,11 @@
     "generate:og": "node scripts/generate-og-image.mjs"
   },
   "dependencies": {
-    "@astrojs/mdx": "4.3.13",
-    "@astrojs/sitemap": "3.6.0",
+    "@astrojs/mdx": "5.0.2",
+    "@astrojs/sitemap": "3.7.1",
     "@tailwindcss/typography": "0.5.19",
     "@tailwindcss/vite": "4.1.18",
-    "astro": "5.16.6",
+    "astro": "6.0.6",
     "geist": "^1.7.0",
     "tailwindcss": "4.1.18"
   },

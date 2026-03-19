@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from "astro:content"
+import { getCollection, getEntry, render } from "astro:content"
 import Layout from "../../../layouts/Layout.astro"
 import Navbar from "../../../components/Navbar.astro"
 import Footer from "../../../components/Footer.astro"
@@ -10,7 +10,7 @@ export async function getStaticPaths() {
     return id.startsWith("es/")
   })
   return tipsEntries.map((entry) => {
-    const slug = entry.slug.replace(/^es\//, "")
+    const slug = entry.id.replace(/^es\//, "")
     return {
       params: { slug },
       props: { entry },
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props
-const { Content } = await entry.render()
+const { Content } = await render(entry)
 const { id, title, category, author: authorId, categoryColor } = entry.data
 
 const lang = getLangFromUrl(Astro.url)

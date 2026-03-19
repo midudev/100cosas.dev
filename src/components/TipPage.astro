@@ -1,5 +1,5 @@
 ---
-import { getEntry, type CollectionEntry } from "astro:content"
+import { getEntry, render, type CollectionEntry } from "astro:content"
 import Layout from "../layouts/Layout.astro"
 import Navbar from "./Navbar.astro"
 import Footer from "./Footer.astro"
@@ -20,8 +20,9 @@ interface Props {
 }
 
 const { entry, total, alternateUrl, prev, next } = Astro.props
-const { Content } = await entry.render()
+const { Content } = await render(entry)
 const { id, title, category, author: authorId, categoryColor } = entry.data
+const description = (entry.body ?? "").slice(0, 160).replace(/[#>]/g, "").trim()
 
 const lang = (Astro.currentLocale as "es" | "en") || "es"
 const t = useTranslations(lang)
@@ -44,7 +45,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: title,
-  description: entry.body.slice(0, 160).replace(/[#>]/g, "").trim(),
+  description,
   image: `https://100cosas.dev/authors/${authorEntry.data.id}.webp`,
   author: {
     "@type": "Person",
@@ -64,7 +65,7 @@ const jsonLd = {
 
 <Layout
   title={`${title} | 100cosas.dev`}
-  description={entry.body.slice(0, 160).replace(/[#>]/g, "").trim()}
+  description={description}
   ogType="article"
 >
   <!-- Schema.org Microdata -->
