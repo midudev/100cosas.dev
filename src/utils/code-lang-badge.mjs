@@ -26,7 +26,7 @@ const LANGS = {
   csharp: { name: 'C#', icon: 'csharp', color: '512BD4' },
   cs: { name: 'C#', icon: 'csharp', color: '512BD4' },
   cpp: { name: 'C++', icon: 'cplusplus', color: '00599C' },
-  c: { name: 'C', icon: 'c', color: 'A8B9CC' },
+  c: { name: 'C', localIcon: '/icons/langs/c.svg' },
   yaml: { name: 'YAML', icon: 'yaml', color: 'CB171E' },
   yml: { name: 'YAML', icon: 'yaml', color: 'CB171E' },
   markdown: { name: 'Markdown', icon: 'markdown', color: 'ffffff' },

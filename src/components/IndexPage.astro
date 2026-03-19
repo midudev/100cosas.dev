@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro"
 import Navbar from "./Navbar.astro"
 import Hero from "./Hero.astro"
+import BookCTA from "./BookCTA.astro"
 import FilterBar from "./FilterBar.astro"
 import TipCard from "./TipCard.astro"
 import Footer from "./Footer.astro"
@@ -48,6 +49,7 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 
   <main id="main-content" tabindex="-1" class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 pb-24 w-full">
     <Hero />
+    <BookCTA />
     <FilterBar />
 
     <div

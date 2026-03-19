@@ -1,0 +1,187 @@
+---
+import { useTranslations } from "../i18n/utils"
+
+const lang = (Astro.currentLocale || "es") as "es" | "en"
+const t = useTranslations(lang)
+
+const pdfUrl = `/100cosas-${lang}.pdf`
+const epubUrl = `/100cosas-${lang}.epub`
+---
+
+<section class="mb-10">
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+
+    <button
+      type="button"
+      id="open-download-modal"
+      class="book-btn-secondary group inline-flex items-center gap-3 px-5 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/[0.1] transition-all"
+    >
+      <span class="flex items-center justify-center size-9 rounded-lg bg-sky-500/10 text-sky-400 shrink-0 group-hover:bg-sky-500/15 transition-colors">
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </span>
+      <span class="text-left">
+        <span class="block text-sm font-medium text-neutral-100">{t("book.download")}</span>
+        <span class="block text-[11px] text-neutral-500">{t("book.download_desc")}</span>
+      </span>
+    </button>
+
+    <a
+      href="#"
+      class="book-btn-primary group inline-flex items-center gap-3 px-5 py-3 rounded-xl border border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/15 hover:to-orange-500/15 hover:border-amber-500/30 transition-all"
+    >
+      <span class="flex items-center justify-center size-9 rounded-lg bg-amber-500/15 text-amber-400 shrink-0 group-hover:bg-amber-500/20 transition-colors">
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+          <path d="M8 7h8" />
+          <path d="M8 11h6" />
+        </svg>
+      </span>
+      <span class="text-left">
+        <span class="block text-sm font-medium text-amber-100">{t("book.buy")}</span>
+        <span class="block text-[11px] text-amber-400/60">{t("book.buy_desc")}</span>
+      </span>
+      <svg class="size-3.5 text-amber-400/40 ml-1" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M4.53 4.75A.75.75 0 015.28 4h6.01a.75.75 0 01.75.75v6.01a.75.75 0 01-1.5 0V6.31l-5.263 5.263a.75.75 0 01-1.06-1.06L9.44 5.25H5.28a.75.75 0 01-.75-.75z" />
+      </svg>
+    </a>
+
+  </div>
+</section>
+
+<!-- Download Modal -->
+<div
+  id="download-modal"
+  class="fixed inset-0 z-[100] hidden items-center justify-center"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="download-modal-title"
+>
+  <div id="download-modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+  <div class="download-modal-content relative w-full max-w-md mx-4 rounded-2xl border border-white/[0.08] bg-[#0a0a0a] p-6 sm:p-8 shadow-2xl">
+
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 id="download-modal-title" class="text-lg font-medium text-neutral-100">{t("book.modal_title")}</h2>
+        <p class="text-sm text-neutral-500 mt-1">{t("book.modal_desc")}</p>
+      </div>
+      <button
+        type="button"
+        id="close-download-modal"
+        aria-label={t("book.close")}
+        class="flex items-center justify-center size-8 rounded-lg text-neutral-500 hover:text-neutral-300 hover:bg-white/[0.05] transition-all shrink-0"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="grid gap-3">
+      <a
+        href={pdfUrl}
+        download
+        class="download-format-card group flex items-center gap-4 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-sky-500/20 transition-all"
+      >
+        <span class="flex items-center justify-center size-11 rounded-xl bg-red-500/10 text-red-400 shrink-0">
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="12" y1="18" x2="12" y2="12" />
+            <polyline points="9 15 12 18 15 15" />
+          </svg>
+        </span>
+        <span class="flex-1 min-w-0">
+          <span class="block text-sm font-medium text-neutral-100">{t("book.format_pdf")}</span>
+          <span class="block text-[12px] text-neutral-500 mt-0.5">{t("book.format_pdf_desc")}</span>
+        </span>
+        <svg class="size-4 text-neutral-600 group-hover:text-sky-400 transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </a>
+
+      <a
+        href={epubUrl}
+        download
+        class="download-format-card group flex items-center gap-4 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-sky-500/20 transition-all"
+      >
+        <span class="flex items-center justify-center size-11 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0">
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+          </svg>
+        </span>
+        <span class="flex-1 min-w-0">
+          <span class="block text-sm font-medium text-neutral-100">{t("book.format_epub")}</span>
+          <span class="block text-[12px] text-neutral-500 mt-0.5">{t("book.format_epub_desc")}</span>
+        </span>
+        <svg class="size-4 text-neutral-600 group-hover:text-sky-400 transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  #download-modal.is-open {
+    display: flex;
+  }
+
+  #download-modal.is-open .download-modal-content {
+    animation: modal-in 0.2s ease-out;
+  }
+
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+</style>
+
+<script>
+  function initBookModal() {
+    const openBtn = document.getElementById("open-download-modal")
+    const closeBtn = document.getElementById("close-download-modal")
+    const backdrop = document.getElementById("download-modal-backdrop")
+    const modal = document.getElementById("download-modal")
+    if (!openBtn || !closeBtn || !backdrop || !modal) return
+
+    const open = () => {
+      modal.classList.add("is-open")
+      closeBtn.focus()
+    }
+
+    const close = () => {
+      modal.classList.remove("is-open")
+      openBtn.focus()
+    }
+
+    openBtn.addEventListener("click", open)
+    closeBtn.addEventListener("click", close)
+    backdrop.addEventListener("click", close)
+
+    modal.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close()
+    })
+  }
+
+  initBookModal()
+  document.addEventListener("astro:page-load", initBookModal)
+</script>

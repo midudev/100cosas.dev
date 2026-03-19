@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro"
 import Navbar from "../../components/Navbar.astro"
 import Hero from "../../components/Hero.astro"
+import BookCTA from "../../components/BookCTA.astro"
 import TipCard from "../../components/TipCard.astro"
 import Footer from "../../components/Footer.astro"
 import { getCollection } from "astro:content"
@@ -30,6 +31,7 @@ const sortedTips = tipsEntries.sort(
 
   <main id="main-content" tabindex="-1" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
     <Hero />
+    <BookCTA />
 
     <div
       id="tips-grid"
