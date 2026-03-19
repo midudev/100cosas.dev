@@ -43,16 +43,20 @@ async function generateFormats() {
       'javascript', 'typescript', 'jsx', 'tsx',
       'html', 'css', 'json', 'bash', 'sh',
       'python', 'rust', 'go', 'php', 'ruby',
-      'sql', 'yaml', 'markdown', 'astro'
+      'sql', 'yaml', 'xml', 'markdown', 'astro',
+      'svelte', 'c'
     ]
   });
+
+  const loadedLangs = new Set(highlighter.getLoadedLanguages());
 
   marked.use({
     async: true,
     renderer: {
       code({ text, lang }) {
+        const language = lang && loadedLangs.has(lang) ? lang : 'text';
         return highlighter.codeToHtml(text, {
-          lang: lang || 'text',
+          lang: language,
           theme: 'github-light'
         });
       }
