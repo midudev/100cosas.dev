@@ -6,9 +6,10 @@ import { routes } from "../i18n/ui"
 interface Props {
   total?: number
   alternateUrl?: string
+  showSearch?: boolean
 }
 
-const { total = 100, alternateUrl } = Astro.props
+const { total = 100, alternateUrl, showSearch = false } = Astro.props
 
 const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
@@ -20,126 +21,241 @@ const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
 
 <nav
   id="navbar"
+  aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}
   data-total={total}
-  class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/5 supports-backdrop-filter:bg-slate-950/60"
+  class="navbar sticky top-0 z-50 border-b border-white/[0.06]"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16 relative">
-      <!-- Logo area -->
-      <div class="flex items-center z-10">
-        <a
-          href={getRelativeLocaleUrl(lang, "/")}
-          class="group flex items-center gap-2 transition-all duration-300"
-        >
-          <span
-            class="text-sky-400 font-mono text-xl font-black tracking-tighter transition-transform group-hover:scale-[1.02]"
-          >
-            &lt;<span
-              class="text-white group-hover:text-sky-400 transition-colors"
-              >100cosas</span
-            >.dev /&gt;
-          </span>
-        </a>
-      </div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center h-14 gap-4">
 
-      <!-- Progress Section (Centered) -->
-      <div
-        class="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-3"
+      <a
+        href={getRelativeLocaleUrl(lang, "/")}
+        class="navbar-logo group flex items-center gap-1.5 shrink-0"
       >
-        <div class="w-32 h-1 bg-slate-800 rounded-full overflow-hidden">
-          <div
-            id="progress-bar"
-            class="h-full bg-sky-500 w-[0%]"
-            style="transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
-          >
-          </div>
-        </div>
-        <span
-          id="progress-text"
-          class="text-xs font-mono text-slate-400 font-medium tabular-nums min-w-[85px]"
-          data-text-read={t("nav.read")}>0/{total} {t("nav.read")}</span
-        >
-      </div>
+        <span class="font-pixel text-lg text-sky-400 tracking-tight leading-none">100</span>
+        <span class="text-[13px] text-neutral-500 group-hover:text-neutral-300 transition-colors leading-none">cosas.dev</span>
+      </a>
 
-      <!-- Right Actions -->
-      <div class="flex items-center gap-1 z-10">
-        <div class="hidden md:flex items-center gap-1">
+      {showSearch && (
+        <div class="navbar-search hidden md:flex items-center flex-1 max-w-md mx-auto">
+          <label for="tips-search" class="sr-only">{t("nav.search")}</label>
+          <div class="relative w-full">
+            <svg class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-neutral-600" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+            </svg>
+            <input
+              id="tips-search"
+              type="search"
+              inputmode="search"
+              autocomplete="off"
+              spellcheck="false"
+              aria-keyshortcuts="/"
+              aria-describedby="tips-search-hint tips-search-status"
+              placeholder={t("nav.search_placeholder")}
+              class="navbar-search-input w-full rounded-lg border border-white/[0.06] bg-white/[0.03] pl-8 pr-10 py-1.5 text-[12px] text-neutral-200 placeholder:text-neutral-600 focus:border-sky-500/30 focus:bg-white/[0.05] transition-all"
+            />
+            <kbd class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-white/[0.1] bg-white/[0.03] px-1.5 py-0.5 text-[10px] leading-none text-neutral-600 font-mono">/</kbd>
+          </div>
+          <span id="tips-search-hint" class="sr-only">{t("nav.search_shortcut")}</span>
+          <span
+            id="tips-search-status"
+            data-results-label={t("nav.search_results")}
+            class="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></span>
+        </div>
+      )}
+
+      <div class="hidden md:flex items-center gap-1 shrink-0 ml-auto">
+        <div class="navbar-progress flex items-center gap-2.5 px-2">
+          <div class="w-20 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
+            <div
+              id="progress-bar"
+              class="h-full bg-sky-500/80 rounded-full w-[0%]"
+              style="transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
+            >
+            </div>
+          </div>
+          <span
+            id="progress-text"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            class="text-[11px] text-neutral-600 tabular-nums whitespace-nowrap"
+            data-text-read={t("nav.read")}><span class="font-pixel text-sky-400/60">0/{total}</span> <span class="text-neutral-700">{t("nav.read")}</span></span
+          >
+        </div>
+
+        <div class="navbar-separator"></div>
+
+        <div class="flex items-center">
           <a
             href={getRelativeLocaleUrl(lang, `/${aboutPath}`)}
-            class="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/5"
+            class="navbar-link text-[12px] text-neutral-500 hover:text-neutral-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-white/[0.03]"
           >
             {t("nav.about")}
           </a>
           <a
             href="https://github.com/midudev/100cosas.dev"
             target="_blank"
-            class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-lg transition-all hover:bg-white/5"
+            rel="noopener noreferrer"
+            aria-label={lang === "es" ? "GitHub (se abre en una pestaña nueva)" : "GitHub (opens in a new tab)"}
+            class="navbar-link text-[12px] text-neutral-500 hover:text-neutral-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-white/[0.03] flex items-center gap-1"
           >
-            <span>{t("nav.github")}</span>
-            <svg
-              class="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-              ></path></svg
-            >
+            GitHub
+            <svg class="size-3 opacity-40" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M4.53 4.75A.75.75 0 015.28 4h6.01a.75.75 0 01.75.75v6.01a.75.75 0 01-1.5 0V6.31l-5.263 5.263a.75.75 0 01-1.06-1.06L9.44 5.25H5.28a.75.75 0 01-.75-.75z" />
+            </svg>
           </a>
-
-          <div class="h-4 w-px bg-white/10 mx-2"></div>
-
-          <!-- Language Switcher -->
-          <div
-            class="flex gap-1 bg-white/5 p-1 rounded-lg border border-white/5"
-          >
-            <a
-              href={esUrl}
-              class:list={[
-                "px-2 py-1 text-[10px] font-bold rounded transition-all",
-                lang === "es"
-                  ? "bg-sky-500 text-white shadow-lg"
-                  : "text-slate-500 hover:text-slate-300",
-              ]}
-            >
-              ES
-            </a>
-            <a
-              href={enUrl}
-              class:list={[
-                "px-2 py-1 text-[10px] font-bold rounded transition-all",
-                lang === "en"
-                  ? "bg-sky-500 text-white shadow-lg"
-                  : "text-slate-500 hover:text-slate-300",
-              ]}
-            >
-              EN
-            </a>
-          </div>
         </div>
 
-        <!-- Mobile Progress -->
-        <div class="flex md:hidden items-center gap-3">
+        <div class="navbar-separator"></div>
+
+        <div class="flex items-center gap-0.5 text-[11px] px-1">
+          <a
+            href={esUrl}
+            aria-label="Cambiar idioma a español"
+            aria-current={lang === "es" ? "page" : undefined}
+            class:list={[
+              "px-2 py-1 rounded-md transition-all leading-none",
+              lang === "es"
+                ? "bg-sky-500/10 text-sky-400"
+                : "text-neutral-600 hover:text-neutral-400 hover:bg-white/[0.03]",
+            ]}
+          >
+            ES
+          </a>
+          <a
+            href={enUrl}
+            aria-label="Switch language to English"
+            aria-current={lang === "en" ? "page" : undefined}
+            class:list={[
+              "px-2 py-1 rounded-md transition-all leading-none",
+              lang === "en"
+                ? "bg-sky-500/10 text-sky-400"
+                : "text-neutral-600 hover:text-neutral-400 hover:bg-white/[0.03]",
+            ]}
+          >
+            EN
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="flex md:hidden items-center gap-3 ml-auto">
+        {showSearch && (
+          <button
+            type="button"
+            id="mobile-search-toggle"
+            aria-label={t("nav.search")}
+            class="text-neutral-500 hover:text-neutral-300 transition-colors p-1.5"
+          >
+            <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        )}
+
+        <div class="flex items-center gap-2">
           <span
             id="progress-text-mobile"
-            class="text-[10px] font-mono text-sky-400 font-bold">0/{total}</span
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            class="text-[10px] font-pixel text-sky-400/60 tabular-nums leading-none">0/{total}</span
           >
-          <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden">
+          <div class="w-12 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
             <div
               id="progress-bar-mobile"
-              class="h-full bg-sky-500 w-[0%]"
+              class="h-full bg-sky-500/80 rounded-full w-[0%]"
               style="transition: width 0.5s ease;"
             >
             </div>
           </div>
         </div>
+
+        <div class="flex gap-0.5 text-[10px]">
+          <a
+            href={esUrl}
+            aria-label="Cambiar idioma a español"
+            aria-current={lang === "es" ? "page" : undefined}
+            class:list={[
+              "px-1.5 py-0.5 rounded transition-all leading-none",
+              lang === "es"
+                ? "bg-sky-500/10 text-sky-400"
+                : "text-neutral-600",
+            ]}
+          >
+            ES
+          </a>
+          <a
+            href={enUrl}
+            aria-label="Switch language to English"
+            aria-current={lang === "en" ? "page" : undefined}
+            class:list={[
+              "px-1.5 py-0.5 rounded transition-all leading-none",
+              lang === "en"
+                ? "bg-sky-500/10 text-sky-400"
+                : "text-neutral-600",
+            ]}
+          >
+            EN
+          </a>
+        </div>
       </div>
+
     </div>
   </div>
+
+  {showSearch && (
+    <div
+      id="mobile-search-bar"
+      class="md:hidden overflow-hidden transition-all duration-200 ease-out"
+      style="max-height: 0;"
+    >
+      <div class="px-4 pb-3 pt-1">
+        <label for="tips-search-mobile" class="sr-only">{t("nav.search")}</label>
+        <div class="relative">
+          <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-neutral-600" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+          </svg>
+          <input
+            id="tips-search-mobile"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder={t("nav.search_placeholder")}
+            class="navbar-search-input w-full rounded-lg border border-white/[0.06] bg-white/[0.03] pl-9 pr-4 py-2 text-[13px] text-neutral-200 placeholder:text-neutral-600 focus:border-sky-500/30 focus:bg-white/[0.05] transition-all"
+          />
+        </div>
+      </div>
+    </div>
+  )}
 </nav>
+
+<style>
+  .navbar {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    background: rgba(5, 5, 5, 0.82);
+  }
+
+  .navbar-separator {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 0 4px;
+    flex-shrink: 0;
+  }
+
+  .navbar-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+</style>
 
 <script>
   const STORAGE_KEY = "read-tips"
@@ -209,11 +325,38 @@ const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
     }
   }
 
-  // Initialize checkboxes and progress
+  function initMobileSearch() {
+    const toggle = document.getElementById("mobile-search-toggle")
+    const bar = document.getElementById("mobile-search-bar")
+    const desktopInput = document.getElementById("tips-search") as HTMLInputElement | null
+    const mobileInput = document.getElementById("tips-search-mobile") as HTMLInputElement | null
+
+    if (toggle && bar) {
+      toggle.addEventListener("click", () => {
+        const isOpen = bar.style.maxHeight !== "0px" && bar.style.maxHeight !== ""
+        if (isOpen) {
+          bar.style.maxHeight = "0px"
+        } else {
+          bar.style.maxHeight = "60px"
+          mobileInput?.focus()
+        }
+      })
+    }
+
+    if (desktopInput && mobileInput) {
+      desktopInput.addEventListener("input", () => {
+        mobileInput.value = desktopInput.value
+      })
+      mobileInput.addEventListener("input", () => {
+        desktopInput.value = mobileInput.value
+        desktopInput.dispatchEvent(new Event("input", { bubbles: true }))
+      })
+    }
+  }
+
   function init() {
     const readTips = getReadTips()
 
-    // Update all checkboxes on the page
     const checkboxes = document.querySelectorAll(".read-toggle")
     checkboxes.forEach((checkbox) => {
       const id = checkbox.getAttribute("data-id")
@@ -221,18 +364,11 @@ const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
     })
 
     updateProgress()
+    initMobileSearch()
   }
 
-  // Use event delegation for better reliability
   document.addEventListener("change", handleCheckboxChange)
 
-  // Run on initial load and handle possible racing conditions
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init)
-  } else {
-    init()
-  }
-
-  // Support for Astro View Transitions if used
-  document.addEventListener("astro:after-swap", init)
+  init()
+  document.addEventListener("astro:page-load", init)
 </script>
