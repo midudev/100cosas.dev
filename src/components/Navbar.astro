@@ -15,8 +15,6 @@ const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
 
 const aboutPath = routes[lang].about
-const esUrl = lang === "es" ? Astro.url.pathname : alternateUrl || "/"
-const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
 ---
 
 <nav
@@ -111,36 +109,6 @@ const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
           </a>
         </div>
 
-        <div class="navbar-separator"></div>
-
-        <div class="flex items-center gap-0.5 text-[11px] px-1">
-          <a
-            href={esUrl}
-            aria-label="Cambiar idioma a español"
-            aria-current={lang === "es" ? "page" : undefined}
-            class:list={[
-              "px-2 py-1 rounded-md transition-all leading-none",
-              lang === "es"
-                ? "bg-sky-500/10 text-sky-400"
-                : "text-neutral-600 hover:text-neutral-400 hover:bg-white/[0.03]",
-            ]}
-          >
-            ES
-          </a>
-          <a
-            href={enUrl}
-            aria-label="Switch language to English"
-            aria-current={lang === "en" ? "page" : undefined}
-            class:list={[
-              "px-2 py-1 rounded-md transition-all leading-none",
-              lang === "en"
-                ? "bg-sky-500/10 text-sky-400"
-                : "text-neutral-600 hover:text-neutral-400 hover:bg-white/[0.03]",
-            ]}
-          >
-            EN
-          </a>
-        </div>
       </div>
 
       <!-- Mobile -->
@@ -176,34 +144,6 @@ const enUrl = lang === "en" ? Astro.url.pathname : alternateUrl || "/en"
           </div>
         </div>
 
-        <div class="flex gap-0.5 text-[10px]">
-          <a
-            href={esUrl}
-            aria-label="Cambiar idioma a español"
-            aria-current={lang === "es" ? "page" : undefined}
-            class:list={[
-              "px-1.5 py-0.5 rounded transition-all leading-none",
-              lang === "es"
-                ? "bg-sky-500/10 text-sky-400"
-                : "text-neutral-600",
-            ]}
-          >
-            ES
-          </a>
-          <a
-            href={enUrl}
-            aria-label="Switch language to English"
-            aria-current={lang === "en" ? "page" : undefined}
-            class:list={[
-              "px-1.5 py-0.5 rounded transition-all leading-none",
-              lang === "en"
-                ? "bg-sky-500/10 text-sky-400"
-                : "text-neutral-600",
-            ]}
-          >
-            EN
-          </a>
-        </div>
       </div>
 
     </div>

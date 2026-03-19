@@ -84,11 +84,6 @@ body {
     }
 }
 
-/* View Transitions: skip root crossfade, only morph named elements */
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation: none;
-}
 
 /* Tip Cards */
 .tip-card {
