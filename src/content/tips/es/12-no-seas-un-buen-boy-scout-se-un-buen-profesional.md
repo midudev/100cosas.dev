@@ -61,6 +61,4 @@ Como bien dice Braulio, desarrollar un producto es cuadrar el círculo: hay que 
 
 Si planteas el refactor o el testing como algo opcional que haces "si te sobra tiempo", te lo rechazarán. Si lo incluyes como parte de tu estándar profesional, enfocado y comunicado, elevarás el nivel de todo el equipo sin causar el caos.
 
----
-
-**Sumario:** Céntrate en tu tarea, entrega PRs limpias y documenta las mejoras para abordarlas de forma estratégica. Eso es lo que distingue a un profesional de un simple entusiasta de la limpieza.
+Desarrollar software profesionalmente es encontrar el equilibrio entre entregar valor hoy y no hipotecar el mañana. Céntrate en tu tarea, entrega PRs limpias y documenta las mejoras para abordarlas de forma estratégica. Eso es lo que distingue a un profesional de un simple entusiasta de la limpieza. Como dice Braulio: **no se trata de ignorar los problemas, sino de atacarlos en el momento y la forma correctos**.

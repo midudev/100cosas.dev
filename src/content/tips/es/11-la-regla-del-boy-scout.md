@@ -80,4 +80,4 @@ class OrderService {
 
 Imagina un equipo de 5 personas. Si cada una hace una pequeña mejora al día, al final del año el proyecto habrá recibido más de 1.000 pequeñas mejoras. Esa es la diferencia entre un proyecto que muere por su propia complejidad y uno que se mantiene joven y ágil.
 
-**Pista para el próximo consejo:** Aunque limpiar es bueno, a veces el exceso de celo puede ser peligroso. En el próximo consejo veremos el contrapunto: por qué intentar arreglarlo todo puede acabar siendo peor que dejarlo como estaba.
+La clave está en la constancia, no en la ambición. No se trata de reescribir el módulo entero, sino de dejarlo un poco mejor de como estaba. Con el tiempo, esas micro-mejoras acumuladas transforman una base de código mediocre en una excelente. Como dijo Uncle Bob: **"El campamento siempre debe estar más limpio que como lo encontraste. No importa quién lo ensució"**.
