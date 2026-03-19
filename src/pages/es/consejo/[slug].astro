@@ -21,6 +21,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props
 const { Content } = await render(entry)
 const { id, title, category, author: authorId, categoryColor } = entry.data
+const slug = entry.id.replace(/^es\//, "")
 
 const lang = getLangFromUrl(Astro.url)
 const translatePath = useTranslatedPath(lang)
@@ -39,10 +40,15 @@ const {
 const authorPhoto = `/authors/${authorIdField}.webp`
 ---
 
-<Layout title={`${title} | 100cosas.dev`}>
+<Layout
+  title={`${title} | 100cosas.dev`}
+  canonical={`/consejo/${slug}`}
+  alternateUrl="/en"
+  noindex={true}
+>
   <Navbar />
 
-  <main class="grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+  <main id="main-content" tabindex="-1" class="grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
     <a
       href={translatePath("/")}
       class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-8 transition-colors group"
@@ -64,16 +70,16 @@ const authorPhoto = `/authors/${authorIdField}.webp`
     </a>
 
     <article
-      class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm"
+      class="bg-slate-800/30 border border-slate-700/50 rounded-sm p-8 md:p-12 backdrop-blur-sm"
     >
       <header class="mb-10">
         <div class="flex flex-wrap gap-4 items-center mb-6">
           <span
-            class="font-mono text-sm text-slate-500 border border-slate-700 px-3 py-1 rounded"
+            class="font-mono text-sm text-slate-500 border border-slate-700 px-3 py-1 rounded-sm"
             >#{id}</span
           >
           <span
-            class:list={["font-mono text-sm px-3 py-1 rounded", categoryColor]}
+            class:list={["font-mono text-sm px-3 py-1 rounded-sm", categoryColor]}
             >{category}</span
           >
         </div>

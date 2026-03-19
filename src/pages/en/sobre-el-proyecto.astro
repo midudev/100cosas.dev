@@ -7,10 +7,16 @@ import { getRelativeLocaleUrl } from "astro:i18n"
 const lang = Astro.currentLocale || "en"
 ---
 
-<Layout title="About the project | 100cosas.dev">
+<Layout
+  title="About the project | 100cosas.dev"
+  description="Learn the mission behind 100cosas.dev: a practical collection of software fundamentals to become a better programmer, one tip at a time."
+  canonical="/en/about-the-project"
+  alternateUrl="/sobre-el-proyecto"
+  noindex={true}
+>
   <Navbar />
 
-  <main class="flex-grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+  <main id="main-content" tabindex="-1" class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-20 w-full">
     <header class="mb-12">
       <h1
         class="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tight"
@@ -25,6 +31,7 @@ const lang = Astro.currentLocale || "en"
           href="https://midu.dev"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="midudev website (opens in a new tab)"
           class="text-sky-400 hover:underline">midudev</a
         > to strengthen the foundations of software development.
       </p>
@@ -78,7 +85,7 @@ const lang = Astro.currentLocale || "en"
       </section>
 
       <section
-        class="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 mt-12"
+        class="bg-slate-800/50 border border-slate-700 rounded-sm p-8 mt-12"
       >
         <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
           <span class="text-sky-500">#</span> Programming in the AI era
@@ -107,7 +114,7 @@ const lang = Astro.currentLocale || "en"
     <div class="mt-16 flex justify-center">
       <a
         href={getRelativeLocaleUrl(lang, "/")}
-        class="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all border border-slate-700"
+        class="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-sm font-bold transition-all border border-slate-700"
       >
         Back to home
       </a>

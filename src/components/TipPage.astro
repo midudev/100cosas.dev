@@ -1,5 +1,5 @@
 ---
-import { getEntry, render, type CollectionEntry } from "astro:content"
+import { getEntry, getCollection, render, type CollectionEntry } from "astro:content"
 import Layout from "../layouts/Layout.astro"
 import Navbar from "./Navbar.astro"
 import Footer from "./Footer.astro"
@@ -40,7 +40,14 @@ const {
 } = authorEntry.data
 const authorPhoto = `/authors/${authorEntry.data.id}.webp`
 
-// Schema.org Article data
+const allTips = await getCollection("tips", ({ id: tipId }) =>
+  tipId.startsWith(`${lang}/`)
+)
+const authorTips = allTips
+  .filter((tip) => tip.data.author === authorId && tip.data.id !== id)
+  .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
+  .slice(0, 5)
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -68,19 +75,18 @@ const jsonLd = {
   description={description}
   ogType="article"
 >
-  <!-- Schema.org Microdata -->
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <Navbar total={total} alternateUrl={alternateUrl} />
 
-  <main class="grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+  <main id="main-content" tabindex="-1" class="grow max-w-6xl mx-auto px-4 sm:px-6 py-10 w-full">
     <a
       href={getRelativeLocaleUrl(lang, "/")}
-      class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-8 transition-colors group"
+      class="inline-flex items-center text-neutral-500 hover:text-neutral-300 mb-8 transition-colors group text-sm"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
+        class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -94,153 +100,171 @@ const jsonLd = {
       {t('tip.back')}
     </a>
 
-    <article
-      class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8 md:p-12 backdrop-blur-sm"
-      itemscope
-      itemtype="https://schema.org/Article"
-    >
-      <header class="mb-10">
-        <div class="flex flex-wrap gap-4 items-center mb-6">
-          <span
-            class="font-mono text-sm text-slate-500 border border-slate-700 px-3 py-1 rounded"
-            >#{id}</span
-          >
-          <span
-            class:list={["font-mono text-sm px-3 py-1 rounded", categoryColor]}
-            itemprop="articleSection">{category}</span
-          >
-        </div>
-
-        <h1
-          class="text-4xl md:text-5xl font-bold text-slate-100 mb-8 leading-tight text-balance"
-          itemprop="headline"
-        >
-          {title}
-        </h1>
-
-        <a
-          href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
-          class="inline-flex items-center gap-4 pt-6 border-t border-slate-700/50 hover:opacity-80 transition-opacity group"
-          itemprop="author"
-          itemscope
-          itemtype="https://schema.org/Person"
-        >
-          <div
-            class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-lg font-bold text-white overflow-hidden"
-          >
-            {
-              authorPhoto ? (
-                <img
-                  src={authorPhoto}
-                  alt={authorName}
-                  class="w-full h-full object-cover"
-                  itemprop="image"
-                />
-              ) : (
-                authorInitials
-              )
-            }
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-10 lg:gap-16 items-start">
+      <!-- Article -->
+      <article
+        class="max-w-[65ch]"
+        itemscope
+        itemtype="https://schema.org/Article"
+      >
+        <header class="mb-10">
+          <div class="flex items-center gap-2 mb-5 text-[12px]">
+            <span class="font-pixel text-sky-400/50" style={`view-transition-name: tip-number-${id}`}>#{id}</span>
+            <span class="font-pixel text-neutral-700">·</span>
+            <span
+              class:list={["px-2 py-0.5 rounded-sm", categoryColor]}
+              itemprop="articleSection"
+              style={`view-transition-name: tip-category-${id}`}>{category}</span
+            >
           </div>
-          <div>
-            <p class="text-sm text-slate-500 uppercase tracking-wider">
-              {t('tip.author')}
-            </p>
-            <p
-              class="text-lg text-slate-200 font-medium group-hover:text-sky-400 transition-colors"
+
+          <h1
+            class="text-2xl md:text-3xl font-semibold text-neutral-100 mb-6 leading-tight text-balance"
+            itemprop="headline"
+            style={`view-transition-name: tip-title-${id}`}
+          >
+            {title}
+          </h1>
+
+          <a
+            href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
+            class="inline-flex items-center gap-3 hover:opacity-80 transition-opacity group"
+            itemprop="author"
+            itemscope
+            itemtype="https://schema.org/Person"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center text-xs font-medium text-neutral-400 overflow-hidden"
+              style={`view-transition-name: tip-avatar-${id}`}
+            >
+              {
+                authorPhoto ? (
+                  <img
+                    src={authorPhoto}
+                    alt={authorName}
+                    class="w-full h-full object-cover"
+                    itemprop="image"
+                  />
+                ) : (
+                  authorInitials
+                )
+              }
+            </div>
+            <span
+              class="text-sm text-neutral-400 group-hover:text-sky-400 transition-colors"
               itemprop="name"
+              style={`view-transition-name: tip-author-${id}`}
             >
               {authorName}
-            </p>
+            </span>
+          </a>
+        </header>
+
+        <div
+          class="prose prose-invert prose-sky max-w-none
+                  prose-headings:text-neutral-200 prose-headings:font-semibold
+                  prose-p:text-neutral-400 prose-p:leading-[1.8] prose-p:text-[15px]
+                  prose-strong:text-neutral-200
+                  prose-code:text-sky-300
+                  prose-ul:text-neutral-400 prose-li:my-1.5
+                  prose-ol:text-neutral-400
+                  prose-pre:bg-[#050505] prose-pre:border-0 prose-pre:rounded-none prose-pre:my-6
+                  prose-a:text-sky-400 prose-a:no-underline hover:prose-a:underline"
+          itemprop="articleBody"
+        >
+          <Content />
+        </div>
+      </article>
+
+      <!-- Aside -->
+      <aside class="lg:sticky lg:top-20 space-y-8 lg:border-l lg:border-white/[0.04] lg:pl-8">
+        <!-- Author card -->
+        <div>
+          <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.author')}</p>
+          <a
+            href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
+            class="flex items-center gap-3 group"
+          >
+            <div class="w-10 h-10 rounded-full bg-neutral-800 overflow-hidden shrink-0">
+              {
+                authorPhoto ? (
+                  <img src={authorPhoto} alt={authorName} class="w-full h-full object-cover" />
+                ) : (
+                  <span class="w-full h-full flex items-center justify-center text-sm text-neutral-400">{authorInitials}</span>
+                )
+              }
+            </div>
+            <div>
+              <p class="text-sm text-neutral-200 group-hover:text-sky-400 transition-colors font-medium">{authorName}</p>
+              <p class="text-[11px] text-neutral-600">{t('tip.view_profile')} &rarr;</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- More by this author -->
+        {authorTips.length > 0 && (
+          <div>
+            <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.more_by_author')}</p>
+            <ul class="space-y-2">
+              {authorTips.map((tip) => {
+                const tipSlug = tip.id.replace(/^(es|en)\//, "")
+                return (
+                  <li>
+                    <a
+                      href={getRelativeLocaleUrl(lang, `/${tipPath}/${tipSlug}`)}
+                      class="flex items-baseline gap-2 text-[13px] text-neutral-500 hover:text-sky-400 transition-colors group"
+                    >
+                      <span class="font-pixel text-[10px] text-sky-400/40 shrink-0">#{tip.data.id}</span>
+                      <span class="group-hover:text-sky-400 leading-snug">{tip.data.title}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
-        </a>
-      </header>
+        )}
 
-      <div
-        class="prose prose-invert prose-sky max-w-none
-                prose-headings:text-slate-100 prose-p:text-slate-400 prose-p:leading-relaxed
-                prose-strong:text-slate-200 prose-code:text-sky-300
-                prose-ul:text-slate-400 prose-li:my-2
-                prose-pre:bg-slate-900/50 prose-pre:border prose-pre:border-white/5"
-        itemprop="articleBody"
-      >
-        <Content />
-      </div>
+        <!-- Category -->
+        <div>
+          <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.category_label')}</p>
+          <span class:list={["text-[12px] px-2 py-0.5 rounded-sm", categoryColor]}>{category}</span>
+        </div>
 
-      <nav
-        class="mt-12 pt-12 border-t border-slate-700/50 flex flex-col sm:flex-row gap-4 justify-between"
-      >
-        {
-          prev ? (
+        <!-- Prev / Next navigation -->
+        <nav class="space-y-2">
+          {prev && (
             <a
               href={getRelativeLocaleUrl(lang, `/${tipPath}/${prev.slug}`)}
-              class="flex-1 group p-4 rounded-xl border border-slate-700/50 hover:border-sky-500/50 hover:bg-sky-500/5 transition-all text-left"
+              class="block group"
             >
-              <span class="text-xs text-slate-500 uppercase tracking-wider mb-1 block">
-                {t("tip.prev")}
-              </span>
-              <span class="text-slate-200 font-medium group-hover:text-sky-400 transition-colors flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
+              <span class="text-[10px] text-neutral-700 uppercase tracking-widest">{t("tip.prev")}</span>
+              <span class="text-[13px] text-neutral-500 group-hover:text-sky-400 transition-colors flex items-center gap-1.5 leading-snug mt-0.5">
+                <span class="shrink-0">&larr;</span>
                 {prev.title}
               </span>
             </a>
-          ) : (
-            <div class="flex-1" />
-          )
-        }
-
-        {
-          next ? (
+          )}
+          {next && (
             <a
               href={getRelativeLocaleUrl(lang, `/${tipPath}/${next.slug}`)}
-              class="flex-1 group p-4 rounded-xl border border-slate-700/50 hover:border-sky-500/50 hover:bg-sky-500/5 transition-all text-right"
+              class="block group"
             >
-              <span class="text-xs text-slate-500 uppercase tracking-wider mb-1 block">
-                {t("tip.next")}
-              </span>
-              <span class="text-slate-200 font-medium group-hover:text-sky-400 transition-colors flex items-center justify-end">
+              <span class="text-[10px] text-neutral-700 uppercase tracking-widest">{t("tip.next")}</span>
+              <span class="text-[13px] text-neutral-500 group-hover:text-sky-400 transition-colors flex items-center gap-1.5 leading-snug mt-0.5">
                 {next.title}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <span class="shrink-0">&rarr;</span>
               </span>
             </a>
-          ) : (
-            <div class="flex-1" />
-          )
-        }
-      </nav>
-    </article>
+          )}
+        </nav>
+      </aside>
+    </div>
   </main>
 
   <Footer />
 </Layout>
 
 <script define:vars={{ id }}>
-  // Marcar como leído al entrar en la página
   const STORAGE_KEY = "read-tips"
   const stored = localStorage.getItem(STORAGE_KEY)
   const readTips = stored ? JSON.parse(stored) : []

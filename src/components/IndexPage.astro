@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro"
 import Navbar from "./Navbar.astro"
 import Hero from "./Hero.astro"
+import FilterBar from "./FilterBar.astro"
 import TipCard from "./TipCard.astro"
 import Footer from "./Footer.astro"
 import { type CollectionEntry } from "astro:content"
@@ -23,6 +24,7 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     return {
       ...existingTip.data,
       slug: existingTip.id,
+      content: existingTip.body ?? "",
       isPlaceholder: false,
     }
   }
@@ -32,6 +34,7 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     title: t("tip.upcoming"),
     category: "???",
     author: "midudev",
+    content: "",
     isPlaceholder: true,
   }
 })
@@ -41,14 +44,15 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
   title={`${t("hero.title")} ${t("hero.subtitle")} | 100cosas.dev`}
   description={t("hero.description")}
 >
-  <Navbar total={sortedTips.length} />
+  <Navbar total={sortedTips.length} showSearch />
 
-  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
+  <main id="main-content" tabindex="-1" class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 pb-24 w-full">
     <Hero />
+    <FilterBar />
 
     <div
       id="tips-grid"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-0"
     >
       {allTips.map((tip) => <TipCard {...tip} />)}
     </div>
@@ -58,40 +62,87 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 </Layout>
 
 <script>
-  const filterButtons = document.querySelectorAll(".filter-btn")
-  const tipCards = document.querySelectorAll(".tip-card")
+  function initSearch() {
+    const searchInput = document.getElementById("tips-search") as HTMLInputElement | null
+    const searchStatus = document.getElementById("tips-search-status")
+    const filterButtons = document.querySelectorAll(".filter-btn")
+    const tipCards = document.querySelectorAll(".tip-card")
 
-  // Lógica de filtrado
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const filter = (button as HTMLElement).dataset.filter
+    if (!searchInput) return
 
-      filterButtons.forEach((btn) => {
-        btn.setAttribute("data-active", "false")
-        btn.classList.remove(
-          "bg-sky-500/10",
-          "text-sky-400",
-          "border-sky-500/20"
-        )
-        btn.classList.add("bg-slate-800", "text-slate-400", "border-white/5")
-      })
+    const normalize = (value: string) =>
+      value
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
 
-      button.setAttribute("data-active", "true")
-      button.classList.add("bg-sky-500/10", "text-sky-400", "border-sky-500/20")
-      button.classList.remove(
-        "bg-slate-800",
-        "text-slate-400",
-        "border-white/5"
-      )
+    const applyFilters = () => {
+      const activeButton = document.querySelector('.filter-btn[data-active="true"]') as HTMLElement | null
+      const activeFilter = activeButton?.dataset.filter || "all"
+      const query = normalize(searchInput.value || "")
+      let visibleCount = 0
 
       tipCards.forEach((card) => {
-        const category = (card as HTMLElement).dataset.category
-        if (filter === "all" || category === filter) {
-          ;(card as HTMLElement).style.display = "block"
-        } else {
-          ;(card as HTMLElement).style.display = "none"
-        }
+        const el = card as HTMLElement
+        const category = el.dataset.category || ""
+        const searchable = normalize(el.dataset.search || "")
+        const matchesCategory = activeFilter === "all" || category === activeFilter
+        const matchesSearch = query.length === 0 || searchable.includes(query)
+        const isVisible = matchesCategory && matchesSearch
+
+        el.style.display = isVisible ? "block" : "none"
+        if (isVisible) visibleCount += 1
+      })
+
+      if (searchStatus) {
+        const label = searchStatus.dataset.resultsLabel || "resultados encontrados"
+        searchStatus.textContent =
+          searchInput.value.trim().length > 0 ? `${visibleCount} ${label}` : ""
+      }
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((btn) => {
+          btn.setAttribute("data-active", "false")
+          btn.setAttribute("aria-pressed", "false")
+          btn.classList.remove("text-sky-400")
+          btn.classList.add("text-neutral-600")
+        })
+
+        button.setAttribute("data-active", "true")
+        button.setAttribute("aria-pressed", "true")
+        button.classList.add("text-sky-400")
+        button.classList.remove("text-neutral-600")
+        applyFilters()
       })
     })
-  })
+
+    searchInput.addEventListener("input", applyFilters)
+  }
+
+  function handleSearchKeydown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement | null
+    const tagName = target?.tagName?.toLowerCase()
+    const isEditable =
+      tagName === "input" ||
+      tagName === "textarea" ||
+      target?.isContentEditable
+
+    if (event.key === "/" && !isEditable) {
+      const searchInput = document.getElementById("tips-search") as HTMLInputElement | null
+      if (searchInput) {
+        event.preventDefault()
+        searchInput.focus()
+        searchInput.select()
+      }
+    }
+  }
+
+  document.removeEventListener("keydown", handleSearchKeydown)
+  document.addEventListener("keydown", handleSearchKeydown)
+
+  initSearch()
+  document.addEventListener("astro:page-load", initSearch)
 </script>

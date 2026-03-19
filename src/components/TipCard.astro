@@ -9,6 +9,7 @@ interface Props {
   category: string
   categoryColor?: string
   author: string
+  content?: string
   checked?: boolean
   slug?: string
   isPlaceholder?: boolean
@@ -18,8 +19,9 @@ const {
   id,
   title,
   category,
-  categoryColor = "text-sky-400/80 bg-sky-900/20",
+  categoryColor = "text-sky-400/70",
   author: authorId,
+  content = "",
   checked = false,
   slug = "#",
   isPlaceholder = false,
@@ -27,6 +29,14 @@ const {
 
 const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
+const tipLinkLabel =
+  lang === "es"
+    ? `Leer consejo ${id}: ${title}`
+    : `Read tip ${id}: ${title}`
+const readToggleLabel =
+  lang === "es"
+    ? `Marcar consejo ${id} como leído`
+    : `Mark tip ${id} as read`
 
 let authorName = "Autor"
 let authorPhoto = "/authors/kent-c-dodds.webp"
@@ -38,30 +48,36 @@ if (!isPlaceholder) {
     throw new Error(`Author with id "${authorId}" not found for tip "${id}"`)
   }
 
-  const { id: authorIdField, name: authorNameData } = authorEntry.data
-
-  authorName = authorNameData
-  authorPhoto = `/authors/${authorIdField}.webp`
+  authorName = authorEntry.data.name
+  authorPhoto = `/authors/${authorEntry.data.id}.webp`
 }
 
 const slugWithoutLang = slug.replace(/^(es|en)\//, "")
 const tipPath = lang === "es" ? "consejo" : "tip"
+const plainContent = content
+  .replace(/```[\s\S]*?```/g, " ")
+  .replace(/`[^`]*`/g, " ")
+  .replace(/[*_[\]#>!-]/g, " ")
+  .replace(/\s+/g, " ")
+  .trim()
+const searchableText = `${title} ${authorName} ${plainContent}`
 ---
 
 <div
   class:list={[
-    "tip-card bg-slate-800/50 rounded-xl relative",
-    !isPlaceholder && "cursor-pointer group",
+    "tip-card border-b border-white/[0.04] relative",
+    !isPlaceholder && "group",
     isPlaceholder && "is-placeholder",
   ]}
   data-category={category}
+  data-search={searchableText}
   itemscope
   itemtype="https://schema.org/Article"
 >
   {
     isPlaceholder && (
-      <div class="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/20 backdrop-blur-[1px]">
-        <span class="bg-sky-500 text-white px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-lg transform -rotate-2 border border-white/20">
+      <div class="absolute inset-0 z-20 flex items-center justify-center">
+        <span class="font-pixel text-neutral-700 text-[11px]">
           {t("tip.upcoming")}
         </span>
       </div>
@@ -69,48 +85,42 @@ const tipPath = lang === "es" ? "consejo" : "tip"
   }
   <a
     href={isPlaceholder
-      ? null
+      ? "#"
       : getRelativeLocaleUrl(lang, `/${tipPath}/${slugWithoutLang}`)}
     class:list={[
-      "p-6 h-full flex flex-col relative z-0",
-      isPlaceholder && "blur-[2px] opacity-40 select-none pointer-events-none",
+      "py-6 h-full flex flex-col",
+      isPlaceholder && "blur-[2px] opacity-20 select-none pointer-events-none",
     ]}
+    aria-label={tipLinkLabel}
+    aria-disabled={isPlaceholder ? "true" : undefined}
+    tabindex={isPlaceholder ? "-1" : undefined}
+    data-astro-prefetch="hover"
     itemprop="url"
   >
-    <div class="card-border-indicator"></div>
-
-    <div class="flex justify-between items-start mb-4">
-      <span
-        class="font-mono text-xs text-slate-500 border border-slate-700 px-2 py-1 rounded"
-        >#{id}</span
-      >
-      <span
-        class:list={["font-mono text-xs px-2 py-1 rounded", categoryColor]}
-        itemprop="articleSection"
-      >
+    <div class="flex items-center gap-2 mb-3 text-[11px]">
+      <span class="font-pixel text-sky-400/40" style={`view-transition-name: tip-number-${id}`}>#{id}</span>
+      <span class="font-pixel text-neutral-800">·</span>
+      <span class:list={[categoryColor]} itemprop="articleSection" style={`view-transition-name: tip-category-${id}`}>
         {category}
       </span>
     </div>
 
     <h3
-      class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-sky-300 transition-colors text-balance"
+      class="text-[15px] font-medium text-neutral-300 group-hover:text-neutral-100 transition-colors leading-snug text-balance"
       itemprop="headline"
+      style={`view-transition-name: tip-title-${id}`}
     >
       {title}
     </h3>
 
     <div
-      class="mt-auto pt-6 border-t border-slate-700/50 flex items-center justify-between"
+      class="mt-auto pt-4 flex items-center justify-between"
+      itemprop="author"
+      itemscope
+      itemtype="https://schema.org/Person"
     >
-      <div
-        class="flex items-center gap-2"
-        itemprop="author"
-        itemscope
-        itemtype="https://schema.org/Person"
-      >
-        <div
-          class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white overflow-hidden"
-        >
+      <div class="flex items-center gap-2">
+        <div class="w-5 h-5 squircle bg-neutral-800 overflow-hidden shrink-0" style={`view-transition-name: tip-avatar-${id}`}>
           <img
             src={authorPhoto}
             alt={authorName}
@@ -119,47 +129,40 @@ const tipPath = lang === "es" ? "consejo" : "tip"
             itemprop="image"
           />
         </div>
-        <span
-          class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors"
-          itemprop="name"
-        >
-          {authorName}
-        </span>
+        <span class="text-[11px] text-neutral-600" itemprop="name" style={`view-transition-name: tip-author-${id}`}>{authorName}</span>
       </div>
-
-      <div class="w-24 h-6"></div>
-      <!-- Espacio para el checkbox que está absoluto -->
     </div>
   </a>
 
-  <!-- Checkbox area - Absolute positioned so it doesn't trigger the link if clicked precisely -->
   {
     !isPlaceholder && (
-      <div class="absolute bottom-6 right-6 z-10 flex items-center gap-3 toggle-container">
-        <label class="flex items-center gap-3 cursor-pointer group/checkbox">
+      <div class="absolute top-6 right-0 z-10">
+        <label
+          class="cursor-pointer group/checkbox relative"
+          data-tooltip-pending={lang === "es" ? "Marcar como leído" : "Mark as read"}
+          data-tooltip-read={lang === "es" ? "Leído" : "Read"}
+        >
           <input
             type="checkbox"
             class="read-toggle sr-only"
             checked={checked}
             data-id={id}
+            aria-label={readToggleLabel}
           />
-          <span
-            class="text-[10px] font-mono uppercase tracking-wider status-text text-slate-500"
-            data-pending={t("status.pending")}
-            data-completed={t("status.completed")}
-          />
-          <div class="check-icon w-5 h-5 rounded border border-slate-700 flex items-center justify-center transition-colors group-has-checked/checkbox:bg-sky-500 group-has-checked/checkbox:border-sky-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-3 w-3 text-white scale-0 group-has-checked/checkbox:scale-100 transition-transform"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
+          <span class="tip-tooltip">{lang === "es" ? "Marcar como leído" : "Mark as read"}</span>
+          <div class="eye-icon text-neutral-800 transition-colors group-has-checked/checkbox:text-emerald-500">
+            {/* Eye (not read) */}
+            <svg class="w-3.5 h-3.5 block group-has-checked/checkbox:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+              <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+            </svg>
+            {/* Eye check (read) */}
+            <svg class="w-3.5 h-3.5 hidden group-has-checked/checkbox:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+              <path d="M11.102 17.957c-3.204 -.307 -5.904 -2.294 -8.102 -5.957c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6a19.5 19.5 0 0 1 -.663 1.032" />
+              <path d="M15 19l2 2l4 -4" />
             </svg>
           </div>
         </label>
@@ -168,19 +171,47 @@ const tipPath = lang === "es" ? "consejo" : "tip"
   }
 </div>
 
-<script>
-  const handleOnMouseMove = (e: MouseEvent) => {
-    const target = e.currentTarget as HTMLElement
-    const rect = target.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    target.style.setProperty("--mouse-x", `${x}px`)
-    target.style.setProperty("--mouse-y", `${y}px`)
+<style>
+  .squircle {
+    clip-path: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' rx='.25' ry='.25'/%3E%3C/svg%3E");
+    border-radius: 22%;
   }
 
-  const cards = document.querySelectorAll(".tip-card:not(.is-placeholder)")
-  cards.forEach((card) => {
-    ;(card as HTMLElement).onmousemove = (e) => handleOnMouseMove(e)
+  .tip-tooltip {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    white-space: nowrap;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    color: #a3a3a3;
+    background: #171717;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 3px 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  label:hover .tip-tooltip {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.querySelectorAll(".tip-card label[data-tooltip-pending]").forEach((label) => {
+    const tooltip = label.querySelector(".tip-tooltip") as HTMLElement | null
+    const input = label.querySelector("input") as HTMLInputElement | null
+    if (!tooltip || !input) return
+
+    const pending = label.getAttribute("data-tooltip-pending") || ""
+    const read = label.getAttribute("data-tooltip-read") || ""
+
+    function update() {
+      tooltip!.textContent = input!.checked ? read : pending
+    }
+
+    input.addEventListener("change", update)
+    update()
   })
 </script>
