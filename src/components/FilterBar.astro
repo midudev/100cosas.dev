@@ -1,0 +1,79 @@
+---
+import { useTranslations } from "../i18n/utils"
+import FilterButton from "./FilterButton.astro"
+import { getCollection } from "astro:content"
+import { ui, defaultLang } from "../i18n/ui"
+
+const lang = (Astro.currentLocale || "es") as "es" | "en"
+const t = useTranslations(lang)
+
+const tipsEntries = await getCollection("tips", ({ id }) => {
+  return id.startsWith(`${lang}/`)
+})
+
+const usedCategories = new Set(tipsEntries.map((tip) => tip.data.category))
+
+const CATEGORY_KEYS = [
+  "clean_code",
+  "principles",
+  "architecture",
+  "professionalism",
+  "design",
+  "testing",
+  "practices",
+  "soft_skills",
+  "paradigm",
+  "tools",
+  "automation",
+  "fundamentals",
+  "typing",
+  "ux_ui",
+  "refactor",
+  "ddd",
+  "dry",
+  "learning",
+] as const
+
+const displayedCategories = CATEGORY_KEYS.map((key) => {
+  const translationKey = `cat.${key}` as keyof (typeof ui)[typeof defaultLang]
+  return t(translationKey)
+}).filter((name) => usedCategories.has(name)) as string[]
+
+const otherCategories = [...usedCategories].filter(
+  (name) => !displayedCategories.includes(name)
+)
+
+const allToDisplay = [...displayedCategories, ...otherCategories]
+---
+
+<div class="filter-bar relative mb-8">
+  <div class="filter-scroll flex items-center gap-0.5 overflow-x-auto py-2 border-b border-white/[0.04]" id="filter-container">
+    <FilterButton active filter="all">{t("filter.all")}</FilterButton>
+    <span class="font-pixel text-neutral-800 select-none shrink-0">·</span>
+    {
+      allToDisplay.map((categoryName) => (
+        <FilterButton filter={categoryName}>{categoryName}</FilterButton>
+      ))
+    }
+  </div>
+  <div class="fade-right"></div>
+</div>
+
+<style>
+  .filter-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .filter-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .fade-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    background: linear-gradient(to right, transparent, #050505);
+    pointer-events: none;
+  }
+</style>
