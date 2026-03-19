@@ -133,6 +133,4 @@ if (errorRate > threshold) {
 | Producción     | N/A       | $10,000+ - usuarios afectados |
 ```
 
-## Reflexión final
-
 Guillermo diseñó Vercel para que el camino a producción tenga múltiples checkpoints. Cada bug que atrapas antes de producción es un incidente que no tienes que gestionar a las 3am. Invierte en prevención, no en reacción.

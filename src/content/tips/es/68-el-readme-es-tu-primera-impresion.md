@@ -162,6 +162,4 @@ Si tu proyecto tiene interfaz, muéstrala:
 - Deploy en Vercel y Railway
 ```
 
-## Reflexión final
-
 Tania trata cada README como si fuera la landing page de un producto. El README es lo primero que ven recruiters, colaboradores, y usuarios. Invierte tiempo en él: es tu carta de presentación.

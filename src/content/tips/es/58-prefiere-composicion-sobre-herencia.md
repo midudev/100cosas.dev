@@ -157,6 +157,4 @@ test('canSwim', () => {
 
 La herencia crea dependencias rígidas. La composición crea piezas independientes.
 
-## Reflexión final
-
 Dan y el equipo de React eligieron composición como el patrón central porque es más flexible, testeable y fácil de razonar. La herencia parece natural al principio ("un perro ES un animal"), pero rápidamente se vuelve restrictiva. La composición te da libertad para combinar comportamientos como piezas de Lego.

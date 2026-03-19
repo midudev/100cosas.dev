@@ -107,6 +107,4 @@ Algunos frameworks presumen de ser "flexibles" y "no opinionados":
 
 La flexibilidad sin guía se convierte en caos. Las convenciones fuertes crean equipos productivos.
 
-## Reflexión final
-
 DHH entendió algo fundamental: **las decisiones tienen un coste cognitivo**. Cada configuración que tienes que escribir es tiempo no dedicado a resolver problemas reales. Los mejores frameworks reducen las decisiones sin eliminar la flexibilidad. Te dan un camino por defecto que funciona, y te dejan desviarte cuando realmente lo necesitas.

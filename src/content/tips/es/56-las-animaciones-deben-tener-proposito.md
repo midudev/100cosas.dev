@@ -139,6 +139,4 @@ Algunos usuarios tienen vértigo, migrañas, o simplemente prefieren menos movim
 3. ¿La animación **ayuda** o **distrae**?
 4. ¿Funciona sin animación para usuarios que la desactivan?
 
-## Reflexión final
-
 Sarah nos enseña que las mejores animaciones son las que no notas conscientemente, pero que hacen que la interfaz se sienta viva y natural. Si un usuario nota tu animación, probablemente es demasiado.

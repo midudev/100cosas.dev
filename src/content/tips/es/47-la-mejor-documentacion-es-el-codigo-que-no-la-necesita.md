@@ -138,6 +138,4 @@ PostgreSQL porque...
 async function sendWelcomeEmail(userId: string): Promise<void>
 ```
 
-## Reflexión final
-
 La documentación es un parche. A veces necesario, pero un parche. El código claro, los nombres descriptivos, y la estructura obvia son la cura real. Kelsey demuestra en cada demo que los sistemas más complejos pueden ser comprensibles si están bien diseñados.

@@ -86,6 +86,4 @@ function processOrder(order) {
 }
 ```
 
-## Reflexión final
-
 En una industria obsesionada con construir más, Carlos nos recuerda que el verdadero craftsman sabe cuándo **no** escribir código. La excelencia técnica no está en la complejidad que puedes crear, sino en la simplicidad que puedes mantener.

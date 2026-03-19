@@ -116,6 +116,4 @@ La optimización prematura es seductora porque:
 
 El 90% del código nunca llega a la fase 3. Es lo suficientemente rápido tal cual. Kent Beck lo sabe, y por eso insiste en el orden.
 
-## Reflexión final
-
 La próxima vez que te encuentres pensando en rendimiento antes de tener algo funcionando, recuerda: el código más rápido es el que no necesitas escribir porque el feature fue descartado. Primero haz que funcione.

@@ -131,6 +131,4 @@ async function getUser(id): Promise<User | null> {
 3. **IDE autocomplete funciona**
 4. **Tests son más fáciles de escribir**
 
-## Reflexión final
-
 Guido creó Python con la legibilidad como prioridad. Lo explícito requiere más caracteres pero ahorra horas de debugging y confusion. Cuando dudas entre ser clever e implícito o ser verbose y explícito, elige explícito.

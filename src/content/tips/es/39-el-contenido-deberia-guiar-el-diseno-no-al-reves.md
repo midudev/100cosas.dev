@@ -107,6 +107,4 @@ Ahora los elementos dentro de las cards se alinean perfectamente entre sí.
 
 Jen nos recuerda que la web es su propio medio, con sus propias reglas. No debemos pelear contra su naturaleza fluida - debemos abrazarla.
 
-## Reflexión final
-
 Las herramientas existen. Grid, Flexbox, Container Queries, Subgrid. La pregunta ya no es "¿podemos hacerlo?" sino "¿entendemos el medio lo suficiente para dejar que el contenido guíe el diseño?". Jen Simmons nos ha mostrado el camino.

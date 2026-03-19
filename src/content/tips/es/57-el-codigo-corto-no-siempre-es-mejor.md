@@ -125,6 +125,4 @@ const { name, email } = user;
 
 La diferencia: estos son **idiomáticos**, no **clever**.
 
-## Reflexión final
-
 Sandi nos recuerda que escribimos código para humanos, no para compiladores. Los compiladores entienden cualquier cosa. Los humanos necesitan claridad. El tiempo que ahorras escribiendo código corto lo pagas multiplicado cuando alguien (incluyendo tu yo del futuro) tiene que entenderlo.

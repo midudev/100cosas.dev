@@ -124,6 +124,4 @@ La respuesta de Rauch:
 2. Las emergencias no respetan calendario - pueden pasar cualquier día
 3. La automatización debería manejar los casos comunes
 
-## Reflexión final
-
 "No deploys en viernes" es un síntoma, no una solución. Es admitir que tus deploys son peligrosos y que tu sistema es frágil. La solución real es construir sistemas donde el día sea irrelevante. Si Vercel, que sirve millones de sitios, puede hacerlo, tú también.

@@ -131,6 +131,4 @@ function SimpleCard({ title, description, onAction }) {
 <UserCard /> // ¿De dónde viene el user? ¿Qué contextos necesita?
 ```
 
-## Reflexión final
-
 Tania nos recuerda que el código no es un monumento. Es una herramienta temporal que resuelve problemas de hoy. Cuando escribes código pensando en que algún día lo borrarás, escribes código más simple, más limpio, y paradójicamente, más duradero.

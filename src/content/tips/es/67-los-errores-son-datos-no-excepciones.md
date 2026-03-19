@@ -146,6 +146,4 @@ if (!result.ok) {
 }
 ```
 
-## Reflexión final
-
 Rich y otros han traído esta idea de lenguajes como Rust y Go. Tratar errores como datos, no como excepciones, hace que tu código sea más predecible, más fácil de testear, y más difícil de ignorar accidentalmente.

@@ -92,6 +92,4 @@ Aunque Reshma habla específicamente de niñas, el consejo aplica a todos:
 3. **Celebra los intentos**: No solo los éxitos
 4. **Mentoriza**: Ayudar a otros normaliza no saber todo
 
-## Reflexión final
-
 La programación no es sobre escribir código perfecto a la primera. Es sobre iterar, fallar, aprender, y mejorar. Los mejores programadores que conozco no son los que nunca cometen errores - son los que no tienen miedo de cometerlos.

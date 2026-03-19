@@ -116,6 +116,4 @@ Como cualquier lenguaje, CSS requiere arquitectura:
 }
 ```
 
-## Reflexión final
-
 Tratar CSS como un lenguaje de segunda clase es un error costoso. Los mejores desarrolladores frontend entienden que CSS es tan profundo y requiere tanta expertise como JavaScript. Una Kravets nos muestra que dominar CSS no es solo posible - es la clave para construir interfaces más rápidas, accesibles y mantenibles.

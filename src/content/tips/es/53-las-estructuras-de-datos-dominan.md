@@ -150,6 +150,4 @@ Los "algoritmos" son triviales porque las estructuras son correctas.
    - ¿Datos ordenados? → Árbol de búsqueda
    - ¿Unicidad importante? → Set
 
-## Reflexión final
-
 Linus nos enseña que la programación no es sobre ser ingenioso con algoritmos. Es sobre modelar datos de forma que el código que los manipula sea obvio. Elige bien tus estructuras y los algoritmos se escribirán solos.

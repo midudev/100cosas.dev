@@ -112,6 +112,4 @@ function formatUser(user, context) {
 3. **La abstracción tiene un nombre claro**
 4. **Los tests serían más simples con la abstracción**
 
-## Reflexión final
-
 Sandi nos recuerda que el objetivo no es eliminar toda duplicación - es escribir código mantenible. A veces, tres funciones simples y duplicadas son más mantenibles que una función "clever" y abstracta.

@@ -127,6 +127,4 @@ test('calculates total correctly', () => {
 
 Si el test no falla cuando rompes el código, el test es inútil.
 
-## Reflexión final
-
 Kent nos recuerda que los tests no son un checkbox para marcar. Son guardias que protegen tu código. Un guardia que deja pasar a todos no sirve de nada. Escribe tests que fallen cuando las cosas van mal - ese es su trabajo.

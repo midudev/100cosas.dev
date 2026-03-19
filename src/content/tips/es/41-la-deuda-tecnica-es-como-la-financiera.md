@@ -74,6 +74,4 @@ Ward sugiere un enfoque continuo, no big-bang:
 2. **Paga intereses pequeños constantemente**: Refactoriza mientras trabajas
 3. **No dejes que se acumule**: Un poco de deuda es manejable, mucha es paralizante
 
-## Reflexión final
-
 La metáfora de Ward es poderosa precisamente porque es familiar. Todos entendemos que la deuda financiera puede ser útil (hipoteca para una casa) o destructiva (tarjetas de crédito al límite). Lo mismo aplica al código: la deuda consciente y planificada es una herramienta; la deuda ignorada es un problema.

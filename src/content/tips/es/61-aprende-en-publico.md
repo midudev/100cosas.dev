@@ -110,6 +110,4 @@ Pero ninguno está escrito desde TU perspectiva, con TUS errores, en TU contexto
 
 La comunidad te corregirá (gentilmente, la mayoría). Aprendes más rápido con feedback público que en silencio.
 
-## Reflexión final
-
 Swyx transformó su carrera en 2 años aplicando este principio. No porque fuera más listo, sino porque su aprendizaje era visible. En un mundo donde todos consumen contenido, ser creador te diferencia automáticamente.

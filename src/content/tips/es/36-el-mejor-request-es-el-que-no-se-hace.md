@@ -79,6 +79,4 @@ Osmani sugiere: *"Sé al menos un 20% más rápido que tu competidor más rápid
 2. **Prioriza el impacto**: El 80% del beneficio viene del 20% de las optimizaciones
 3. **Automatiza**: Integra performance budgets en tu CI/CD
 
-## Reflexión final
-
 En un mundo donde es fácil añadir dependencias con un `npm install`, la disciplina de preguntarse *"¿realmente lo necesito?"* se ha vuelto una habilidad diferenciadora. Cada kilobyte que no envías es tiempo que tus usuarios no esperan.

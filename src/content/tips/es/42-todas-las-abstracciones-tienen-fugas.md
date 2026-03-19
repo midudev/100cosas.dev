@@ -99,6 +99,4 @@ EXPLAIN ANALYZE
 docker logs, kubectl describe
 ```
 
-## Reflexión final
-
 Las abstracciones son esenciales - no podríamos construir software moderno sin ellas. Pero la ilusión de que puedes ignorar lo que hay debajo es exactamente eso: una ilusión. Los mejores desarrolladores entienden varias capas del stack, no porque quieran, sino porque las fugas los obligaron a aprender.

@@ -110,6 +110,4 @@ Después de su iniciativa:
 2. **Otras empresas siguieron**: Google, Facebook, etc.
 3. **La conversación cambió**: De "creemos que estamos bien" a "estos son los datos, esto es lo que vamos a mejorar"
 
-## Reflexión final
-
 Tracy demostró que las opiniones sin datos son humo. Cuando tienes números, tienes accountability. Cuando tienes accountability, tienes progreso real. Aplica este principio a cualquier área: si no puedes medirlo, probablemente no lo estés mejorando.

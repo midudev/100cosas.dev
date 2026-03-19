@@ -107,6 +107,4 @@ const userSchema = {
 // Si llega ese momento, refactorizas
 ```
 
-## Reflexión final
-
 El protocolo de Radia ha sobrevivido décadas no porque anticipó todos los cambios, sino porque resolvió bien un problema específico. Los mejores sistemas no son los más flexibles - son los que hacen una cosa bien. La complejidad siempre puedes añadirla después; quitarla es mucho más difícil.

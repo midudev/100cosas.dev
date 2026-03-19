@@ -153,6 +153,4 @@ Fowler sugiere la "regla del tres":
 2. **Segunda vez**: Notas la duplicación, pero continúa
 3. **Tercera vez**: Refactoriza
 
-## Reflexión final
-
 Fowler transformó el refactoring de "algo que haces cuando tienes tiempo" a "parte integral del desarrollo". Con tests, refactorizar deja de ser arriesgado y se convierte en higiene de código. Sin tests, es cirugía a ciegas.

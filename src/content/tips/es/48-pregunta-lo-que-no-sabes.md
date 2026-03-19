@@ -94,6 +94,4 @@ En reuniones:
 
 Julia ha convertido "no saber" en una fortaleza. Sus zines son populares precisamente porque abordan las cosas que todos querían preguntar pero no se atrevían. Al normalizar las preguntas, creó un recurso invaluable para la comunidad.
 
-## Reflexión final
-
 La próxima vez que no entiendas algo, resiste la tentación de fingir que sí. Pregunta. Documenta. Comparte. Probablemente estés ayudando a más personas de las que imaginas, empezando por tu yo del futuro.

@@ -155,6 +155,4 @@ npm test         # Correr tests
 gh pr merge      # Mergear desde terminal
 ```
 
-## Reflexión final
-
 Mislav demuestra que la terminal no es "old school" - es la herramienta más poderosa que tienes. Cada hora invertida aprendiendo comandos y creando alias te ahorra días a lo largo del año.

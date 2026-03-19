@@ -124,6 +124,4 @@ Rich creó herramientas de JavaScript para que usemos **menos JavaScript**:
 - **Svelte**: Framework que desaparece
 - **SvelteKit**: Meta-framework con SSR por defecto
 
-## Reflexión final
-
 Cada línea de JavaScript tiene un coste. No en tu MacBook Pro con fibra óptica - en el móvil de gama media con 3G de tu usuario real. Rich Harris nos recuerda que el mejor código es el que no existe, y el segundo mejor es el que se ejecuta en el servidor.

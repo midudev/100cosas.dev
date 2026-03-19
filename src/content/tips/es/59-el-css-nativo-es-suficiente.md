@@ -160,6 +160,4 @@ form:has(:invalid) {
 
 La respuesta es "sí" mucho más a menudo de lo que crees.
 
-## Reflexión final
-
 Lea ha dedicado su carrera a expandir lo que CSS puede hacer. Cada año, CSS gana capacidades que antes requerían JavaScript. El navegador optimiza CSS mejor que cualquier librería. Conocer CSS moderno te hace un desarrollador más eficiente y tus apps más rápidas.

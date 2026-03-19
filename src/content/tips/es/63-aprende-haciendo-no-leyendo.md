@@ -117,6 +117,4 @@ Si te atascas:
 
 Los que más saben no son los que más leyeron. Son los que más hicieron. Cada proyecto terminado (aunque sea feo) es más valioso que 10 tutoriales vistos.
 
-## Reflexión final
-
 Wes dice: "El mejor momento para empezar un proyecto es ahora, no cuando sepas más". Nunca sabrás "suficiente". El conocimiento viene de hacer, no de prepararse para hacer.

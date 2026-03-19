@@ -126,6 +126,4 @@ git push --force-with-lease
 # Solo fuerza si nadie más ha pusheado
 ```
 
-## Reflexión final
-
 Julia nos muestra que Git es más que `add-commit-push`. Es un sistema de viaje en el tiempo que te permite entender, experimentar y deshacer sin miedo. Invertir tiempo en aprenderlo bien te ahorra horas de frustración.

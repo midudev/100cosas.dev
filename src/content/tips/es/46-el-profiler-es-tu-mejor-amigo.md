@@ -125,6 +125,4 @@ for (let i = 0; i < items.length; i++) {
 const stream = require('stream-json');
 ```
 
-## Reflexión final
-
 Carmack podría haber asumido dónde estaban los problemas de rendimiento en Doom. Tenía la experiencia para hacerlo. Pero eligió medir. Y eso hizo que Doom corriera en hardware que nadie creía posible. Tu intuición es valiosa para generar hipótesis. El profiler es quien las valida.

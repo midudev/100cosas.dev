@@ -166,6 +166,4 @@ Sí, y cada una:
 - Es fácil de modificar
 - Es fácil de reusar
 
-## Reflexión final
-
 Uncle Bob dice que "el primer borrador es siempre malo". Es normal escribir funciones grandes primero. La disciplina está en refactorizarlas después. Cada vez que uses "and" para describir lo que hace una función, considera dividirla.

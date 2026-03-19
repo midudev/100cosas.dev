@@ -75,6 +75,4 @@ Dan pasó años escribiendo documentación porque entiende algo: **la mejor form
 
 La nueva documentación de React ([react.dev](https://react.dev)) es un ejemplo: cada concepto explica el problema antes de la solución.
 
-## Reflexión final
-
 Los frameworks vienen y van. JavaScript vanilla ha sobrevivido a jQuery, Backbone, Angular 1, y sobrevivirá a lo que venga después. Cuando entiendes los problemas fundamentales, aprender nuevas herramientas se vuelve trivial - porque todas resuelven las mismas cosas de formas ligeramente diferentes.
