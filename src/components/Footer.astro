@@ -6,30 +6,32 @@ const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
 ---
 
-<footer class="border-t border-slate-800 bg-slate-900 mt-auto py-12">
-  <div class="max-w-7xl mx-auto px-4 text-center">
-    <p class="text-slate-500 text-sm mb-2">
+<footer class="border-t border-white/[0.04] mt-auto py-10">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <p class="text-neutral-600 text-[12px] mb-1.5">
       {t("footer.based")}
     </p>
-    <p class="text-slate-600 text-xs">
+    <p class="text-neutral-700 text-[11px]">
       {t("footer.collected")}
       <a
         href="https://x.com/midudev"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={lang === "es" ? "Perfil de midudev en X (se abre en una pestaña nueva)" : "midudev profile on X (opens in a new tab)"}
         class="hover:text-sky-400 transition-colors">@midudev</a
-      > | <a
+      > &middot; <a
         href="https://creativecommons.org/licenses/by-nc/4.0/"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={lang === "es" ? "Licencia Creative Commons BY-NC 4.0 (se abre en una pestaña nueva)" : "Creative Commons BY-NC 4.0 license (opens in a new tab)"}
         class="hover:text-sky-400 transition-colors">{t("footer.license")}</a
       >
     </p>
-    <div class="mt-8">
+    <div class="mt-6">
       <a
         href={getRelativeLocaleUrl(lang, "/")}
-        class="text-slate-700 text-xs font-mono hover:text-slate-500 transition-colors"
-        >100cosas.dev v1.0.0</a
+        class="font-pixel text-neutral-800 text-xs hover:text-neutral-600 transition-colors"
+        >100cosas.dev</a
       >
     </div>
   </div>

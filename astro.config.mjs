@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import { codeLangBadge } from './src/utils/code-lang-badge.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,12 +26,32 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
-      filter: (page) => !page.includes('/404'),
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+
+        if (pathname.includes('/404')) return false;
+
+        // Exclude legacy duplicated routes from sitemap.
+        if (
+          pathname === '/es' ||
+          pathname === '/es/' ||
+          pathname.startsWith('/es/consejo/') ||
+          pathname.startsWith('/es/autor/') ||
+          pathname === '/es/sobre-el-proyecto' ||
+          pathname.startsWith('/en/consejo/') ||
+          pathname === '/en/sobre-el-proyecto'
+        ) {
+          return false;
+        }
+
+        return true;
+      },
     }),
   ],
   markdown: {
     shikiConfig: {
-      theme: 'nord',
+      theme: 'tokyo-night',
+      transformers: [codeLangBadge()],
     },
   },
 

@@ -1,10 +1,13 @@
 ---
 import "../styles/global.css"
+import { ClientRouter } from "astro:transitions"
 
 interface Props {
   title?: string
   description?: string
   image?: string
+  canonical?: string
+  alternateUrl?: string
   ogType?: "website" | "article" | "profile"
   publishedTime?: string
   modifiedTime?: string
@@ -17,6 +20,8 @@ const {
   title = "100cosas.dev | Consejos para Programadores",
   description = 'Una colección interactiva basada en "97 Things Every Programmer Should Know". Lee, aprende y marca tu progreso.',
   image = "/og-image.png",
+  canonical,
+  alternateUrl,
   ogType = "website",
   publishedTime,
   modifiedTime,
@@ -26,15 +31,19 @@ const {
 } = Astro.props
 
 const lang = Astro.currentLocale || "es"
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalPath = canonical ?? Astro.url.pathname
+const canonicalURL = new URL(canonicalPath, Astro.site)
 const fullImageURL = new URL(image, Astro.site).toString()
+const skipToContentLabel =
+  lang === "es" ? "Saltar al contenido principal" : "Skip to main content"
 
 // Logic for hreflang
 const alternateLang = lang === "es" ? "en" : "es"
-const alternatePath =
+const alternatePath = alternateUrl ?? (
   lang === "es"
-    ? `/en${Astro.url.pathname}`
-    : Astro.url.pathname.replace(/^\/en/, "") || "/"
+    ? `/en${Astro.url.pathname === "/" ? "" : Astro.url.pathname}`
+    : Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/"
+)
 const alternateURL = new URL(alternatePath, Astro.site)
 
 // Determinar título SEO optimizado
@@ -134,9 +143,9 @@ const breadcrumbJsonLd = {
     <meta name="bingbot" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
     <!-- Temática y Color -->
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#050505" />
     <meta name="color-scheme" content="dark" />
-    <meta name="msapplication-TileColor" content="#0f172a" />
+    <meta name="msapplication-TileColor" content="#050505" />
 
     <!-- Geo y Audiencia -->
     <meta name="geo.region" content="ES" />
@@ -193,31 +202,18 @@ const breadcrumbJsonLd = {
     <!-- LinkedIn -->
     <meta property="linkedin:owner" content="midudev" />
 
-    <!-- Preconnect para rendimiento -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
-    <!-- Fonts optimizadas -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600;800&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600;800&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
+    <!-- Font preload -->
+    <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+
+    <ClientRouter />
   </head>
   <body class="min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">{skipToContentLabel}</a>
     <slot />
   </body>
 </html>

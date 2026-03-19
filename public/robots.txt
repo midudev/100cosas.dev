@@ -1,25 +1,10 @@
 # https://100cosas.dev robots.txt
-# Optimizado para SEO
 
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://100cosas.dev/sitemap-index.xml
-
-# Crawl-delay recomendado para bots responsables
-Crawl-delay: 1
-
-# Bloquear acceso a recursos innecesarios
-Disallow: /_astro/
 Disallow: /404
 
-# Permitir específicamente las páginas importantes
-Allow: /consejo/
-Allow: /tip/
-Allow: /autor/
-Allow: /en/
-Allow: /es/
+Sitemap: https://100cosas.dev/sitemap-index.xml
 
 # Bloquear bots de IA que consumen recursos sin aportar tráfico
 User-agent: GPTBot
