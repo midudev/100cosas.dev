@@ -118,7 +118,7 @@ async function generateFormats() {
 
     // 1. Generate EPUB
     const epubOptions = {
-      title: lang === 'es' ? '100 Consejos Dev' : '100 Dev Tips',
+      title: lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know',
       author: '100cosas.dev',
       publisher: '100cosas.dev',
       content: tips.map(tip => ({
@@ -165,8 +165,8 @@ async function generateFormats() {
       </head>
       <body>
         <div class="title-page">
-          <h1 style="border: none; font-size: 48px;">${lang === 'es' ? '100 Consejos Dev' : '100 Dev Tips'}</h1>
-          <p style="font-size: 24px;">${lang === 'es' ? 'Una colección de sabiduría para desarrolladores' : 'A collection of wisdom for developers'}</p>
+          <h1 style="border: none; font-size: 42px;">${lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know'}</h1>
+          <p style="font-size: 22px; color: #666;">${lang === 'es' ? 'Mejora en programación, un consejo a la vez' : 'Improve your programming, one tip at a time'}</p>
         </div>
         ${tips.map(tip => `
           <div class="tip">

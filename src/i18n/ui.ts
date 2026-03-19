@@ -17,7 +17,7 @@ export const ui = {
     'hero.headline_pre': 'cosas que todo',
     'hero.headline_accent': 'programador',
     'hero.headline_post': 'debería saber',
-    'hero.title': 'Mejora como programador,',
+    'hero.title': 'Mejora en programación,',
     'hero.subtitle': 'un consejo a la vez',
     'hero.description': '100 cosas que todo programador debería saber. Lee, aprende y marca tu progreso.',
     'footer.based': 'Basado en la idea de "97 Things Every Programmer Should Know".',
