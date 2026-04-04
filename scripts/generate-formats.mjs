@@ -25,9 +25,11 @@ async function getAuthor(authorId) {
 async function imageToBase64(filePath) {
   try {
     const bitmap = await fs.readFile(filePath);
-    const extension = path.extname(filePath).replace('.', '');
+    const extension = path.extname(filePath).replace('.', '').toLowerCase();
     const base64 = Buffer.from(bitmap).toString('base64');
-    return `data:image/${extension === 'jpg' ? 'jpeg' : extension};base64,${base64}`;
+    const mimeMap = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml' };
+    const mime = mimeMap[extension] || `image/${extension}`;
+    return `data:${mime};base64,${base64}`;
   } catch (error) {
     console.error(`Error converting image to base64: ${filePath}`, error);
     return null;
@@ -85,9 +87,21 @@ async function generateFormats() {
       const html = await marked.parse(body);
       const publicPath = path.join(process.cwd(), 'public');
       
-      // Fix image paths: replace absolute paths starting with / with base64 data URLs
       let fixedHtml = html;
-      const imgMatches = html.matchAll(/src="\/([^"]+)"/g);
+
+      // For SVG images, inline the SVG element directly (avoids epub-gen ENAMETOOLONG)
+      const svgImgTags = [...html.matchAll(/<img\s+[^>]*src="\/([^"]+\.svg)"[^>]*>/g)];
+      for (const match of svgImgTags) {
+        const relativePath = match[1];
+        const absolutePath = path.join(publicPath, relativePath);
+        try {
+          const svgContent = await fs.readFile(absolutePath, 'utf-8');
+          fixedHtml = fixedHtml.replace(match[0], `<div class="diagram">${svgContent}</div>`);
+        } catch { /* skip missing SVGs */ }
+      }
+
+      // For bitmap images, convert to base64 data URLs
+      const imgMatches = fixedHtml.matchAll(/src="\/([^"]+)"/g);
       for (const match of imgMatches) {
         const relativePath = match[1];
         const absolutePath = path.join(publicPath, relativePath);
@@ -109,7 +123,7 @@ async function generateFormats() {
     }
 
     // Sort tips by ID
-    tips.sort((a, b) => a.id.localeCompare(b.id));
+    tips.sort((a, b) => Number(a.id) - Number(b.id));
 
     if (tips.length === 0) {
       console.warn(`No tips found for language: ${lang}`);
@@ -206,6 +220,8 @@ async function generateFormats() {
           .tip { break-before: page; }
           .title-page { break-after: page; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
           img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
+          .diagram { text-align: center; margin: 1.5rem auto; border-radius: 8px; overflow: hidden; }
+          .diagram svg { max-width: 100%; height: auto; display: block; }
           @media print {
             .tip:first-of-type { break-before: avoid; }
           }
