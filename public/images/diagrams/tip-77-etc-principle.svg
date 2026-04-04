@@ -1,33 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420">
-  <rect width="600" height="420" fill="#f8fafc" rx="6"/>
+  <rect width="600" height="420" fill="#050505" rx="6"/>
   <!-- Center circle: ETC -->
-  <circle cx="300" cy="220" r="46" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
-  <text x="300" y="215" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="24" font-weight="bold" fill="#1a1a2e">ETC</text>
-  <text x="300" y="235" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#64748b">Easy To Change</text>
+  <circle cx="300" cy="220" r="46" fill="#161616" stroke="#525252" stroke-width="2"/>
+  <text x="300" y="215" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="24" font-weight="bold" fill="#e5e5e5">ETC</text>
+  <text x="300" y="235" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#737373">Easy To Change</text>
   <!-- Spoke lines -->
-  <line x1="300" y1="174" x2="300" y2="94" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4 3"/>
-  <line x1="344" y1="206" x2="382" y2="193" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3"/>
-  <line x1="327" y1="264" x2="372" y2="326" stroke="#10b981" stroke-width="2" stroke-dasharray="4 3"/>
-  <line x1="273" y1="264" x2="228" y2="326" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 3"/>
-  <line x1="256" y1="206" x2="218" y2="193" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="300" y1="174" x2="300" y2="94" stroke="#60a5fa" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="344" y1="206" x2="382" y2="193" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="327" y1="264" x2="372" y2="326" stroke="#34d399" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="273" y1="264" x2="228" y2="326" stroke="#f87171" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="256" y1="206" x2="218" y2="193" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4 3"/>
   <!-- SRP (top) -->
-  <rect x="235" y="42" width="130" height="52" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-  <text x="300" y="68" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#3b82f6">SRP</text>
-  <text x="300" y="84" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#334155">Una raz�n para cambiar</text>
+  <rect x="235" y="42" width="130" height="52" rx="10" fill="#0a1628" stroke="#60a5fa" stroke-width="2"/>
+  <text x="300" y="68" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#60a5fa">SRP</text>
+  <text x="300" y="84" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#737373">Una razón para cambiar</text>
   <!-- DIP (upper-right) -->
-  <rect x="382" y="157" width="140" height="52" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
-  <text x="452" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#f59e0b">DIP</text>
-  <text x="452" y="199" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#334155">Depende de abstracciones</text>
+  <rect x="382" y="157" width="140" height="52" rx="10" fill="#1a1506" stroke="#fbbf24" stroke-width="2"/>
+  <text x="452" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#fbbf24">DIP</text>
+  <text x="452" y="199" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#737373">Depende de abstracciones</text>
   <!-- DRY (lower-right) -->
-  <rect x="326" y="326" width="140" height="52" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
-  <text x="396" y="352" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#10b981">DRY</text>
-  <text x="396" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#334155">Cambia en un solo lugar</text>
+  <rect x="326" y="326" width="140" height="52" rx="10" fill="#071a12" stroke="#34d399" stroke-width="2"/>
+  <text x="396" y="352" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#34d399">DRY</text>
+  <text x="396" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#737373">Cambia en un solo lugar</text>
   <!-- OCP (lower-left) -->
-  <rect x="134" y="326" width="140" height="52" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
-  <text x="204" y="352" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#ef4444">OCP</text>
-  <text x="204" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#334155">Abierto a extensi�n</text>
+  <rect x="134" y="326" width="140" height="52" rx="10" fill="#1a0a0a" stroke="#f87171" stroke-width="2"/>
+  <text x="204" y="352" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#f87171">OCP</text>
+  <text x="204" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#737373">Abierto a extensión</text>
   <!-- LSP (upper-left) -->
-  <rect x="78" y="157" width="140" height="52" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
-  <text x="148" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#8b5cf6">LSP</text>
-  <text x="148" y="199" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#334155">Sustituible sin sorpresas</text>
+  <rect x="78" y="157" width="140" height="52" rx="10" fill="#130f24" stroke="#a78bfa" stroke-width="2"/>
+  <text x="148" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17" font-weight="bold" fill="#a78bfa">LSP</text>
+  <text x="148" y="199" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="9" fill="#737373">Sustituible sin sorpresas</text>
 </svg>

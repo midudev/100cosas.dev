@@ -5,79 +5,79 @@
     </style>
   </defs>
 
-  <rect width="600" height="340" rx="8" fill="#f8fafc"/>
+  <rect width="600" height="340" rx="8" fill="#050505"/>
 
   <!-- Title -->
-  <text x="300" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Concurrencia vs Paralelismo</text>
+  <text x="300" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#e5e5e5">Concurrencia vs Paralelismo</text>
 
   <!-- CONCURRENCY SECTION -->
-  <rect x="20" y="50" width="560" height="120" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-  <text x="40" y="74" font-size="13" font-weight="700" fill="#3b82f6">Concurrencia</text>
-  <text x="160" y="74" font-size="11" fill="#64748b"> Un CPU, m�ltiples tareas intercaladas</text>
+  <rect x="20" y="50" width="560" height="120" rx="8" fill="#0c0c0c" stroke="#262626" stroke-width="1"/>
+  <text x="40" y="74" font-size="13" font-weight="700" fill="#60a5fa">Concurrencia</text>
+  <text x="160" y="74" font-size="11" fill="#737373">— Un CPU, múltiples tareas intercaladas</text>
 
   <!-- Single CPU label -->
-  <rect x="40" y="90" width="52" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-  <text x="66" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">CPU 1</text>
+  <rect x="40" y="90" width="52" height="24" rx="4" fill="#161616" stroke="#333333" stroke-width="1"/>
+  <text x="66" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#e5e5e5">CPU 1</text>
 
   <!-- Timeline bar -->
-  <line x1="110" y1="102" x2="556" y2="102" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="110" y1="102" x2="556" y2="102" stroke="#262626" stroke-width="1"/>
 
   <!-- Task blocks interleaved on single timeline -->
-  <rect x="110" y="88" width="60" height="28" rx="4" fill="#3b82f6"/>
+  <rect x="110" y="88" width="60" height="28" rx="4" fill="#60a5fa"/>
   <text x="140" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">A</text>
 
-  <rect x="174" y="88" width="40" height="28" rx="4" fill="#10b981"/>
+  <rect x="174" y="88" width="40" height="28" rx="4" fill="#34d399"/>
   <text x="194" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">B</text>
 
-  <rect x="218" y="88" width="50" height="28" rx="4" fill="#f59e0b"/>
+  <rect x="218" y="88" width="50" height="28" rx="4" fill="#fbbf24"/>
   <text x="243" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">C</text>
 
-  <rect x="272" y="88" width="45" height="28" rx="4" fill="#3b82f6"/>
+  <rect x="272" y="88" width="45" height="28" rx="4" fill="#60a5fa"/>
   <text x="294" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">A</text>
 
-  <rect x="321" y="88" width="55" height="28" rx="4" fill="#10b981"/>
+  <rect x="321" y="88" width="55" height="28" rx="4" fill="#34d399"/>
   <text x="348" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">B</text>
 
-  <rect x="380" y="88" width="35" height="28" rx="4" fill="#f59e0b"/>
+  <rect x="380" y="88" width="35" height="28" rx="4" fill="#fbbf24"/>
   <text x="397" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">C</text>
 
-  <rect x="419" y="88" width="50" height="28" rx="4" fill="#3b82f6"/>
+  <rect x="419" y="88" width="50" height="28" rx="4" fill="#60a5fa"/>
   <text x="444" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">A</text>
 
-  <rect x="473" y="88" width="40" height="28" rx="4" fill="#10b981"/>
+  <rect x="473" y="88" width="40" height="28" rx="4" fill="#34d399"/>
   <text x="493" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">B</text>
 
   <!-- Concurrency note -->
-  <text x="40" y="152" font-size="10" fill="#64748b">Un hilo alterna entre tareas r�pidamente � parece simult�neo (ej: JavaScript event loop)</text>
+  <text x="40" y="152" font-size="10" fill="#737373">Un hilo alterna entre tareas rápidamente — parece simultáneo (ej: JavaScript event loop)</text>
 
   <!-- PARALLELISM SECTION -->
-  <rect x="20" y="185" width="560" height="140" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-  <text x="40" y="209" font-size="13" font-weight="700" fill="#10b981">Paralelismo</text>
-  <text x="150" y="209" font-size="11" fill="#64748b"> M�ltiples CPUs, tareas simult�neas</text>
+  <rect x="20" y="185" width="560" height="140" rx="8" fill="#0c0c0c" stroke="#262626" stroke-width="1"/>
+  <text x="40" y="209" font-size="13" font-weight="700" fill="#34d399">Paralelismo</text>
+  <text x="150" y="209" font-size="11" fill="#737373">— Múltiples CPUs, tareas simultáneas</text>
 
   <!-- CPU 1 -->
-  <rect x="40" y="222" width="52" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-  <text x="66" y="238" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">CPU 1</text>
-  <line x1="110" y1="234" x2="556" y2="234" stroke="#e2e8f0" stroke-width="1"/>
-  <rect x="110" y="220" width="430" height="28" rx="4" fill="#3b82f6"/>
-  <text x="325" y="238" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Tarea A  ejecuci�n completa</text>
+  <rect x="40" y="222" width="52" height="24" rx="4" fill="#161616" stroke="#333333" stroke-width="1"/>
+  <text x="66" y="238" text-anchor="middle" font-size="10" font-weight="600" fill="#e5e5e5">CPU 1</text>
+  <line x1="110" y1="234" x2="556" y2="234" stroke="#262626" stroke-width="1"/>
+  <rect x="110" y="220" width="430" height="28" rx="4" fill="#60a5fa"/>
+  <text x="325" y="238" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Tarea A — ejecución completa</text>
 
   <!-- CPU 2 -->
-  <rect x="40" y="258" width="52" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-  <text x="66" y="274" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">CPU 2</text>
-  <line x1="110" y1="270" x2="556" y2="270" stroke="#e2e8f0" stroke-width="1"/>
-  <rect x="110" y="256" width="430" height="28" rx="4" fill="#10b981"/>
-  <text x="325" y="274" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Tarea B  ejecuci�n completa</text>
+  <rect x="40" y="258" width="52" height="24" rx="4" fill="#161616" stroke="#333333" stroke-width="1"/>
+  <text x="66" y="274" text-anchor="middle" font-size="10" font-weight="600" fill="#e5e5e5">CPU 2</text>
+  <line x1="110" y1="270" x2="556" y2="270" stroke="#262626" stroke-width="1"/>
+  <rect x="110" y="256" width="430" height="28" rx="4" fill="#34d399"/>
+  <text x="325" y="274" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Tarea B — ejecución completa</text>
 
   <!-- CPU 3 -->
-  <rect x="40" y="294" width="52" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-  <text x="66" y="310" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">CPU 3</text>
-  <line x1="110" y1="306" x2="556" y2="306" stroke="#e2e8f0" stroke-width="1"/>
-  <rect x="110" y="292" width="430" height="28" rx="4" fill="#f59e0b"/>
-  <text x="325" y="310" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Tarea C  ejecuci�n completa</text>
+  <rect x="40" y="294" width="52" height="24" rx="4" fill="#161616" stroke="#333333" stroke-width="1"/>
+  <text x="66" y="310" text-anchor="middle" font-size="10" font-weight="600" fill="#e5e5e5">CPU 3</text>
+  <line x1="110" y1="306" x2="556" y2="306" stroke="#262626" stroke-width="1"/>
+  <rect x="110" y="292" width="430" height="28" rx="4" fill="#fbbf24"/>
+  <text x="325" y="310" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Tarea C — ejecución completa</text>
 
   <!-- Time arrow -->
-  <line x1="110" y1="335" x2="540" y2="335" stroke="#94a3b8" stroke-width="1.5"/>
-  <polygon points="540,331 548,335 540,339" fill="#94a3b8"/>
-  <text x="556" y="339" font-size="10" fill="#94a3b8">t</text>
+  <line x1="110" y1="335" x2="540" y2="335" stroke="#525252" stroke-width="1.5"/>
+  <polygon points="540,331 548,335 540,339" fill="#525252"/>
+  <text x="556" y="339" font-size="10" fill="#525252">t</text>
 </svg>
