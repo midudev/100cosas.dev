@@ -8,8 +8,6 @@ author: "ron-jeffries"
 
 **Ron Jeffries**, uno de los tres fundadores de Extreme Programming junto a Kent Beck y Ward Cunningham, nos advierte con esta verdad incómoda: **"Code never lies, comments sometimes do."**
 
-El código nunca miente, los comentarios a veces sí.
-
 Esta frase no es un ataque contra la documentación; es un recordatorio de que el código es la **única fuente de verdad** sobre lo que hace un programa. Los comentarios son opiniones, interpretaciones o, peor aún, recuerdos desactualizados de lo que el código *solía* hacer.
 
 ## El ciclo de vida del comentario mentiroso
@@ -75,6 +73,21 @@ function isValidCardNumber(cardNumber: string): boolean {
 }
 ```
 
+### 4. APIs públicas
+
+Quien consume tu API no debería leer tu implementación para saber cómo usarla:
+
+```typescript
+/**
+ * Envía un email de bienvenida al usuario recién registrado.
+ *
+ * @param userId - ID del usuario (debe existir en la base de datos)
+ * @throws {UserNotFoundError} Si el usuario no existe
+ * @throws {EmailServiceError} Si falla el envío
+ */
+async function sendWelcomeEmail(userId: string): Promise<void>
+```
+
 ## Los comentarios que deberían ser código
 
 La mayoría de los comentarios existen porque el código no es lo suficientemente expresivo. En lugar de comentar, **refactoriza**.
@@ -120,21 +133,6 @@ Antes de escribir un comentario, pregúntate:
 2. ¿Puedo extraer una función con un nombre descriptivo?
 3. ¿Puedo usar una constante con nombre en lugar de un valor mágico?
 
-Si la respuesta a cualquiera de estas es "sí", refactoriza en lugar de comentar.
-
-## Código como documentación viva
-
-La filosofía de Extreme Programming, de la que Ron Jeffries es pionero, promueve la idea de que el código bien escrito es su propia documentación. Los tests son documentación ejecutable. Los nombres son documentación inline. La estructura es documentación arquitectónica.
-
-```typescript
-// El código cuenta una historia clara
-const activeUsers = users.filter(user => user.isActive);
-const premiumUsers = activeUsers.filter(user => user.subscription === 'premium');
-const eligibleForPromotion = premiumUsers.filter(user => user.purchaseCount > 10);
-
-sendPromotionalEmail(eligibleForPromotion);
-```
-
-No hay comentarios, pero cualquiera entiende exactamente qué está pasando.
+Si la respuesta a cualquiera de estas es "sí", refactoriza en lugar de comentar. Los tests son documentación ejecutable. Los nombres son documentación inline. La estructura es documentación arquitectónica.
 
 **El mejor comentario es el que no necesitas escribir porque tu código ya lo dice todo.**

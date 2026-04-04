@@ -18,6 +18,8 @@ Casi nadie recuerda la frase completa de Knuth:
 
 El mensaje real es de **proporción**: el 97% de tu código no necesita optimización. Solo el 3% es crítico, y ese 3% debes identificarlo con **datos**, no con intuición.
 
+![Diagrama de la regla del 97/3 de Knuth: el 97% del código no necesita optimización, solo el 3% es cuello de botella real](/images/diagrams/tip-14-97-3-rule.svg)
+
 ## El coste oculto de optimizar "por si acaso"
 
 Cuando optimizas sin medir, pagas un precio altísimo:
@@ -58,6 +60,30 @@ function processUsersClear(users: User[]) {
 
 La versión "optimizada" es más difícil de leer, más propensa a errores y... ¿realmente más rápida? En la mayoría de los casos, la diferencia es imperceptible. Los motores de JavaScript modernos optimizan `filter` y `map` de formas que sorprenderían a muchos.
 
+## La misma trampa en React: useMemo y useCallback
+
+La optimización prematura también acecha en React. `useMemo` y `useCallback` se aplican con frecuencia "por si acaso", sin evidencia de un problema real:
+
+```javascript
+// ❌ Optimización por deporte
+// Añadimos carga cognitiva y gastamos memoria para guardar
+// una función que es extremadamente barata de recrear.
+const handleClick = useCallback(() => {
+  console.log('Action');
+}, []);
+
+// ✅ Simplicidad por defecto
+// Solo añadiremos useCallback si este componente causa
+// problemas de renderizado reales y medidos.
+const handleClick = () => {
+  console.log('Action');
+};
+```
+
+La ironía es que la propia infraestructura de la optimización (las comparaciones que hace React en `useMemo`) puede ser más costosa que la tarea que intentamos optimizar.
+
+Optimizar es una **transacción**: estás intercambiando **claridad** por **velocidad**. Como en cualquier negocio, solo debes realizar el intercambio si el beneficio compensa el coste. Si no tienes una métrica que diga que algo va lento, no lo toques.
+
 ## El ciclo correcto: Medir, identificar, optimizar
 
 Knuth nos dejó un método claro:
@@ -85,8 +111,6 @@ async function processLargeDataset(data: Item[]) {
 
 ## La sabiduría de la paciencia
 
-Como dice el propio Knuth, hay un momento para optimizar: cuando tienes datos que lo justifiquen. Pero ese momento casi nunca es "ahora" y casi nunca es "aquí".
+Hay un momento para optimizar: cuando tienes datos que lo justifiquen. Pero ese momento casi nunca es "ahora" y casi nunca es "aquí".
 
-Tu trabajo como desarrollador profesional es entregar software que funcione, sea mantenible y resuelva problemas reales. La velocidad es importante, pero **la velocidad de desarrollo y la velocidad de cambio suelen ser más valiosas que unos milisegundos de ejecución**.
-
-La próxima vez que sientas la tentación de "optimizar" algo que no has medido, recuerda las palabras de Knuth. Puede que estés cultivando la raíz de todos los males en tu código.
+Tu trabajo como desarrollador profesional es entregar software que funcione, sea mantenible y resuelva problemas reales. La velocidad importa, pero **la velocidad de desarrollo y la velocidad de cambio suelen ser más valiosas que unos milisegundos de ejecución**. La próxima vez que sientas la tentación de "optimizar" algo que no has medido, recuerda a Knuth. Puede que estés cultivando la raíz de todos los males en tu código.

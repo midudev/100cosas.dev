@@ -8,7 +8,9 @@ author: "guido-van-rossum"
 
 Es una de las verdades más incómodas de nuestra profesión: **pasamos el 90% de nuestro tiempo intentando entender código y solo el 10% escribiéndolo.**
 
-Esta máxima, popularizada por **Guido van Rossum**, no es una opinión, es una realidad estadística. Robert C. Martin (Uncle Bob) lo llevó más allá en su libro *Clean Code*, asegurando que la proporción es de **más de 10 a 1**. Cada vez que te sientas a programar, estás leyendo lo que hiciste ayer, lo que hizo tu compañero hace un mes o lo que dejó un desarrollador que ya ni siquiera está en la empresa.
+Esta máxima, popularizada por **Guido van Rossum**, no es una opinión, es una realidad estadística. Robert C. Martin (Uncle Bob) lo llevó más allá en su libro *Clean Code*, asegurando que la proporción es de **más de 10 a 1**. Martin Fowler lo resumió de forma demoledora: **"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."**
+
+Cada vez que te sientas a programar, estás leyendo lo que hiciste ayer, lo que hizo tu compañero hace un mes o lo que dejó un desarrollador que ya ni siquiera está en la empresa.
 
 ## La carga cognitiva: Tu recurso más escaso
 
@@ -55,6 +57,60 @@ def get_doubled_evens(numbers):
     return [number * 2 for number in numbers if is_even(number)]
 ```
 
-La próxima vez que estés a punto de pulsar `Enter`, haz una pausa. No pienses en si el compilador lo entenderá (él no tiene sentimientos). Piensa en la persona que tendrá que leer ese código dentro de seis meses un viernes a las cinco de la tarde. Probablemente seas tú.
+## El refactoring como acto de comunicación
+
+El libro *Refactoring* de Fowler no trata solo de mejorar el código; trata de mejorar cómo nos comunicamos a través del código. Cada refactorización (extraer método, renombrar variable, introducir objeto explicativo) es una forma de hacer que la intención sea más clara para el siguiente lector.
+
+### Tres técnicas fundamentales de claridad
+
+1. **Nombres que revelan intención:**
+
+```python
+# ❌ Críptico
+d = time() - u.c
+
+# ✅ Claro
+milliseconds_since_user_creation = time() - user.created_at
+```
+
+2. **Funciones pequeñas con un solo propósito:**
+
+```python
+# ❌ Función que hace "todo"
+def process_order(order):
+    # 50 líneas de validación, cálculo de impuestos,
+    # envío de emails, actualización de inventario...
+
+# ✅ Funciones que se leen como un índice
+def process_order(order):
+    validate_order(order)
+    total = calculate_total_with_tax(order)
+    update_inventory(order.items)
+    send_confirmation_email(order.customer, total)
+```
+
+3. **Eliminar comentarios innecesarios escribiendo código autoexplicativo:**
+
+```python
+# ❌ El comentario compensa el mal código
+cnt += 1  # Incrementa el contador de intentos fallidos
+
+# ✅ El código se explica solo
+failed_login_attempts += 1
+```
+
+## El coste económico del código ilegible
+
+Cada minuto que un desarrollador pasa descifrando código críptico es dinero perdido. Cada bug introducido porque alguien no entendió una función "inteligente" es dinero perdido. Cada desarrollador que abandona un proyecto por frustración es dinero perdido. Escribir código legible no es un lujo ni un capricho estético; es una **inversión económica** con retorno garantizado.
+
+## La prueba del código legible
+
+Antes de hacer commit, pregúntate:
+
+1. ¿Un desarrollador junior de mi equipo entendería esto sin ayuda?
+2. ¿Yo mismo lo entenderé dentro de 6 meses?
+3. ¿Puedo leer el código en voz alta y que suene como una frase coherente?
+
+Si la respuesta a alguna de estas preguntas es "no", refactoriza. No para el ordenador. **Para los humanos que vendrán después.**
 
 Optimiza para la comprensión, no para el ahorro de caracteres. Tu éxito como desarrollador no se mide por lo complejo de tus algoritmos, sino por lo sencillo que resulte para los demás —y para tu "yo del futuro"— trabajar con ellos.

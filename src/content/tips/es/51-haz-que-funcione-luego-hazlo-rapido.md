@@ -16,6 +16,8 @@ La tentación natural es intentar hacer las tres cosas a la vez. Queremos códig
 - **Optimización prematura**: Optimizamos código que quizás no necesitamos
 - **Arquitectura especulativa**: Diseñamos para casos que nunca llegan
 
+![Diagrama del proceso: Funciona, Correcto, Rápido](/images/diagrams/tip-51-make-it-work.svg)
+
 ## Fase 1: Make it work
 
 ```javascript
@@ -104,16 +106,26 @@ function calculateTotal(items) {
 // Y solo llegamos aquí cuando ERA NECESARIO
 ```
 
+## TDD: el guardián del proceso
+
+Kent Beck creó TDD precisamente para forzar este orden:
+
+1. **Red:** Escribe un test que falla. Define qué significa "funcionar".
+2. **Green:** Escribe el código mínimo para que el test pase. "Make it work".
+3. **Refactor:** Mejora el código sin romper el test. "Make it right".
+
+El ciclo Red-Green-Refactor es la implementación práctica de "Make it work, make it right, make it fast" (con la fase "fast" reservada para cuando haya evidencia de que el rendimiento es un problema real).
+
 ## Por qué la mayoría salta a la fase 3
 
-La optimización prematura es seductora porque:
+La optimización prematura es seductora porque se siente productivo ("estoy haciendo código eficiente"), porque los trucos de rendimiento son técnicamente interesantes, y porque evita la parte difícil: entender el problema real.
 
-1. **Se siente productivo**: "Estoy haciendo código eficiente"
-2. **Es técnicamente interesante**: Los trucos de rendimiento son divertidos
-3. **Evita la parte difícil**: Entender el problema real
+Pero el 90% del código nunca necesita la fase 3. Es lo suficientemente rápido tal cual. Kent Beck lo sabe, y por eso insiste en el orden.
 
-## La realidad
+## El peligro simétrico: la abstracción prematura
 
-El 90% del código nunca llega a la fase 3. Es lo suficientemente rápido tal cual. Kent Beck lo sabe, y por eso insiste en el orden.
+El mismo principio aplica a la limpieza del código. Dan Abramov lo cuenta en su ensayo *"Goodbye, Clean Code"*: siendo junior, encontró código duplicado de un compañero y lo refactorizó en abstracciones elegantes. Se fue a casa orgulloso. Al día siguiente, el compañero senior deshizo todos los cambios. Dan estaba furioso, pero años después entendió: las abstracciones prematuras habían hecho el código más difícil de modificar, no más fácil.
 
-La próxima vez que te encuentres pensando en rendimiento antes de tener algo funcionando, recuerda: el código más rápido es el que no necesitas escribir porque el feature fue descartado. Primero haz que funcione.
+La lección es la misma que el mantra de Beck: el código feo que funciona es infinitamente más valioso que el código elegante que no existe. Envía la versión fea, demuestra que funciona, y luego —solo si merece la pena— refactoriza con la red de seguridad de los tests.
+
+**Primero haz que funcione.** El código más rápido es el que no necesitas escribir porque el feature fue descartado.

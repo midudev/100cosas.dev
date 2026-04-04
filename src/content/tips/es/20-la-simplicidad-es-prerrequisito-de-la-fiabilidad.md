@@ -8,9 +8,7 @@ author: "edsger-dijkstra"
 
 **Edsger W. Dijkstra**, ganador del Premio Turing y uno de los padres fundadores de la informática, escribió una vez: **"Simplicity is a prerequisite for reliability."**
 
-La simplicidad es prerrequisito de la fiabilidad. No es un "nice to have", no es una preferencia estética: es una **condición necesaria**. Si tu sistema no es simple, no puede ser fiable. Punto.
-
-Dijkstra dedicó su carrera a demostrar que la complejidad es el enemigo mortal del software correcto. Sus manuscritos escritos a mano (conocidos como EWDs) son una mina de sabiduría donde argumenta una y otra vez que la única forma de crear sistemas que funcionen es reduciendo su complejidad al mínimo indispensable.
+No es una preferencia estética ni un "nice to have": la simplicidad es una **condición necesaria** para la fiabilidad. Dijkstra dedicó su carrera a demostrarlo. Sus manuscritos escritos a mano (conocidos como EWDs) argumentan una y otra vez que la única forma de crear sistemas que funcionen es reduciendo su complejidad al mínimo indispensable.
 
 ## La complejidad: El enemigo silencioso
 
@@ -79,13 +77,60 @@ function calculateDiscount(context: DiscountContext): number {
 }
 ```
 
+## Simplicidad no es simpleza
+
+Hay un matiz crucial: la simplicidad genuina es el resultado de un esfuerzo intelectual enorme, mientras que lo simplista es el resultado de la pereza. En código, la simplicidad real requiere más pensamiento que la complejidad.
+
+```typescript
+// ❌ SIMPLISTA: parece sencillo, pero ignora la realidad
+function transferMoney(from: Account, to: Account, amount: number) {
+  from.balance -= amount;
+  to.balance += amount;
+}
+// ¿Y si from.balance < amount? ¿Y si from === to?
+// ¿Y si la segunda operación falla después de la primera?
+// ¿Y si amount es negativo? Este código "simple" es una fábrica de bugs.
+
+// ✅ SIMPLE: maneja la complejidad real sin añadir complejidad artificial
+function transferMoney(
+  from: Account,
+  to: Account,
+  amount: Money
+): TransferResult {
+  if (amount.isNegativeOrZero()) {
+    return { ok: false, error: 'INVALID_AMOUNT' };
+  }
+
+  if (from.id === to.id) {
+    return { ok: false, error: 'SAME_ACCOUNT' };
+  }
+
+  if (!from.hasSufficientFunds(amount)) {
+    return { ok: false, error: 'INSUFFICIENT_FUNDS' };
+  }
+
+  from.debit(amount);
+  to.credit(amount);
+
+  return { ok: true, transactionId: generateId() };
+}
+```
+
+La segunda versión tiene más líneas, pero es **más simple** conceptualmente. Cada caso está contemplado y cualquier desarrollador puede razonar sobre su comportamiento sin sorpresas. Si tu código solo funciona con datos perfectos, no es simple; es frágil.
+
+## Complejidad esencial vs. accidental
+
+Existe una distinción clave: la complejidad **esencial** (inherente al problema que resuelves) y la **accidental** (introducida por tus decisiones técnicas). La simplicidad genuina elimina la accidental sin negar la esencial.
+
+Si tu dominio es complejo (finanzas, medicina, logística), tu código reflejará esa complejidad. Pretender que no existe creando funciones "sencillas" que ignoran casos reales es autoengaño. Lo simplista se escribe en minutos y se paga durante años. Lo simple se piensa durante horas y ahorra tiempo durante décadas.
+
+![Diagrama de complejidad esencial vs. accidental: la simplicidad elimina lo accidental sin negar lo esencial](/images/diagrams/tip-20-complexity.svg)
+
 ## Los principios de Dijkstra
 
 1. **"La competencia del programador es una función decreciente de la densidad de sentencias goto en sus programas."** Traducido a hoy: la competencia se mide por la claridad del flujo de control, no por su ingenio.
 
 2. **"Los tests pueden demostrar la presencia de bugs, pero nunca su ausencia."** Por eso la simplicidad es tan importante: en un sistema simple, puedes **razonar** sobre su corrección, no solo testearla.
-
-3. **"La pregunta de si los ordenadores pueden pensar es como preguntarse si los submarinos pueden nadar."** Dijkstra nos recuerda que las analogías engañan. La simplicidad nos obliga a ser precisos.
 
 ## Cómo cultivar la simplicidad
 

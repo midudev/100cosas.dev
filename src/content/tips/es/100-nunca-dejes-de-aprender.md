@@ -22,6 +22,22 @@ El experto que cree saberlo todo deja de hacer preguntas. Y el que deja de pregu
 
 En cada caso, la arrogancia de creer que ya se sabía suficiente cerró puertas que la curiosidad habría mantenido abiertas.
 
+## El efecto Dunning-Kruger: la montaña rusa del aprendizaje
+
+Cuando empezamos a aprender algo nuevo, a menudo experimentamos lo que se conoce como el "Monte de la Ignorancia" dentro del **Efecto Dunning-Kruger**. Con apenas un poco de conocimiento, nuestra confianza es máxima. Es el momento en que creemos que "ya lo entendemos todo".
+
+Sin embargo, a medida que profundizamos, caemos en el "Valle de la Desesperación". Es aquí donde la complejidad se revela y nos damos cuenta de la inmensidad de lo que desconocemos. La diferencia entre un desarrollador que se estanca y uno que alcanza la maestría es cómo gestiona esta fase. La curiosidad es el puente que te permite cruzar ese valle.
+
+Ada lo vivió en primera persona. Sus estudios matemáticos la llevaron de la fascinación inicial con la Máquina Analítica a la comprensión profunda de sus limitaciones y posibilidades. No se detuvo en el Monte de la Ignorancia; cruzó el valle con preguntas que nadie más se hacía.
+
+### La analogía de la guitarra
+
+Aprender a programar tiene un paralelismo fascinante con aprender un instrumento musical:
+
+1. **La barrera inicial:** Al principio, te duelen los dedos (o la cabeza tratando de entender la recursividad). El sonido es sucio, las cuerdas trastean y coordinar las manos parece imposible. Es el momento donde es más fácil decir: "No tengo talento para esto".
+2. **La epifanía del patrón:** Un día, de repente, los dedos encuentran su sitio y el acorde de *Do mayor* suena limpio. En programación, es ese momento donde entiendes por fin cómo funciona un cierre (*closure*) o una promesa.
+3. **La expansión del horizonte:** Una vez que dominas los acordes básicos, te das cuenta de que no has terminado; acabas de empezar. Ahora entiendes que existe la teoría musical, las escalas, el ritmo, la composición. La curiosidad transforma la frustración inicial en un deseo de exploración infinita.
+
 ## La curiosidad tiene forma de código
 
 Ser curioso no es solo leer artículos o ver tutoriales. Es una práctica activa que se manifiesta en cómo escribes código cada día:

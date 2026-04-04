@@ -27,22 +27,7 @@ Lea Verou, investigadora del W3C y creadora de herramientas CSS esenciales como 
 }
 ```
 
-### 2. Tooltips con posicionamiento
-
-```css
-/* Antes: librería de positioning (Popper.js, etc.) */
-/* Ahora: CSS Anchor Positioning */
-.tooltip {
-  position: absolute;
-  anchor-name: --my-anchor;
-  position-anchor: --my-anchor;
-  top: anchor(bottom);
-  left: anchor(center);
-  translate: -50% 8px;
-}
-```
-
-### 3. Modales
+### 2. Modales
 
 ```html
 <!-- Antes: JS para abrir/cerrar/backdrop/focus trap -->
@@ -63,7 +48,7 @@ dialog::backdrop {
 </style>
 ```
 
-### 4. Temas dinámicos
+### 3. Temas dinámicos
 
 ```css
 /* Antes: CSS-in-JS, clases dinámicas */
@@ -141,23 +126,28 @@ form:has(:invalid) {
 }
 ```
 
-### Nuevos espacios de color
-
-```css
-/* oklch: perceptualmente uniforme, ideal para paletas */
-:root {
-  --primary-100: oklch(95% 0.05 250);
-  --primary-200: oklch(85% 0.10 250);
-  --primary-300: oklch(75% 0.15 250);
-  --primary-400: oklch(65% 0.20 250);
-  --primary-500: oklch(55% 0.20 250);
-}
-```
-
 ## El principio de Lea
 
 > "Antes de añadir JavaScript para un efecto visual, pregunta: ¿puede CSS hacerlo?"
 
-La respuesta es "sí" mucho más a menudo de lo que crees.
+La respuesta es "sí" mucho más a menudo de lo que crees. Y no se limita al estilo: la plataforma web en conjunto ha crecido enormemente. Elementos como `<dialog>`, `<details>` o el atributo `popover` reemplazan lo que antes requería librerías JavaScript completas.
 
-Lea ha dedicado su carrera a expandir lo que CSS puede hacer. Cada año, CSS gana capacidades que antes requerían JavaScript. El navegador optimiza CSS mejor que cualquier librería. Conocer CSS moderno te hace un desarrollador más eficiente y tus apps más rápidas.
+Lea propone un enfoque progresivo: **HTML primero** (¿puedo resolverlo con semántica?), **CSS después** (¿puedo añadir estilo y comportamiento básico?), y **JavaScript solo al final**, cuando realmente necesites interactividad compleja.
+
+```typescript
+// ❌ Overengineering común
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
+
+function AccordionItem({ title, content }) {
+  const [isOpen, setIsOpen] = useState(false);
+  // 50 líneas más...
+}
+
+// ✅ HTML + CSS nativo
+// <details><summary>Título</summary>Contenido</details>
+// Cero JavaScript. Cero dependencias. Funciona para siempre.
+```
+
+Cada año, CSS gana capacidades que antes requerían JavaScript, y el navegador las optimiza mejor que cualquier librería. **Antes de añadir otra dependencia de npm, pregúntate: ¿puede el navegador hacer esto de forma nativa?**

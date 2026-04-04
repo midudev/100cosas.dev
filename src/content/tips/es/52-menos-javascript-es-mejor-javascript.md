@@ -75,6 +75,8 @@ Cada byte de JavaScript consume memoria. En dispositivos con RAM limitada, esto 
 
 ### Usa la plataforma
 
+Una Kravets, Developer Advocate en Google Chrome, lo tiene claro: **"The best JavaScript is no JavaScript"**. Cada vez que podemos sustituir lógica de JS por una capacidad nativa de HTML o CSS, ganamos en rendimiento, accesibilidad y robustez.
+
 ```html
 <!-- ❌ JavaScript para un modal -->
 <div id="modal" class="hidden">...</div>
@@ -86,6 +88,22 @@ Cada byte de JavaScript consume memoria. En dispositivos con RAM limitada, esto 
   modal.showModal(); // 1 línea
 </script>
 ```
+
+La nueva **Invoker Commands API** va un paso más allá: permite definir interacciones de forma completamente declarativa, sin una sola línea de JavaScript.
+
+```html
+<!-- Sin JavaScript: el navegador se encarga de todo -->
+<button commandfor="my-dialog" command="show-modal">
+  Abrir Modal
+</button>
+
+<dialog id="my-dialog">
+  <p>Contenido del modal</p>
+  <button commandfor="my-dialog" command="close">Cerrar</button>
+</dialog>
+```
+
+Los elementos nativos como `<dialog>` o `popover` ya vienen con roles ARIA y comportamiento de teclado correctos "de caja". Menos JS que escribir significa menos JS que mantener y testear.
 
 ### Islands Architecture
 
@@ -124,4 +142,4 @@ Rich creó herramientas de JavaScript para que usemos **menos JavaScript**:
 - **Svelte**: Framework que desaparece
 - **SvelteKit**: Meta-framework con SSR por defecto
 
-Cada línea de JavaScript tiene un coste. No en tu MacBook Pro con fibra óptica - en el móvil de gama media con 3G de tu usuario real. Rich Harris nos recuerda que el mejor código es el que no existe, y el segundo mejor es el que se ejecuta en el servidor.
+Cada línea de JavaScript tiene un coste. No en tu MacBook Pro con fibra óptica, sino en el móvil de gama media con 3G de tu usuario real. El mejor JavaScript es el que no existe, y el segundo mejor es el que se ejecuta en el servidor. Abraza la plataforma, usa lo nativo y envía solo el JS imprescindible.

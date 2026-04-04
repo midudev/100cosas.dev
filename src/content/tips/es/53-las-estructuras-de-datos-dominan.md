@@ -63,61 +63,45 @@ const usersCache = new Map();
 const findUser = id => usersCache.get(id);
 ```
 
-### Historial con undo/redo
+### Máquina de estados con un objeto
 
-```javascript
-// La estructura correcta (stack) hace el código trivial
-class History {
-  constructor() {
-    this.undoStack = [];
-    this.redoStack = [];
+Imagina que tienes que gestionar los estados de un pedido y qué transiciones están permitidas. El enfoque típico es llenar el código de condicionales:
+
+```typescript
+// ❌ Lógica de control dispersa: crece exponencialmente con cada estado nuevo
+function canChangeStatus(current: Status, next: Status): boolean {
+  if (current === 'pendiente' && (next === 'pagado' || next === 'cancelado')) {
+    return true;
   }
-  
-  push(state) {
-    this.undoStack.push(state);
-    this.redoStack = []; // Clear redo on new action
+  if (current === 'pagado' && (next === 'enviado' || next === 'cancelado')) {
+    return true;
   }
-  
-  undo() {
-    if (this.undoStack.length === 0) return null;
-    const state = this.undoStack.pop();
-    this.redoStack.push(state);
-    return this.undoStack[this.undoStack.length - 1];
+  if (current === 'enviado' && next === 'entregado') {
+    return true;
   }
-  
-  redo() {
-    if (this.redoStack.length === 0) return null;
-    const state = this.redoStack.pop();
-    this.undoStack.push(state);
-    return state;
-  }
+  return false;
 }
 ```
 
-### Contador de frecuencias
+Pero si modelas las reglas de negocio como una estructura de datos, el código se escribe solo:
 
-```javascript
-// ❌ Enfoque imperativo complejo
-function countFrequencies(items) {
-  const result = {};
-  for (const item of items) {
-    if (result[item] === undefined) {
-      result[item] = 0;
-    }
-    result[item] += 1;
-  }
-  return result;
-}
+```typescript
+type Status = 'pendiente' | 'pagado' | 'enviado' | 'entregado' | 'cancelado';
 
-// ✅ Map con valor por defecto
-function countFrequencies(items) {
-  const counts = new Map();
-  for (const item of items) {
-    counts.set(item, (counts.get(item) || 0) + 1);
-  }
-  return counts;
+const ALLOWED_TRANSITIONS: Record<Status, Status[]> = {
+  pendiente: ['pagado', 'cancelado'],
+  pagado: ['enviado', 'cancelado'],
+  enviado: ['entregado'],
+  entregado: [],
+  cancelado: []
+};
+
+function canChangeStatus(current: Status, next: Status): boolean {
+  return ALLOWED_TRANSITIONS[current].includes(next);
 }
 ```
+
+Las reglas del negocio están en un solo lugar, son fáciles de leer y añadir un nuevo estado es cuestión de tocar un objeto, no una cadena de `if`.
 
 ## Git: un ejemplo de diseño por estructuras
 
@@ -150,4 +134,4 @@ Los "algoritmos" son triviales porque las estructuras son correctas.
    - ¿Datos ordenados? → Árbol de búsqueda
    - ¿Unicidad importante? → Set
 
-Linus nos enseña que la programación no es sobre ser ingenioso con algoritmos. Es sobre modelar datos de forma que el código que los manipula sea obvio. Elige bien tus estructuras y los algoritmos se escribirán solos.
+Cuando te enfrentes a un problema complejo, detente y pregunta: **"¿Hay alguna forma de organizar mis datos que haga que este código sea innecesario?"** La respuesta, sorprendentemente a menudo, es sí. La programación no es sobre ser ingenioso con algoritmos; es sobre modelar datos de forma que el código que los manipula sea obvio.

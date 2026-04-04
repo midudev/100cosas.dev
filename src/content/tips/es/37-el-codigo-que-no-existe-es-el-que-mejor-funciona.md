@@ -12,6 +12,8 @@ Carlos Blé, autor del primer libro en español sobre TDD y fundador de Lean Min
 
 Medimos a los programadores por líneas de código escritas, funcionalidades entregadas, commits por día. Pero estas métricas ignoran una verdad incómoda: **cada línea de código es un pasivo, no un activo**.
 
+No es una idea nueva. Jeff Atwood lo resumió como **"The best code is no code at all"** y Rich Harris insiste en que **el código es una responsabilidad (liability), no un activo (asset)**. Cada línea que escribes debe ser probada, mantenida y documentada; y, casi inevitablemente, contiene bugs.
+
 Código que no existe:
 
 - No tiene bugs
@@ -19,6 +21,18 @@ Código que no existe:
 - No requiere documentación
 - No necesita mantenimiento
 - No puede volverse legacy
+
+Y tiene un coste oculto que se acumula:
+
+| Aspecto | Coste por línea |
+|---------|-----------------|
+| **Bugs** | Más código = más superficie para errores |
+| **Tests** | Más código = más tests necesarios |
+| **Documentación** | Más código = más que explicar |
+| **Onboarding** | Más código = más que aprender |
+| **Refactoring** | Más código = más que cambiar |
+
+![Gráfico que muestra cómo Bugs, Mantenimiento y Tests necesarios aumentan con las líneas de código](/images/diagrams/tip-37-code-liability.svg)
 
 ## TDD: el arte de escribir lo justo
 
@@ -56,6 +70,32 @@ async function getUser(id) {
 }
 ```
 
+## El filtro de las tres preguntas (Jeff Atwood)
+
+Antes de escribir cualquier código nuevo, pásalo por este filtro mental:
+
+1. **¿Realmente necesito esta funcionalidad?** — No construyas "por si acaso". Si nadie la ha pedido, probablemente nadie la necesite.
+2. **¿Ya existe una solución?** — Antes de escribir tu propio sistema de validación, ¿has mirado Zod? Antes de implementar autenticación desde cero, ¿conoces Auth.js? Una librería bien mantenida suele ser menor responsabilidad que 500 líneas propias sin testear.
+3. **¿Puedo resolver el problema eliminando código?** — A veces la mejor solución es borrar. Una feature que nadie usa, un caso borde que nunca ocurre, una abstracción que complica más de lo que simplifica.
+
+```javascript
+// ❌ ANTES: Sistema complejo de permisos (200 líneas)
+class PermissionManager {
+  // roleHierarchy, permissionCache, inheritanceRules...
+  canAccess(user, resource, action) { /* 150 líneas */ }
+}
+
+// ✅ DESPUÉS: Resulta que solo hay dos roles
+function canAccess(user, resource) {
+  if (user.role === 'admin') return true;
+  return resource.ownerId === user.id;
+}
+```
+
+## La compilación como filosofía
+
+Svelte es la demostración técnica de este principio: mueve la responsabilidad del framework al **tiempo de compilación**, de modo que en producción solo queda el código mínimo necesario. El framework literalmente no existe en el cliente. Menos código enviado, menos que puede fallar.
+
 ## Diseño Ágil: emerge de los tests
 
 El buen diseño no se planifica en diagramas UML durante semanas. **Emerge orgánicamente** de escribir tests primero:
@@ -86,4 +126,4 @@ function processOrder(order) {
 }
 ```
 
-En una industria obsesionada con construir más, Carlos nos recuerda que el verdadero craftsman sabe cuándo **no** escribir código. La excelencia técnica no está en la complejidad que puedes crear, sino en la simplicidad que puedes mantener.
+En una industria obsesionada con construir más, el verdadero craftsman sabe cuándo **no** escribir código. La excelencia técnica no está en la complejidad que puedes crear, sino en la simplicidad que puedes mantener. Y la única forma de no mantener código es no escribirlo en primer lugar.

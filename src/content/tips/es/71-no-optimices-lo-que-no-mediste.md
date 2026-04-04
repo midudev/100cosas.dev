@@ -6,7 +6,7 @@ categoryColor: "text-amber-400 bg-amber-900/20"
 author: "donald-knuth"
 ---
 
-**Tu instinto de programador está equivocado el 97% de las veces cuando se trata de rendimiento.** Esa es la cifra exacta que usó Donald Knuth en su célebre paper de 1974, y décadas de experiencia en la industria le han dado la razón una y otra vez.
+**Tu instinto de programador está equivocado el 97% de las veces cuando se trata de rendimiento.** Esa es la cifra exacta que usó Donald Knuth en su célebre paper de 1974, y décadas de experiencia en la industria le han dado la razón una y otra vez. John Carmack, la leyenda que programó Doom y Quake, coincide: **"Nunca confíes en tu intuición. Mide primero"**.
 
 Ya hablamos del peligro de la optimización prematura. Pero hay un segundo consejo en la cita completa de Knuth que suele pasar desapercibido: *"Yet we should not pass up our opportunities in that critical 3%."* No debes ignorar el 3% que sí importa. ¿Y cómo encuentras ese 3%? **Midiendo.** Nunca adivinando.
 
@@ -30,6 +30,10 @@ const results = items.map(item => transformItem(item));
 ```
 
 La historia de Firefox es reveladora: cuando el equipo de Mozilla decidió mejorar el tiempo de arranque del navegador, su primera reacción fue optimizar el parsing de JavaScript. Tras medir con profilers, descubrieron que el cuello de botella real era la lectura de disco de los archivos de perfil del usuario. Ningún ingeniero lo habría adivinado sin datos.
+
+### Carmack y Doom: medir hasta el último frame
+
+Cuando Carmack optimizaba Doom en 1993, cada frame contaba. Podría haber asumido dónde estaban los problemas de rendimiento —tenía la experiencia para hacerlo—, pero eligió medir. Su profiler reveló que el **rendering de paredes consumía el 60% del frame time**. Se enfocó exclusivamente en eso, ignorando lo que parecía "obvio". El resultado: Doom corriendo en hardware que nadie creía posible.
 
 ## El arsenal de medición de un profesional
 
@@ -62,7 +66,25 @@ const obs = new PerformanceObserver((list) => {
 obs.observe({ entryTypes: ['measure'] });
 ```
 
-Más allá del código, las herramientas de profiling visual cambian las reglas del juego. Chrome DevTools tiene el panel Performance que graba flame charts mostrando exactamente dónde pasa tiempo tu aplicación. Node.js tiene el flag `--prof` que genera informes de profiling a nivel de V8. Y herramientas como Clinic.js pueden diagnosticar problemas de event loop, I/O y memoria con un solo comando.
+### Para React
+
+```jsx
+import { Profiler } from 'react';
+
+<Profiler id="List" onRender={(id, phase, actualDuration) => {
+  console.log(`${id} renderizó en ${actualDuration}ms`);
+}}>
+  <ExpensiveList items={items} />
+</Profiler>
+```
+
+### Para Node.js con Clinic.js
+
+```bash
+npx clinic doctor -- node server.js
+```
+
+Clinic.js diagnostica problemas de event loop, I/O y memoria con un solo comando. En el navegador, el panel Performance de Chrome DevTools graba flame charts que revelan dónde se consume el tiempo. Y en Node.js, el flag `--prof` genera informes de profiling a nivel de V8.
 
 ## Los tres pecados de la optimización sin datos
 
@@ -73,6 +95,8 @@ Más allá del código, las herramientas de profiling visual cambian las reglas 
 3. **Sacrificar mantenibilidad por nada:** Reemplazas código legible por trucos crípticos que ahorran 0.01ms en una operación que el usuario nunca percibe.
 
 ## El ciclo profesional: Mide, Identifica, Actúa, Verifica
+
+![Ciclo MIAR: Mide, Identifica, Actúa, Verifica](/images/diagrams/tip-71-miar-cycle.svg)
 
 El enfoque correcto tiene cuatro pasos, y ninguno es opcional:
 
@@ -99,4 +123,4 @@ function getDiscount(productId) {
 // Y solo tocamos la función que importaba.
 ```
 
-Knuth no era un enemigo de la optimización. Era un enemigo de la superstición disfrazada de ingeniería. **Medir es lo que transforma una corazonada en una decisión informada.** La próxima vez que sientas la urgencia de "optimizar" algo, abre un profiler antes de abrir el editor. Los datos nunca mienten; tu instinto, casi siempre.
+Ni Knuth ni Carmack eran enemigos de la optimización. Eran enemigos de la superstición disfrazada de ingeniería. **Medir es lo que transforma una corazonada en una decisión informada.** Tu intuición es valiosa para generar hipótesis; el profiler es quien las valida. La próxima vez que sientas la urgencia de "optimizar" algo, abre un profiler antes de abrir el editor. Los datos nunca mienten; tu instinto, casi siempre.
