@@ -218,3 +218,16 @@ article blockquote p:first-child strong:first-child {
     border-bottom: 1px solid var(--border);
     padding-bottom: 0.5rem;
 }
+
+/* Diagramas en tips: los SVG son modo claro; en la web se invierten para el fondo oscuro.
+   PDF/EPUB (generate-formats) no cargan esta hoja; impresión desde el navegador sin filtro. */
+article .prose img[src*="/images/diagrams/"] {
+    filter: invert(1) hue-rotate(180deg) brightness(1.06) contrast(1.05);
+    border-radius: 0.375rem;
+}
+
+@media print {
+    article .prose img[src*="/images/diagrams/"] {
+        filter: none !important;
+    }
+}

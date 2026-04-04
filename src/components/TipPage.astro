@@ -230,6 +230,28 @@ const jsonLd = {
           <span class:list={["text-[12px] px-2 py-0.5 rounded-sm", categoryColor]}>{category}</span>
         </div>
 
+        <!-- Buy book CTA -->
+        <a
+          href="#"
+          class="group flex items-center gap-3 p-3.5 rounded-xl border border-amber-500/20 bg-gradient-to-r from-amber-500/[0.07] to-orange-500/[0.07] hover:from-amber-500/15 hover:to-orange-500/15 hover:border-amber-500/30 transition-all"
+        >
+          <span class="flex items-center justify-center size-9 rounded-lg bg-amber-500/15 text-amber-400 shrink-0 group-hover:bg-amber-500/20 transition-colors">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+              <path d="M8 7h8" />
+              <path d="M8 11h6" />
+            </svg>
+          </span>
+          <span class="flex-1 min-w-0">
+            <span class="block text-[13px] font-medium text-amber-100">{t("book.buy")}</span>
+            <span class="block text-[11px] text-amber-400/60">{t("book.buy_desc")}</span>
+          </span>
+          <svg class="size-3.5 text-amber-400/40 shrink-0" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M4.53 4.75A.75.75 0 015.28 4h6.01a.75.75 0 01.75.75v6.01a.75.75 0 01-1.5 0V6.31l-5.263 5.263a.75.75 0 01-1.06-1.06L9.44 5.25H5.28a.75.75 0 01-.75-.75z" />
+          </svg>
+        </a>
+
         <!-- Prev / Next navigation -->
         <nav class="space-y-2">
           {prev && (

@@ -3,77 +3,98 @@ id: "69"
 title: "The terminal is your superpower"
 category: "Tools"
 categoryColor: "text-slate-400 bg-slate-900/20"
-author: "mislav-marohnic"
+author: "jessie-frazelle"
 ---
 
-Mislav Marohnić, maintainer of GitHub's CLI, lives in the terminal. His advice: **mastering the terminal multiplies your productivity in ways no IDE can match**.
+Jessie Frazelle was a core maintainer of Docker, contributed to Kubernetes and Go, and added the default Seccomp profile to Docker. She's famous for running **everything** in containers from the terminal: Chrome, Spotify, LibreOffice, even desktop apps. Her philosophy: **the terminal is your complete operating environment, and containers are the layer that makes it secure and reproducible**.
 
-## Commands you should know
+## Everything is a container
 
-### Navigation and search
+Why run a browser inside Docker? Because every application should run isolated, with minimal permissions, without polluting your system.
 
 ```bash
-# Find files by name
-find . -name "*.js" -type f
-
-# Search text in files
-grep -r "TODO" ./src
-
-# Search text (modern version)
-rg "function" --type js
-
-# Command history
-history | grep "docker"
-Ctrl+R  # Interactive history search
+# Run Chrome in a container
+docker run -d \
+  --memory 512mb \
+  --net host \
+  --security-opt seccomp=chrome.json \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -e DISPLAY=unix$DISPLAY \
+  -v $HOME/Downloads:/home/user/Downloads \
+  --name chrome \
+  jess/chrome
 ```
 
-### File manipulation
+If Chrome gets compromised, it has no access to your SSH keys, API tokens, or work files. **Security by default, not by effort.**
+
+## Essential commands
 
 ```bash
-# See differences
-diff file1.js file2.js
+# Fast text search
+rg "TODO" --type js
 
-# Last lines of a log (live)
-tail -f server.log
+# Follow a log in real time
+tail -f /var/log/app.log
 
-# Count lines of code
-find . -name "*.ts" | xargs wc -l
-```
-
-### Processes and network
-
-```bash
 # What's using port 3000?
 lsof -i :3000
 
 # Kill process by port
 kill $(lsof -t -i:3000)
+
+# Disk usage sorted by size
+du -sh * | sort -rh | head -20
+```
+
+## Docker-first development
+
+```bash
+# Disposable Node.js environment
+docker run --rm -it -v $(pwd):/app -w /app node:20 bash
+
+# Run with multi-layer security
+docker run --rm \
+  --security-opt seccomp=custom-profile.json \
+  --read-only \
+  --cap-drop ALL \
+  --cap-add NET_BIND_SERVICE \
+  my-app
+
+# Inspect container capabilities
+docker inspect --format='{{.HostConfig.CapAdd}}' my-container
 ```
 
 ## Aliases that change everything
 
 ```bash
-# ~/.zshrc or ~/.bashrc
-
-# Git shortcuts
+# Git
 alias gs="git status"
 alias gc="git commit -m"
-alias gp="git push"
+alias gl="git log --oneline -15"
 
-# Development
-alias nr="npm run"
-alias nrd="npm run dev"
+# Docker (Jessie-style)
+alias dps="docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'"
+alias dprune="docker system prune -af --volumes"
+alias dlog="docker logs -f"
+alias dex="docker exec -it"
+
+# Quick cleanup
+alias rmnode="find . -name 'node_modules' -type d -prune -exec rm -rf {} +"
 ```
 
-## Modern tools
+## Modern terminal tools
 
 ```bash
-# fzf - fuzzy finder
-# bat - cat with syntax highlighting
-# httpie - friendlier curl
-# jq - manipulate JSON
+# fzf: fuzzy search for files, history, branches
+# bat: cat with syntax highlighting
+# eza: modern ls with git info
+# jq: manipulate JSON like a pro
+docker inspect my-container | jq '.[0].NetworkSettings.IPAddress'
+# lazydocker: Docker dashboard in your terminal
 ```
 
-## Final reflection
+## Jessie's lesson
 
-Mislav shows that the terminal isn't "old school" - it's the most powerful tool you have. Every hour invested learning commands and creating aliases saves you days throughout the year.
+Jessie Frazelle proved you never need to leave the terminal. Her approach goes beyond productivity: every process isolated in a container is an extra security layer, every alias is a second saved that multiplies thousands of times, and every script is a task you'll never have to repeat manually.
+
+The terminal isn't "old school". It's your operating environment, your security system, and your productivity multiplier, all in one.

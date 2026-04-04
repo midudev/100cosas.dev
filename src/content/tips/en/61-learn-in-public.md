@@ -3,10 +3,10 @@ id: "61"
 title: "Learn in public: your best professional investment"
 category: "Career"
 categoryColor: "text-cyan-400 bg-cyan-900/20"
-author: "swyx"
+author: "cassidy-williams"
 ---
 
-Shawn Wang (swyx) coined the term **"Learning in Public"** and turned it into a professional development philosophy: **share what you learn while you're learning it, not when you're an "expert"**.
+**Cassidy Williams** started sharing programming memes on Twitter. Today she's one of the most influential voices in the tech community, has been Director of Developer Experience at several companies, speaks at conferences worldwide, and has a newsletter read by hundreds of thousands of developers. As she says: **"You don't need to be an expert to teach. You just need to know something that someone else doesn't know yet"**.
 
 ## Traditional method vs. Learning in Public
 
@@ -102,4 +102,4 @@ The community will correct you (gently, mostly). You learn faster with public fe
 
 ## Final reflection
 
-Swyx transformed his career in 2 years applying this principle. Not because he was smarter, but because his learning was visible. In a world where everyone consumes content, being a creator automatically differentiates you.
+Cassidy transformed her career by applying this principle. Not because she was smarter, but because her learning was visible. Her memes and videos started as fun, but the visibility they generated opened doors she never imagined. In a world where everyone consumes content, being a creator automatically differentiates you.
