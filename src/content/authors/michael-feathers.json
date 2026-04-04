@@ -1,0 +1,11 @@
+{
+    "id": "michael-feathers",
+    "name": "Michael Feathers",
+    "initials": "MF",
+    "bio": {
+        "es": "Consultor de software y autor de 'Working Effectively with Legacy Code' (2004), el libro de referencia para trabajar con código heredado. Su definición de código legacy como 'código sin tests' cambió la perspectiva de toda una industria. Fundador de R7K Research & Conveyance y ponente habitual en conferencias de software.",
+        "en": "Software consultant and author of 'Working Effectively with Legacy Code' (2004), the reference book for working with inherited code. His definition of legacy code as 'code without tests' changed the perspective of an entire industry. Founder of R7K Research & Conveyance and regular speaker at software conferences."
+    },
+    "x": "https://x.com/mfeathers",
+    "github": "https://github.com/michaelfeathers"
+}

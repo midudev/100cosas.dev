@@ -1,0 +1,11 @@
+{
+    "id": "limor-fried",
+    "name": "Limor Fried",
+    "initials": "LF",
+    "bio": {
+        "es": "Fundadora y directora de ingeniería de Adafruit Industries. Graduada del MIT, fue la primera mujer ingeniera en aparecer en la portada de la revista WIRED. Su filosofía es que la mejor forma de aprender es construyendo, y ha dedicado su carrera a hacer la electrónica y la programación accesibles para todos.",
+        "en": "Founder and lead engineer of Adafruit Industries. MIT graduate, she was the first female engineer featured on the cover of WIRED magazine. Her philosophy is that the best way to learn is by building, and she has dedicated her career to making electronics and programming accessible to everyone."
+    },
+    "x": "https://x.com/adafruit",
+    "github": "https://github.com/ladyada"
+}

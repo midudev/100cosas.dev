@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="380" viewBox="0 0 600 380">
+  <rect width="600" height="380" fill="#f8fafc" rx="8"/>
+
+  <text x="300" y="30" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#1a1a2e">M�s c�digo = M�s coste en cada dimensi�n</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="290" x2="540" y2="290" stroke="#334155" stroke-width="2"/>
+  <line x1="80" y1="290" x2="80" y2="55" stroke="#334155" stroke-width="2"/>
+
+  <!-- X axis arrow -->
+  <polygon points="540,290 532,284 532,296" fill="#334155"/>
+  <!-- Y axis arrow -->
+  <polygon points="80,55 74,63 86,63" fill="#334155"/>
+
+  <!-- Axis labels -->
+  <text x="310" y="318" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#334155">L�neas de c�digo �</text>
+  <text x="30" y="175" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#334155" transform="rotate(-90, 30, 175)">Coste �</text>
+
+  <!-- Grid lines (subtle) -->
+  <line x1="80" y1="230" x2="530" y2="230" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="80" y1="170" x2="530" y2="170" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="80" y1="110" x2="530" y2="110" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Bugs line (red) - steepest -->
+  <path d="M 80,280 Q 200,260 300,200 Q 400,130 520,70" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Mantenimiento line (amber) -->
+  <path d="M 80,280 Q 220,265 320,220 Q 420,170 520,110" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Tests necesarios line (blue) -->
+  <path d="M 80,280 Q 240,268 340,235 Q 440,195 520,145" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Line labels -->
+  <circle cx="524" cy="70" r="4" fill="#ef4444"/>
+  <text x="516" y="62" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#ef4444">Bugs</text>
+
+  <circle cx="524" cy="110" r="4" fill="#f59e0b"/>
+  <text x="516" y="102" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#f59e0b">Mantenimiento</text>
+
+  <circle cx="524" cy="145" r="4" fill="#3b82f6"/>
+  <text x="516" y="137" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#3b82f6">Tests necesarios</text>
+
+  <!-- Vertical dashed line: "Lo que necesitas" -->
+  <line x1="260" y1="58" x2="260" y2="290" stroke="#10b981" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- Labels for the dashed line -->
+  <text x="170" y="52" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#10b981">Lo que necesitas</text>
+  <text x="400" y="52" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#94a3b8">Lo que sobra</text>
+
+  <!-- Shaded area for "lo que sobra" -->
+  <rect x="260" y="58" width="275" height="232" fill="#f1f5f9" opacity="0.5"/>
+
+  <!-- Bottom message -->
+  <rect x="110" y="340" width="380" height="28" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="300" y="358" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#065f46">El mejor c�digo es el que no necesitas escribir</text>
+</svg>

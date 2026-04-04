@@ -1,0 +1,11 @@
+{
+    "id": "charity-majors",
+    "name": "Charity Majors",
+    "initials": "CM",
+    "bio": {
+        "es": "Co-fundadora y CTO de Honeycomb, empresa pionera en observabilidad. Ex ingeniera de infraestructura en Facebook y Parse. Conocida por popularizar la observabilidad como disciplina y por defender que 'testing in production' no es un crimen sino una necesidad. Su blog y charlas han redefinido cómo los equipos entienden sus sistemas en producción.",
+        "en": "Co-founder and CTO of Honeycomb, a pioneer in observability. Former infrastructure engineer at Facebook and Parse. Known for popularizing observability as a discipline and for advocating that 'testing in production' is not a crime but a necessity. Her blog and talks have redefined how teams understand their systems in production."
+    },
+    "x": "https://x.com/maboroshi",
+    "github": "https://github.com/charity"
+}

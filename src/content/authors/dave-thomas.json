@@ -1,0 +1,11 @@
+{
+    "id": "dave-thomas",
+    "name": "Dave Thomas",
+    "initials": "DT",
+    "bio": {
+        "es": "Co-autor de 'The Pragmatic Programmer' junto a Andy Hunt, uno de los libros más influyentes en la carrera de cualquier desarrollador. Fundador de la editorial Pragmatic Bookshelf y creador del kata de código como herramienta de práctica. Su principio ETC (Easy To Change) resume décadas de sabiduría en diseño de software.",
+        "en": "Co-author of 'The Pragmatic Programmer' with Andy Hunt, one of the most influential books in any developer's career. Founder of Pragmatic Bookshelf publishing and creator of code kata as a practice tool. His ETC (Easy To Change) principle distills decades of software design wisdom."
+    },
+    "x": "https://x.com/pragdave",
+    "github": "https://github.com/pragdave"
+}

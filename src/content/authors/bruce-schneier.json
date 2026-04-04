@@ -1,0 +1,11 @@
+{
+    "id": "bruce-schneier",
+    "name": "Bruce Schneier",
+    "initials": "BS",
+    "bio": {
+        "es": "Criptógrafo, experto en seguridad informática y autor prolífico. Sus libros 'Applied Cryptography' y 'Secrets and Lies' son referencia obligada en ciberseguridad. Escribe el blog 'Schneier on Security' desde 2004 y es conocido por su frase 'Security is a process, not a product'. Fellow del Berkman Klein Center en Harvard.",
+        "en": "Cryptographer, computer security expert and prolific author. His books 'Applied Cryptography' and 'Secrets and Lies' are essential references in cybersecurity. He has written the 'Schneier on Security' blog since 2004 and is known for his phrase 'Security is a process, not a product'. Fellow at the Berkman Klein Center at Harvard."
+    },
+    "x": "https://x.com/schnaborbuche",
+    "github": "https://github.com/schneierblog"
+}

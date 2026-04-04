@@ -1,0 +1,11 @@
+{
+    "id": "harold-abelson",
+    "name": "Harold Abelson",
+    "initials": "HA",
+    "bio": {
+        "es": "Profesor de informática en el MIT y co-autor de 'Structure and Interpretation of Computer Programs' (SICP), uno de los libros más influyentes en la historia de la enseñanza de la programación. Co-fundador de Creative Commons y defensor de la educación abierta. Su trabajo ha formado a generaciones de ingenieros de software.",
+        "en": "Professor of Computer Science at MIT and co-author of 'Structure and Interpretation of Computer Programs' (SICP), one of the most influential books in the history of programming education. Co-founder of Creative Commons and advocate for open education. His work has shaped generations of software engineers."
+    },
+    "x": "https://x.com/hal_abelson",
+    "github": "https://github.com/haberman"
+}

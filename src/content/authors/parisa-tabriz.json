@@ -1,0 +1,11 @@
+{
+    "id": "parisa-tabriz",
+    "name": "Parisa Tabriz",
+    "initials": "PT",
+    "bio": {
+        "es": "Vicepresidenta y directora general de Google Chrome. Gestiona Project Zero, el equipo de investigación de seguridad ofensiva de Google. Conocida como la 'Security Princess' de Google, lideró la adopción masiva de HTTPS en la web y ha dedicado su carrera a hacer la seguridad accesible para todos los desarrolladores.",
+        "en": "Vice President and General Manager of Google Chrome. Manages Project Zero, Google's offensive security research team. Known as Google's 'Security Princess', she led the massive adoption of HTTPS across the web and has dedicated her career to making security accessible for all developers."
+    },
+    "x": "https://x.com/laaborista",
+    "github": "https://github.com/parisat"
+}

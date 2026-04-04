@@ -1,0 +1,11 @@
+{
+    "id": "ilya-grigorik",
+    "name": "Ilya Grigorik",
+    "initials": "IG",
+    "bio": {
+        "es": "Ingeniero de rendimiento web en Google y autor de 'High Performance Browser Networking', el libro de referencia sobre cómo funciona la red y cómo optimizar aplicaciones web. Co-presidente del W3C Web Performance Working Group. Su trabajo ha definido cómo medimos y optimizamos la velocidad de la web moderna.",
+        "en": "Web performance engineer at Google and author of 'High Performance Browser Networking', the reference book on how the network works and how to optimize web applications. Co-chair of the W3C Web Performance Working Group. His work has defined how we measure and optimize modern web speed."
+    },
+    "x": "https://x.com/igrigorik",
+    "github": "https://github.com/igrigorik"
+}

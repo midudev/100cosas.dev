@@ -1,0 +1,11 @@
+{
+    "id": "jessie-frazelle",
+    "name": "Jessie Frazelle",
+    "initials": "JF",
+    "bio": {
+        "es": "Ingeniera de software especializada en contenedores, seguridad y herramientas de línea de comandos. Fue core maintainer de Docker, contribuidora a Kubernetes y Go. Añadió el perfil Seccomp por defecto a Docker y es conocida por ejecutar absolutamente todo en contenedores, desde Chrome hasta LibreOffice.",
+        "en": "Software engineer specialized in containers, security, and command-line tools. Former core maintainer of Docker, contributor to Kubernetes and Go. Added the default Seccomp profile to Docker and is known for running absolutely everything in containers, from Chrome to LibreOffice."
+    },
+    "x": "https://x.com/jessfraz",
+    "github": "https://github.com/jessfraz"
+}

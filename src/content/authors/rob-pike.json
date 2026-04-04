@@ -1,0 +1,11 @@
+{
+    "id": "rob-pike",
+    "name": "Rob Pike",
+    "initials": "RP",
+    "bio": {
+        "es": "Co-creador de Go, UTF-8 y Plan 9 en Bell Labs. Trabajó junto a Ken Thompson y Dennis Ritchie en los laboratorios donde nació Unix. Su filosofía de diseño enfatiza la simplicidad, la concurrencia y las interfaces claras. Co-autor de 'The Practice of Programming' y 'The Unix Programming Environment'.",
+        "en": "Co-creator of Go, UTF-8 and Plan 9 at Bell Labs. Worked alongside Ken Thompson and Dennis Ritchie at the labs where Unix was born. His design philosophy emphasizes simplicity, concurrency and clear interfaces. Co-author of 'The Practice of Programming' and 'The Unix Programming Environment'."
+    },
+    "x": "https://x.com/rob_pike",
+    "github": "https://github.com/robpike"
+}

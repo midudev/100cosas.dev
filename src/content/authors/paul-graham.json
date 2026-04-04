@@ -1,0 +1,11 @@
+{
+    "id": "paul-graham",
+    "name": "Paul Graham",
+    "initials": "PG",
+    "bio": {
+        "es": "Co-fundador de Y Combinator, la aceleradora de startups más influyente del mundo (Airbnb, Dropbox, Stripe, Reddit). Programador de Lisp, autor de 'Hackers & Painters' y ensayista prolífico. Sus ensayos sobre startups, programación y pensamiento original han influido a toda una generación de emprendedores tecnológicos.",
+        "en": "Co-founder of Y Combinator, the world's most influential startup accelerator (Airbnb, Dropbox, Stripe, Reddit). Lisp programmer, author of 'Hackers & Painters' and prolific essayist. His essays on startups, programming and original thinking have influenced an entire generation of tech entrepreneurs."
+    },
+    "x": "https://x.com/paulg",
+    "github": "https://github.com/paulgraham"
+}

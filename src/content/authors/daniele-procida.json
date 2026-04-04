@@ -1,0 +1,11 @@
+{
+    "id": "daniele-procida",
+    "name": "Daniele Procida",
+    "initials": "DP",
+    "bio": {
+        "es": "Creador del framework Diátaxis para documentación técnica, que organiza la documentación en cuatro tipos (tutoriales, guías, referencia y explicación). Director de ingeniería en Canonical (Ubuntu) y contribuidor de Django. Su trabajo ha transformado la forma en que los proyectos open source piensan sobre su documentación.",
+        "en": "Creator of the Diátaxis framework for technical documentation, which organizes documentation into four types (tutorials, how-to guides, reference and explanation). Director of engineering at Canonical (Ubuntu) and Django contributor. His work has transformed how open source projects think about their documentation."
+    },
+    "x": "https://x.com/evildmp",
+    "github": "https://github.com/evildmp"
+}

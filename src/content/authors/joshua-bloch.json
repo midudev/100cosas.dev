@@ -1,0 +1,11 @@
+{
+    "id": "joshua-bloch",
+    "name": "Joshua Bloch",
+    "initials": "JB",
+    "bio": {
+        "es": "Ex arquitecto jefe de Java en Google y autor de 'Effective Java', uno de los libros de programación más influyentes jamás escritos. Diseñó e implementó numerosas APIs del JDK, incluyendo el Java Collections Framework. Su charla 'How to Design a Good API and Why it Matters' es lectura obligada para cualquier diseñador de APIs.",
+        "en": "Former chief Java architect at Google and author of 'Effective Java', one of the most influential programming books ever written. He designed and implemented numerous JDK APIs, including the Java Collections Framework. His talk 'How to Design a Good API and Why it Matters' is required reading for any API designer."
+    },
+    "x": "https://x.com/joshbloch",
+    "github": "https://github.com/jbloch"
+}

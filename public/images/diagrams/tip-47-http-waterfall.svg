@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="600" height="400" rx="8" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="300" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Anatom�a de una petici�n HTTPS</text>
+  <text x="300" y="50" text-anchor="middle" font-size="11" fill="#64748b">Tiempo total estimado: ~500ms (primera conexi�n)</text>
+
+  <!-- Column headers -->
+  <text x="130" y="78" text-anchor="end" font-size="11" font-weight="600" fill="#334155">Fase</text>
+  <text x="148" y="78" font-size="11" font-weight="600" fill="#334155">0ms</text>
+  <text x="538" y="78" text-anchor="end" font-size="11" font-weight="600" fill="#334155">500ms</text>
+
+  <!-- Grid lines -->
+  <line x1="148" y1="86" x2="148" y2="360" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="226" y1="86" x2="226" y2="360" stroke="#f1f5f9" stroke-width="1"/>
+  <line x1="304" y1="86" x2="304" y2="360" stroke="#f1f5f9" stroke-width="1"/>
+  <line x1="382" y1="86" x2="382" y2="360" stroke="#f1f5f9" stroke-width="1"/>
+  <line x1="460" y1="86" x2="460" y2="360" stroke="#f1f5f9" stroke-width="1"/>
+  <line x1="538" y1="86" x2="538" y2="360" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Scale labels -->
+  <text x="226" y="78" text-anchor="middle" font-size="9" fill="#94a3b8">100ms</text>
+  <text x="304" y="78" text-anchor="middle" font-size="9" fill="#94a3b8">200ms</text>
+  <text x="382" y="78" text-anchor="middle" font-size="9" fill="#94a3b8">300ms</text>
+  <text x="460" y="78" text-anchor="middle" font-size="9" fill="#94a3b8">400ms</text>
+
+  <!-- Row 1: DNS Lookup -->
+  <text x="130" y="112" text-anchor="end" font-size="12" font-weight="500" fill="#334155">DNS Lookup</text>
+  <rect x="148" y="96" width="39" height="24" rx="4" fill="#3b82f6"/>
+  <text x="167" y="112" text-anchor="middle" font-size="9" font-weight="600" fill="#ffffff">~50ms</text>
+
+  <!-- Row 2: TCP Connection -->
+  <text x="130" y="157" text-anchor="end" font-size="12" font-weight="500" fill="#334155">TCP Connect</text>
+  <rect x="187" y="141" width="39" height="24" rx="4" fill="#3b82f6"/>
+  <text x="206" y="157" text-anchor="middle" font-size="9" font-weight="600" fill="#ffffff">~50ms</text>
+
+  <!-- Row 3: TLS Handshake -->
+  <text x="130" y="202" text-anchor="end" font-size="12" font-weight="500" fill="#334155">TLS Handshake</text>
+  <rect x="226" y="186" width="78" height="24" rx="4" fill="#f59e0b"/>
+  <text x="265" y="202" text-anchor="middle" font-size="9" font-weight="600" fill="#ffffff">~100ms</text>
+
+  <!-- Row 4: Request Sent -->
+  <text x="130" y="247" text-anchor="end" font-size="12" font-weight="500" fill="#334155">Request</text>
+  <rect x="304" y="231" width="12" height="24" rx="4" fill="#64748b"/>
+
+  <!-- Row 5: TTFB -->
+  <text x="130" y="292" text-anchor="end" font-size="12" font-weight="500" fill="#334155">TTFB</text>
+  <rect x="316" y="276" width="156" height="24" rx="4" fill="#ef4444"/>
+  <text x="394" y="292" text-anchor="middle" font-size="9" font-weight="600" fill="#ffffff">~200ms (servidor)</text>
+
+  <!-- Row 6: Content Download -->
+  <text x="130" y="337" text-anchor="end" font-size="12" font-weight="500" fill="#334155">Download</text>
+  <rect x="472" y="321" width="66" height="24" rx="4" fill="#10b981"/>
+  <text x="505" y="337" text-anchor="middle" font-size="9" font-weight="600" fill="#ffffff">~100ms</text>
+
+  <!-- Bracket annotations -->
+  <line x1="148" y1="365" x2="304" y2="365" stroke="#3b82f6" stroke-width="2"/>
+  <text x="226" y="382" text-anchor="middle" font-size="10" font-weight="600" fill="#3b82f6">Conexi�n (~200ms)</text>
+  <text x="226" y="395" text-anchor="middle" font-size="9" fill="#64748b">Antes de enviar un solo byte</text>
+
+  <line x1="316" y1="365" x2="538" y2="365" stroke="#10b981" stroke-width="2"/>
+  <text x="427" y="382" text-anchor="middle" font-size="10" font-weight="600" fill="#10b981">Datos (~300ms)</text>
+  <text x="427" y="395" text-anchor="middle" font-size="9" fill="#64748b">Procesamiento + descarga</text>
+</svg>

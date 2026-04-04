@@ -1,0 +1,11 @@
+{
+    "id": "evan-czaplicki",
+    "name": "Evan Czaplicki",
+    "initials": "EC",
+    "bio": {
+        "es": "Creador de Elm, un lenguaje de programación funcional para aplicaciones web que es famoso por sus mensajes de error extraordinariamente claros y por garantizar cero excepciones en tiempo de ejecución. Su trabajo demostró que los mensajes de error pueden ser amables, útiles y tratarse como una característica de primera clase del lenguaje.",
+        "en": "Creator of Elm, a functional programming language for web applications famous for its extraordinarily clear error messages and for guaranteeing zero runtime exceptions. His work demonstrated that error messages can be friendly, helpful, and treated as a first-class language feature."
+    },
+    "x": "https://x.com/evaborzcz",
+    "github": "https://github.com/evancz"
+}

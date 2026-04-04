@@ -1,0 +1,9 @@
+{
+    "id": "lynn-conway",
+    "name": "Lynn Conway",
+    "initials": "LC",
+    "bio": {
+        "es": "Pionera en ciencias de la computación e ingeniería eléctrica. Inventó el 'dynamic instruction scheduling' en IBM, revolucionó el diseño de chips VLSI junto a Carver Mead en Xerox PARC, y creó el sistema MOSIS de prototipado rápido de chips por internet. Profesora emérita de la Universidad de Michigan y ganadora del Computer Pioneer Award.",
+        "en": "Pioneer in computer science and electrical engineering. Invented dynamic instruction scheduling at IBM, revolutionized VLSI chip design with Carver Mead at Xerox PARC, and created the MOSIS internet-based rapid chip prototyping system. Professor Emerita at the University of Michigan and Computer Pioneer Award winner."
+    }
+}
