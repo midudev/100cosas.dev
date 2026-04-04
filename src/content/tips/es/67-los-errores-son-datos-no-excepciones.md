@@ -37,25 +37,25 @@ if (!user) {
 // ✅ El error es parte del resultado
 async function getUser(id) {
   const response = await fetch(`/api/users/${id}`);
-  
+
   if (!response.ok) {
-    return { 
-      ok: false, 
-      error: { 
-        type: 'http', 
+    return {
+      ok: false,
+      error: {
+        type: 'http',
         status: response.status,
         message: `Failed to fetch user: ${response.statusText}`
-      } 
+      }
     };
   }
-  
+
   try {
     const user = await response.json();
     return { ok: true, data: user };
   } catch {
-    return { 
-      ok: false, 
-      error: { type: 'parse', message: 'Invalid JSON response' } 
+    return {
+      ok: false,
+      error: { type: 'parse', message: 'Invalid JSON response' }
     };
   }
 }
@@ -84,12 +84,12 @@ displayUser(result.data);
 
 ```typescript
 // Define un tipo Result genérico
-type Result<T, E = Error> = 
+type Result<T, E = Error> =
   | { ok: true; data: T }
   | { ok: false; error: E };
 
 // Úsalo en tus funciones
-async function divide(a: number, b: number): Result<number, string> {
+function divide(a: number, b: number): Result<number, string> {
   if (b === 0) {
     return { ok: false, error: 'Cannot divide by zero' };
   }
@@ -97,7 +97,7 @@ async function divide(a: number, b: number): Result<number, string> {
 }
 
 // Type-safe: TypeScript sabe cuándo existe data
-const result = await divide(10, 2);
+const result = divide(10, 2);
 if (result.ok) {
   console.log(result.data); // TypeScript sabe que es number
 } else {

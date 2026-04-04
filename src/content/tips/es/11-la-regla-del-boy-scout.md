@@ -63,7 +63,7 @@ class OrderService {
     if (!isProcessable) return;
 
     this.processItems(order.items);
-    
+
     order.processedAt = new Date();
     order.status = 'completed';
   }

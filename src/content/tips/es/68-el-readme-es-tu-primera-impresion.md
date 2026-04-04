@@ -74,7 +74,7 @@ function App() {
 // 2. Usa el hook
 function Profile() {
   const { user, login, logout } = useAuth();
-  
+
   if (!user) return <button onClick={login}>Login</button>;
   return <p>Hola, {user.name}</p>;
 }
@@ -114,7 +114,7 @@ La primera línea vende el proyecto.
 
 ```markdown
 ❌ "Primero asegúrate de tener Node 18+, luego..."
-✅ 
+✅
 \`\`\`bash
 npm install cosa
 \`\`\`

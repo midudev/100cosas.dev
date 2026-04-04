@@ -40,9 +40,9 @@ Cada línea de código que escribes tiene consecuencias en el mundo real. Y cuan
 // ❌ PELIGRO: Entrenar con datos sesgados
 // Si tu dataset de "caras normales" solo tiene ciertos grupos,
 // tu modelo aprenderá que esos son los "normales"
-const trainingData = await fetchFaces({ 
+const trainingData = await fetchFaces({
   sources: ['stock-photos-generic'],  // Sesgado hacia ciertos grupos
-  limit: 10000 
+  limit: 10000
 });
 
 // ✅ MEJOR: Auditar y diversificar los datos

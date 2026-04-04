@@ -54,12 +54,12 @@ describe('processOrder', () => {
     const order = { items: [{ price: 10 }, { price: 20 }] };
     expect(processOrder(order).subtotal).toBe(30);
   });
-  
+
   it('applies discount for orders over 100', () => {
     const order = { items: [{ price: 150 }] };
     expect(processOrder(order).total).toBe(135);
   });
-  
+
   // Ahora puedes refactorizar las 200 líneas
   // Si los tests pasan, el comportamiento es correcto
 });
@@ -75,12 +75,12 @@ function printOwing(invoice) {
   console.log("***********************");
   console.log("**** Customer Owes ****");
   console.log("***********************");
-  
+
   let outstanding = 0;
   for (const o of invoice.orders) {
     outstanding += o.amount;
   }
-  
+
   console.log(`name: ${invoice.customer}`);
   console.log(`amount: ${outstanding}`);
 }
@@ -136,7 +136,7 @@ class Salesman {
 
 ## El ciclo de refactoring
 
-```
+```text
 1. Ejecuta los tests (deben pasar)
 2. Haz UN cambio pequeño
 3. Ejecuta los tests (deben pasar)

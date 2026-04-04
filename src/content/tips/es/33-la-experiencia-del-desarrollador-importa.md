@@ -33,7 +33,7 @@ Error: File not found: './config/database.yml'
   Possible solutions:
   1. Create the file: touch config/database.yml
   2. Copy from example: cp config/database.example.yml config/database.yml
-  
+
   Documentation: https://docs.example.com/config
 ```
 
@@ -101,17 +101,17 @@ class ValidationError extends Error {
 // ✅ BUEN DX: Documentación que explica el "por qué" y el "cómo"
 /**
  * Sets the cache TTL in seconds.
- * 
+ *
  * @param ttl - Time to live. Default: 3600 (1 hour)
- * 
+ *
  * @example
  * // Cache for 5 minutes
  * cache.setTTL(300);
- * 
+ *
  * @example
  * // Disable caching
  * cache.setTTL(0);
- * 
+ *
  * @see https://docs.example.com/caching for performance implications
  */
 ```

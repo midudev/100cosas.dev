@@ -16,7 +16,7 @@ El mayor problema de la documentación tradicional (comentarios, diagramas, arch
 
 Cuando defines un tipo, no solo estás diciendo "esto es un número"; estás comunicando a tus compañeros (y a tu futuro yo) cuáles son los límites de ese dato y qué operaciones son válidas sobre él.
 
-## Haz que lo imposible sea inexpressable
+## Haz que lo imposible sea inexpresable
 
 Esta es la mentalidad que separa a un desarrollador junior de uno senior. En lugar de llenar tu código de validaciones `if (data === null)` o `try-catch`, debes diseñar tus estructuras de datos de modo que los estados inválidos no puedan existir.
 
@@ -38,7 +38,7 @@ interface Order {
 // Ahora el compilador sabe exactamente qué valores son válidos.
 type OrderStatus = 'pending' | 'shipped' | 'delivered';
 
-// 🔥 NIVEL 3: Haciendo lo imposible inexpressable
+// 🔥 NIVEL 3: Haciendo lo imposible inexpresable
 // Diseñamos estados que solo contienen los datos que necesitan.
 interface PendingOrder {
   status: 'pending';
@@ -65,6 +65,6 @@ function processOrder(order: Order) {
 }
 ```
 
-El tipado no es burocracia. Es una conversación con el compilador donde tú le explicas las reglas de tu negocio y él se encarga de que nadie las rompa por accidente. Invertir tiempo en diseñar los tipos correctos al principio de una funcionalidad es, probablemente, la forma más barata y efectiva de hacer control de calidad en toda la historia de la informática. 
+El tipado no es burocracia. Es una conversación con el compilador donde tú le explicas las reglas de tu negocio y él se encarga de que nadie las rompa por accidente. Invertir tiempo en diseñar los tipos correctos al principio de una funcionalidad es, probablemente, la forma más barata y efectiva de hacer control de calidad en toda la historia de la informática.
 
 Como dice Anders Hejlsberg: *"Los tipos te dan la confianza necesaria para refactorizar sin miedo"*. Y un desarrollador sin miedo es un desarrollador mucho más creativo y productivo.

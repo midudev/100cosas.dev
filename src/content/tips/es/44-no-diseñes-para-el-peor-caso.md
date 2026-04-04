@@ -49,7 +49,7 @@ const cache = new Map();
 
 function getUser(id) {
   if (cache.has(id)) return cache.get(id);
-  
+
   const user = await db.users.findById(id);
   cache.set(id, user);
   return user;
@@ -72,7 +72,7 @@ function getUser(id) {
 
 ### Arquitectura apropiada
 
-```
+```text
 # Para la mayoría de proyectos:
 Un servidor → Un proceso → Una base de datos
 

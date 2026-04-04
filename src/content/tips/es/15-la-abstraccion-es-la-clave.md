@@ -40,13 +40,13 @@ class EmailNotificador implements Notificador {
 }
 
 class SMSNotificador implements Notificador {
-  // ⚠️ VIOLACIÓN DE LISKOV: 
+  // ⚠️ VIOLACIÓN DE LISKOV:
   // Obligamos al cliente a conocer un detalle (el número)
   // que la interfaz general no contempla.
   enviarConNumero(mensaje: string, telefono: string) {
     console.log(`Enviando SMS a ${telefono}: ${mensaje}`);
   }
-  
+
   enviar(mensaje: string) {
     throw new Error("Necesito un número de teléfono");
   }

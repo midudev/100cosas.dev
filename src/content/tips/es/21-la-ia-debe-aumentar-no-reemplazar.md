@@ -55,7 +55,7 @@ class AugmentedHiringAssistant {
         humanDecisionRequired: true
       }))
     );
-    
+
     return analyses;
   }
 }

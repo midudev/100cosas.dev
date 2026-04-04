@@ -122,7 +122,7 @@ function Dashboard() {
   const { user } = useAuth();
   const [preferences] = useLocalStorage('prefs', {});
   const [data] = useFetch(`/api/data/${user.id}`);
-  
+
   // Tu componente es una composición de comportamientos
 }
 ```
@@ -147,9 +147,9 @@ const hybridCreature = {
 ```javascript
 // Cada comportamiento se testea aislado
 test('canSwim', () => {
-  const swimmer = canSwim({ energy: 100 });
-  swimmer.swim();
-  expect(state.energy).toBe(90);
+  const state = { energy: 100 };
+  const swimmer = canSwim(state);
+  expect(swimmer).toHaveProperty('swim');
 });
 ```
 

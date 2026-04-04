@@ -70,7 +70,7 @@ function getUser(): UserWithRoles {
 // En JavaScript, esos lugares simplemente fallarían en silencio.
 ```
 
-Hejlsberg diseñó el Language Server Protocol (LSP) precisamente para esto: que el editor pueda ofrecer rename, go-to-definition y find-all-references con garantía de corrección. En JavaScript, estas operaciones son heurísticas (a veces aciertan, a veces no). En TypeScript, son **exactas**.
+Microsoft desarrolló el Language Server Protocol (LSP) precisamente para esto: que el editor pueda ofrecer rename, go-to-definition y find-all-references con garantía de corrección. En JavaScript, estas operaciones son heurísticas (a veces aciertan, a veces no). En TypeScript, son **exactas**.
 
 ## El autocompletado como documentación instantánea
 

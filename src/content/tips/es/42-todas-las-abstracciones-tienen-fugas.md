@@ -80,7 +80,7 @@ No necesitas saber ensamblador, pero sí deberías entender:
 
 Los errores crípticos suelen venir de capas inferiores filtrándose:
 
-```
+```text
 ECONNREFUSED 127.0.0.1:5432
 ```
 

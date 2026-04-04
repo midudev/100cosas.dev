@@ -32,7 +32,7 @@ Sara insiste en que la accesibilidad no puede ser un parche porque, además, est
 <div onclick="handleClick()" class="button">
   <span class="icon-cart"></span>
 </div>
-<!-- 
+<!--
   Problemas:
   - No es navegable con teclado
   - Los lectores de pantalla no saben que es un botón
@@ -41,13 +41,13 @@ Sara insiste en que la accesibilidad no puede ser un parche porque, además, est
 -->
 
 <!-- ✅ HTML que incluye -->
-<button 
-  type="button" 
+<button
+  type="button"
   aria-label="Añadir al carrito"
 >
   <span class="icon-cart" aria-hidden="true"></span>
 </button>
-<!-- 
+<!--
   - Navegable con Tab
   - Activable con Enter y Espacio
   - Anunciado correctamente por lectores de pantalla

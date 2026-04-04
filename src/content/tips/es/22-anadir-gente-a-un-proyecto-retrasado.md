@@ -18,7 +18,7 @@ Esta afirmación, contraintuitiva para cualquier manager que piense en términos
 
 Cuando añades una persona a un equipo, no solo añades capacidad de trabajo; añades **canales de comunicación**. La fórmula es brutal:
 
-```
+```text
 Canales = n × (n - 1) / 2
 ```
 
@@ -62,7 +62,7 @@ function calculateNewDeadline(project: Project, additionalPeople: number): Date 
   // "Si añadimos 3 personas más, acabaremos antes"
   const newTeamSize = project.teamSize + additionalPeople;
   const daysRemaining = project.estimatedEffort / newTeamSize;
-  
+
   // INCORRECTO: Esto ignora la Ley de Brooks
   return addDays(new Date(), daysRemaining);
 }
@@ -72,19 +72,19 @@ function calculateNewDeadline(project: Project, additionalPeople: number): Date 
 // ✅ La realidad según Brooks
 function calculateRealDeadline(project: Project, additionalPeople: number): Date {
   const newTeamSize = project.teamSize + additionalPeople;
-  
+
   // Coste de comunicación crece cuadráticamente
   const communicationOverhead = (newTeamSize * (newTeamSize - 1)) / 2;
-  
+
   // Tiempo perdido en onboarding (2-4 semanas típicamente)
   const onboardingCost = additionalPeople * 15; // días
-  
+
   // El trabajo efectivo se reduce por la coordinación
   const effectiveCapacity = newTeamSize * 0.7; // 30% se va en coordinación
-  
-  const adjustedDaysRemaining = 
+
+  const adjustedDaysRemaining =
     (project.estimatedEffort + onboardingCost) / effectiveCapacity;
-  
+
   // Probablemente peor que antes
   return addDays(new Date(), adjustedDaysRemaining);
 }

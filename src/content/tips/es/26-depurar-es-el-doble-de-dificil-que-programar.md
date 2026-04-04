@@ -29,7 +29,7 @@ Si escribes código que usa el 100% de tu capacidad (el código más "ingenioso"
 ```typescript
 // ❌ NIVEL 1: El programador "ingenioso"
 // Esto funciona, pero ¿puedes encontrar el bug?
-const r = (a: number[]) => a.reduce((p, c, i) => 
+const r = (a: number[]) => a.reduce((p, c, i) =>
   i % 2 ? p : [...p, a.slice(i, i + 2).reduce((x, y) => x + y)], [] as number[]);
 
 // Cuando falle en producción a las 3 AM, buena suerte depurándolo.
@@ -40,14 +40,14 @@ const r = (a: number[]) => a.reduce((p, c, i) =>
 // El mismo algoritmo, pero depurable
 function sumPairs(numbers: number[]): number[] {
   const result: number[] = [];
-  
+
   for (let i = 0; i < numbers.length; i += 2) {
     const first = numbers[i];
     const second = numbers[i + 1] ?? 0; // Maneja arrays impares
     const pairSum = first + second;
     result.push(pairSum);
   }
-  
+
   return result;
 }
 

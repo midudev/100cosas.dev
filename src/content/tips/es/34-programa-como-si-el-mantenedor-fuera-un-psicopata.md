@@ -19,7 +19,7 @@ La ironía es que, estadísticamente, el "psicópata violento" que mantendrá tu
 ```typescript
 // ❌ Código que te hará querer cometer un crimen
 function x(a: any[], b: number, c?: boolean) {
-  return c ? a.filter((_, i) => i % b === 0).map(x => x * 2) 
+  return c ? a.filter((_, i) => i % b === 0).map(x => x * 2)
            : a.reduce((p, c, i) => i % b ? p : [...p, c], []);
 }
 
@@ -37,11 +37,11 @@ function getEveryNthElement<T extends number>(
   strategy: FilterStrategy = 'raw'
 ): T[] {
   const filteredItems = items.filter((_, index) => index % interval === 0);
-  
+
   if (strategy === 'doubled') {
     return filteredItems.map(item => (item * 2) as T);
   }
-  
+
   return filteredItems;
 }
 
@@ -121,11 +121,9 @@ Cada línea que escribes es un mensaje al futuro. Puede ser un regalo o puede se
 // El código cuenta una historia
 // ¿Cuál quieres que sea la tuya?
 
-// Historia A: "El desarrollador anterior era un genio incomprendido 
-// cuyo código es tan críptico que nadie puede tocarlo"
+// Historia A: "El desarrollador anterior era un genio incomprendido cuyo código es tan críptico que nadie puede tocarlo"
 
-// Historia B: "El desarrollador anterior era un profesional 
-// cuyo código es tan claro que cualquiera puede mejorarlo"
+// Historia B: "El desarrollador anterior era un profesional cuyo código es tan claro que cualquiera puede mejorarlo"
 ```
 
 ## La regla de oro del mantenedor

@@ -57,14 +57,14 @@ interface AIEthicsChecklist {
     primary: string[];      // ¿La empresa? ¿Los usuarios? ¿La sociedad?
     secondary: string[];
   };
-  
+
   // ¿Quién puede ser dañado?
   potentialHarms: {
     directHarms: string[];   // Discriminación, pérdida de empleo
     indirectHarms: string[]; // Impacto ambiental, concentración de poder
     invisibleLabor: string[]; // ¿Quién mantiene el sistema funcionando?
   };
-  
+
   // ¿Quién decide?
   governance: {
     whoDecides: string[];    // ¿Solo ingenieros? ¿Afectados?

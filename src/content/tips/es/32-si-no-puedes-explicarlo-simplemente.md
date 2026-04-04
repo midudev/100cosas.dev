@@ -52,9 +52,9 @@ function isUserEligible(
   rules: EligibilityRule[]
 ): boolean {
   const ageRules = rules.filter(rule => rule.type === 'age');
-  
-  return ageRules.some(rule => 
-    rule.threshold > systemThreshold && 
+
+  return ageRules.some(rule =>
+    rule.threshold > systemThreshold &&
     user.age > rule.minimumAge
   );
 }

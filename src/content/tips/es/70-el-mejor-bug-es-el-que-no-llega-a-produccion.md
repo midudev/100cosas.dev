@@ -10,7 +10,7 @@ Guillermo Rauch, con su filosofía de CI/CD continuo en Vercel, promueve un prin
 
 ## Las capas de defensa
 
-```
+```text
                     PRODUCCIÓN
                          ↑
               ┌──────────────────┐
@@ -94,7 +94,7 @@ test('user can complete checkout', async ({ page }) => {
 
 ### 4. Preview Deploys (la joya de Vercel)
 
-```yaml
+```text
 # Cada PR tiene su propio entorno
 # QA, diseño, y el equipo pueden probar ANTES del merge
 

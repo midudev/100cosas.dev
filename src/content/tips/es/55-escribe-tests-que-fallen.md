@@ -28,6 +28,7 @@ Los tests inútiles dan falsa confianza. Es peor que no tener tests.
 ## El enfoque de Kent
 
 Un buen test debe:
+
 1. **Fallar cuando el código está roto**
 2. **Pasar cuando el código funciona**
 3. **Probar comportamiento, no implementación**
@@ -37,12 +38,12 @@ Un buen test debe:
 test('user can fill and submit login form', async () => {
   const handleSubmit = jest.fn();
   render(<LoginForm onSubmit={handleSubmit} />);
-  
+
   // Interactúa como lo haría un usuario
   await userEvent.type(screen.getByLabelText(/email/i), 'user@example.com');
   await userEvent.type(screen.getByLabelText(/password/i), 'password123');
   await userEvent.click(screen.getByRole('button', { name: /log in/i }));
-  
+
   // Verifica el comportamiento esperado
   expect(handleSubmit).toHaveBeenCalledWith({
     email: 'user@example.com',
@@ -86,9 +87,9 @@ test('displays users list', async () => {
       return res(ctx.json([{ id: 1, name: 'Alice' }]));
     })
   );
-  
+
   render(<UsersList />);
-  
+
   expect(await screen.findByText('Alice')).toBeInTheDocument();
 });
 // El test pasa si los usuarios se muestran, sin importar cómo
@@ -96,7 +97,7 @@ test('displays users list', async () => {
 
 ## La pirámide de tests que fallan bien
 
-```
+```text
        /\
       /E2E\      ← Pocos, pero fallan si la app está rota
      /------\
@@ -115,12 +116,12 @@ Antes de commitear un test, **rómpelo intencionalmente**:
 test('calculates total correctly', () => {
   // 1. Escribe el test
   expect(calculateTotal([10, 20, 30])).toBe(60);
-  
+
   // 2. Cambia temporalmente la implementación
   // function calculateTotal(items) { return 0; }
-  
+
   // 3. Verifica que el test FALLA
-  
+
   // 4. Restaura la implementación
 });
 ```

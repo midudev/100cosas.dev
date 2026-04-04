@@ -53,13 +53,13 @@ interface AICodeReviewChecklist {
   "¿Hay queries construidas con concatenación?": boolean;
   "¿Hay secrets o API keys hardcodeadas?": boolean;
   "¿Se sanitiza la salida HTML?": boolean;
-  
+
   // Corrección
   "¿Entiendo lo que hace cada línea?": boolean;
   "¿Maneja los casos borde?": boolean;
   "¿Qué pasa con null/undefined?": boolean;
   "¿Tiene tests que prueben los edge cases?": boolean;
-  
+
   // Mantenibilidad
   "¿Los nombres son descriptivos?": boolean;
   "¿Podré depurar esto a las 3 AM?": boolean;

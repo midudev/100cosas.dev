@@ -38,10 +38,10 @@ Parece mejor, ¿verdad? Hasta que...
 function formatEmail(entity, options = {}) {
   const prefix = options.prefix || '';
   const suffix = options.suffix || '';
-  const name = entity.companyName || 
+  const name = entity.companyName ||
     `${entity.firstName || ''} ${entity.lastName || ''}`.trim();
   const extra = entity.department || entity.plan || '';
-  
+
   return `${prefix}${name}${extra ? ` (${extra})` : ''} <${entity.email}>${suffix}`;
 }
 

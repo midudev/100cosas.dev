@@ -46,7 +46,7 @@ La diferencia entre un equipo que documenta decisiones y uno que no es brutal. E
 
 ## El coste invisible de no documentar
 
-Sarah Drasner cuenta que en un equipo anterior, encontró un microservicio que nadie se atrevía a tocar. Lo llamaban "el monolito sagrado". Nadie sabía por qué estaba separado del resto, ni por qué usaba una versión antigua de Node, ni por qué tenía una configuración de CORS tan permisiva. El desarrollador original se había ido hacía dos años.
+Sarah Drasner cuenta que en un equipo anterior, encontró un microservicio que nadie se atrevía a tocar. Lo llamaban "el monolito sagrado". Nadie sabía por qué estaba separado del resto, ni por qué usaba una versión antigua de Node, ni por qué tenía una configuración de CORS tan permisiva. El desarrollador original se había ido hace dos años.
 
 El equipo gastó **tres semanas** investigando antes de poder hacer un cambio que debería haber tomado dos días. Tres semanas que se habrían reducido a treinta minutos si alguien hubiera escrito un documento de media página explicando las decisiones originales.
 

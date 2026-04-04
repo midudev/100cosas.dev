@@ -6,7 +6,7 @@ categoryColor: "text-fuchsia-400 bg-fuchsia-900/20"
 author: "andrej-karpathy"
 ---
 
-En febrero de 2025, **Andrej Karpathy**, cofundador de OpenAI y exdirector de IA en Tesla, acuñó un término que captura un cambio sísmico en cómo programamos: **"Vibe Coding"**.
+En febrero de 2025, **Andrej Karpathy**, investigador de IA conocido por su paso por OpenAI y por ser exdirector de IA en Tesla, acuñó un término que captura un cambio sísmico en cómo programamos: **"Vibe Coding"**.
 
 > "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."
 
@@ -67,8 +67,8 @@ El vibe coding tiene un lado oscuro que Karpathy también reconoce:
 ```typescript
 // ⚠️ PELIGRO: Código que "funciona" pero no entiendes
 // La IA generó esto. ¿Sabes qué hace exactamente?
-const result = data.reduce((acc, item) => 
-  item.type === 'A' 
+const result = data.reduce((acc, item) =>
+  item.type === 'A'
     ? { ...acc, a: [...(acc.a || []), transform(item)] }
     : item.type === 'B'
       ? { ...acc, b: [...(acc.b || []), process(item)] }

@@ -95,7 +95,7 @@ function handleUserStuff(user: User) {
 }
 
 // ✅ Funciones con un solo propósito se nombran solas
-function registerNewUser(user: User) {
+async function registerNewUser(user: User) {
   const validatedUser = validateRegistrationData(user);
   const savedUser = saveUserToDatabase(validatedUser);
   await sendWelcomeEmail(savedUser);

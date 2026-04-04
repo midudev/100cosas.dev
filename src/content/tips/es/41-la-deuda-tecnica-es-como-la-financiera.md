@@ -21,8 +21,7 @@ Es como pedir un préstamo: obtienes valor ahora (entregar rápido) a cambio de 
 ### Deuda intencional (buena)
 
 ```javascript
-// "Sé que este diseño no escala, pero necesito validar 
-// la idea con usuarios reales antes de invertir más"
+// "Sé que este diseño no escala, pero necesito validar la idea con usuarios reales antes de invertir más"
 function processPayment(amount) {
   // Implementación simple que funciona para 100 usuarios
   // TODO: Refactorizar cuando tengamos tracción

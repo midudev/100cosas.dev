@@ -51,7 +51,7 @@ Rails asume:
 
 ### Next.js: rutas basadas en sistema de archivos
 
-```
+```text
 pages/
 ├── index.js        → /
 ├── about.js        → /about

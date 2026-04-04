@@ -107,7 +107,7 @@ function SimpleCard({ title, description, onAction }) {
 
 ### Módulos independientes
 
-```javascript
+```text
 // Cada feature es auto-contenida
 /features
   /auth

@@ -33,7 +33,7 @@ El enfoque de Julia:
 
 ### 2. Haz preguntas concretas
 
-```
+```text
 ❌ "¿Cómo funciona Linux?"
 ✅ "¿Qué pasa exactamente cuando escribo 'ls' y presiono Enter?"
 ```

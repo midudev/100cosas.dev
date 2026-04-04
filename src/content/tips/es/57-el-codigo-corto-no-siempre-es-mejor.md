@@ -12,7 +12,7 @@ Sandi Metz, autora de libros fundamentales sobre diseño orientado a objetos, de
 
 ```javascript
 // ❌ "Mira lo corto que es"
-const result = data.filter(x => x.a > 5).reduce((a, b) => ({...a, [b.k]: (a[b.k] || []).concat(b)}), {});
+const result = data.filter(item => item.value > 5).reduce((a, b) => ({...a, [b.k]: (a[b.k] || []).concat(b)}), {});
 
 // Pregunta: ¿Qué hace esto?
 // Respuesta: Nadie sabe sin parar 5 minutos a analizarlo
@@ -24,19 +24,19 @@ const result = data.filter(x => x.a > 5).reduce((a, b) => ({...a, [b.k]: (a[b.k]
 // ✅ Más líneas, infinitamente más claro
 function groupActiveItemsByCategory(items) {
   const activeItems = items.filter(item => item.value > 5);
-  
+
   const groupedByCategory = {};
-  
+
   for (const item of activeItems) {
     const category = item.category;
-    
+
     if (!groupedByCategory[category]) {
       groupedByCategory[category] = [];
     }
-    
+
     groupedByCategory[category].push(item);
   }
-  
+
   return groupedByCategory;
 }
 ```

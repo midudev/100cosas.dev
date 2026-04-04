@@ -44,13 +44,13 @@ function process(d: any[]) {
 // ✅ NIVEL 2: Nombres que revelan intención
 function getDoubledPricesForActiveProducts(products: Product[]) {
   const doubledPrices: number[] = [];
-  
+
   for (const product of products) {
     if (product.isActive) {
       doubledPrices.push(product.price * 2);
     }
   }
-  
+
   return doubledPrices;
 }
 

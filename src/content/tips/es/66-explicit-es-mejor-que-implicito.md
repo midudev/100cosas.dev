@@ -67,8 +67,8 @@ function Button(props) {
 // ✅ Explícito: props documentadas
 function Button({ onClick, disabled, children, variant = 'primary' }) {
   return (
-    <button 
-      onClick={onClick} 
+    <button
+      onClick={onClick}
       disabled={disabled}
       className={`btn btn-${variant}`}
     >
@@ -99,7 +99,7 @@ function process(data: Item[]): number[] {
 
 ### Return values
 
-```javascript
+```typescript
 // ❌ Implícito: ¿qué devuelve esto?
 async function getUser(id) {
   const res = await fetch(`/api/users/${id}`);
