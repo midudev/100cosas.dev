@@ -27,6 +27,8 @@ const description = (entry.body ?? "").slice(0, 160).replace(/[#>]/g, "").trim()
 const lang = (Astro.currentLocale as "es" | "en") || "es"
 const t = useTranslations(lang)
 const tipPath = lang === "es" ? "consejo" : "tip"
+const pdfUrl = `/100cosas-${lang}.pdf`
+const epubUrl = `/100cosas-${lang}.epub`
 
 const authorEntry = await getEntry("authors", authorId)
 
@@ -229,6 +231,29 @@ const jsonLd = {
         <div>
           <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.category_label')}</p>
           <span class:list={["text-[12px] px-2 py-0.5 rounded-sm", categoryColor]}>{category}</span>
+        </div>
+
+        <!-- Download formats -->
+        <div>
+          <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t("book.download")}</p>
+          <div class="space-y-2">
+            <a
+              href={pdfUrl}
+              download
+              class="group flex items-center justify-between rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-[12px] text-neutral-300 hover:border-sky-500/30 hover:text-sky-300 transition-colors"
+            >
+              <span class="font-medium">{t("book.format_pdf")}</span>
+              <span aria-hidden="true" class="text-neutral-600 group-hover:text-sky-400 transition-colors">&darr;</span>
+            </a>
+            <a
+              href={epubUrl}
+              download
+              class="group flex items-center justify-between rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-[12px] text-neutral-300 hover:border-emerald-500/30 hover:text-emerald-300 transition-colors"
+            >
+              <span class="font-medium">{t("book.format_epub")}</span>
+              <span aria-hidden="true" class="text-neutral-600 group-hover:text-emerald-400 transition-colors">&darr;</span>
+            </a>
+          </div>
         </div>
 
         <!-- Prev / Next navigation -->

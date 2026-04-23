@@ -15,12 +15,21 @@ const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
 
 const aboutPath = routes[lang].about
+const themeLabel = t("nav.theme")
+const themeLightLabel = t("nav.theme_light")
+const themeDarkLabel = t("nav.theme_dark")
+const switchToLightLabel = t("nav.theme_switch_to_light")
+const switchToDarkLabel = t("nav.theme_switch_to_dark")
 ---
 
 <nav
   id="navbar"
   aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}
   data-total={total}
+  data-theme-light={themeLightLabel}
+  data-theme-dark={themeDarkLabel}
+  data-switch-to-light={switchToLightLabel}
+  data-switch-to-dark={switchToDarkLabel}
   class="navbar sticky top-0 z-50 border-b border-white/[0.06]"
 >
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -88,6 +97,31 @@ const aboutPath = routes[lang].about
 
         <div class="navbar-separator"></div>
 
+        <button
+          type="button"
+          data-theme-toggle
+          aria-label={switchToLightLabel}
+          class="theme-toggle inline-flex items-center gap-2 text-[12px] text-neutral-500 hover:text-neutral-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-white/[0.03]"
+        >
+          <span class="theme-toggle-icon" aria-hidden="true">
+            <svg class="theme-icon theme-icon-moon size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg class="theme-icon theme-icon-sun size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="m4.93 4.93 1.41 1.41" />
+              <path d="m17.66 17.66 1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="m6.34 17.66-1.41 1.41" />
+              <path d="m19.07 4.93-1.41 1.41" />
+            </svg>
+          </span>
+          <span class="theme-toggle-label hidden xl:inline" data-theme-label>{themeLabel}</span>
+        </button>
+
         <div class="flex items-center">
           <a
             href={getRelativeLocaleUrl(lang, `/${aboutPath}`)}
@@ -125,6 +159,30 @@ const aboutPath = routes[lang].about
             </svg>
           </button>
         )}
+
+        <button
+          type="button"
+          data-theme-toggle
+          aria-label={switchToLightLabel}
+          class="theme-toggle-mobile text-neutral-500 hover:text-neutral-300 transition-colors p-1.5 rounded-md hover:bg-white/[0.03]"
+        >
+          <span class="theme-toggle-icon" aria-hidden="true">
+            <svg class="theme-icon theme-icon-moon size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg class="theme-icon theme-icon-sun size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="m4.93 4.93 1.41 1.41" />
+              <path d="m17.66 17.66 1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="m6.34 17.66-1.41 1.41" />
+              <path d="m19.07 4.93-1.41 1.41" />
+            </svg>
+          </span>
+        </button>
 
         <div class="flex items-center gap-2">
           <span
@@ -180,15 +238,41 @@ const aboutPath = routes[lang].about
   .navbar {
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
-    background: rgba(5, 5, 5, 0.82);
+    background: var(--navbar-bg);
   }
 
   .navbar-separator {
     width: 1px;
     height: 16px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--navbar-separator);
     margin: 0 4px;
     flex-shrink: 0;
+  }
+
+  .theme-toggle-icon {
+    position: relative;
+    width: 0.95rem;
+    height: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-icon {
+    position: absolute;
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+
+  :root[data-theme="dark"] .theme-icon-sun,
+  :root[data-theme="light"] .theme-icon-moon {
+    opacity: 0;
+    transform: scale(0.8) rotate(-12deg);
+  }
+
+  :root[data-theme="dark"] .theme-icon-moon,
+  :root[data-theme="light"] .theme-icon-sun {
+    opacity: 1;
+    transform: scale(1) rotate(0);
   }
 
   .navbar-search-input::-webkit-search-cancel-button {
@@ -198,11 +282,14 @@ const aboutPath = routes[lang].about
 </style>
 
 <script>
-  const STORAGE_KEY = "read-tips"
+  const READ_STORAGE_KEY = "read-tips"
+  const THEME_STORAGE_KEY = "site-theme"
+  const DARK_THEME_COLOR = "#0b1220"
+  const LIGHT_THEME_COLOR = "#f8fafc"
 
   function getReadTips() {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY)
+      const stored = localStorage.getItem(READ_STORAGE_KEY)
       if (!stored) return []
       const parsed = JSON.parse(stored)
       return Array.isArray(parsed) ? parsed : []
@@ -218,7 +305,7 @@ const aboutPath = routes[lang].about
       const newReadTips = isRead
         ? [...new Set([...readTips, id])]
         : readTips.filter((tipId: string) => tipId !== id)
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newReadTips))
+      localStorage.setItem(READ_STORAGE_KEY, JSON.stringify(newReadTips))
       updateProgress()
     } catch (e) {
       console.error("Error saving read tip to localStorage", e)
@@ -265,6 +352,80 @@ const aboutPath = routes[lang].about
     }
   }
 
+  function getThemeFromStorage() {
+    try {
+      const storedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+      return storedTheme === "light" || storedTheme === "dark"
+        ? storedTheme
+        : null
+    } catch {
+      return null
+    }
+  }
+
+  function getCurrentTheme() {
+    return document.documentElement.dataset.theme === "light" ? "light" : "dark"
+  }
+
+  function setTheme(theme: "light" | "dark", save = false) {
+    const root = document.documentElement
+    root.dataset.theme = theme
+    root.style.colorScheme = theme
+
+    const navbar = document.getElementById("navbar")
+    const themeLabel = theme === "light"
+      ? navbar?.dataset.themeLight || "Light"
+      : navbar?.dataset.themeDark || "Dark"
+    const switchLabel = theme === "light"
+      ? navbar?.dataset.switchToDark || "Switch to dark mode"
+      : navbar?.dataset.switchToLight || "Switch to light mode"
+
+    const themeColorMeta = document.getElementById("theme-color-meta")
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute(
+        "content",
+        theme === "light" ? LIGHT_THEME_COLOR : DARK_THEME_COLOR
+      )
+    }
+
+    document.querySelectorAll("[data-theme-label]").forEach((label) => {
+      label.textContent = themeLabel
+    })
+
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.setAttribute("aria-label", switchLabel)
+    })
+
+    if (save) {
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, theme)
+      } catch {
+        // ignore write errors
+      }
+    }
+  }
+
+  function initThemeToggle() {
+    const toggles = document.querySelectorAll("[data-theme-toggle]")
+    toggles.forEach((toggle) => {
+      const button = toggle as HTMLButtonElement
+      if (button.dataset.themeBound === "true") return
+      button.dataset.themeBound = "true"
+
+      button.addEventListener("click", () => {
+        const nextTheme = getCurrentTheme() === "dark" ? "light" : "dark"
+        setTheme(nextTheme, true)
+      })
+    })
+
+    const storedTheme = getThemeFromStorage()
+    if (storedTheme) {
+      setTheme(storedTheme)
+    } else {
+      setTheme(getCurrentTheme())
+    }
+  }
+
   function initMobileSearch() {
     const toggle = document.getElementById("mobile-search-toggle")
     const bar = document.getElementById("mobile-search-bar")
@@ -272,25 +433,35 @@ const aboutPath = routes[lang].about
     const mobileInput = document.getElementById("tips-search-mobile") as HTMLInputElement | null
 
     if (toggle && bar) {
-      toggle.addEventListener("click", () => {
-        const isOpen = bar.style.maxHeight !== "0px" && bar.style.maxHeight !== ""
-        if (isOpen) {
-          bar.style.maxHeight = "0px"
-        } else {
-          bar.style.maxHeight = "60px"
-          mobileInput?.focus()
-        }
-      })
+      if (toggle.dataset.searchBound !== "true") {
+        toggle.dataset.searchBound = "true"
+        toggle.addEventListener("click", () => {
+          const isOpen = bar.style.maxHeight !== "0px" && bar.style.maxHeight !== ""
+          if (isOpen) {
+            bar.style.maxHeight = "0px"
+          } else {
+            bar.style.maxHeight = "60px"
+            mobileInput?.focus()
+          }
+        })
+      }
     }
 
     if (desktopInput && mobileInput) {
-      desktopInput.addEventListener("input", () => {
-        mobileInput.value = desktopInput.value
-      })
-      mobileInput.addEventListener("input", () => {
-        desktopInput.value = mobileInput.value
-        desktopInput.dispatchEvent(new Event("input", { bubbles: true }))
-      })
+      if (desktopInput.dataset.syncBound !== "true") {
+        desktopInput.dataset.syncBound = "true"
+        desktopInput.addEventListener("input", () => {
+          mobileInput.value = desktopInput.value
+        })
+      }
+
+      if (mobileInput.dataset.syncBound !== "true") {
+        mobileInput.dataset.syncBound = "true"
+        mobileInput.addEventListener("input", () => {
+          desktopInput.value = mobileInput.value
+          desktopInput.dispatchEvent(new Event("input", { bubbles: true }))
+        })
+      }
     }
   }
 
@@ -304,6 +475,7 @@ const aboutPath = routes[lang].about
     })
 
     updateProgress()
+    initThemeToggle()
     initMobileSearch()
   }
 

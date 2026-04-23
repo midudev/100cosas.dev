@@ -36,6 +36,8 @@ const canonicalURL = new URL(canonicalPath, Astro.site)
 const fullImageURL = new URL(image, Astro.site).toString()
 const skipToContentLabel =
   lang === "es" ? "Saltar al contenido principal" : "Skip to main content"
+const darkThemeColor = "#0b1220"
+const lightThemeColor = "#f8fafc"
 
 // Logic for hreflang
 const alternateLang = lang === "es" ? "en" : "es"
@@ -119,10 +121,44 @@ const breadcrumbJsonLd = {
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      (() => {
+        const STORAGE_KEY = "site-theme"
+        const DARK_THEME_COLOR = "#0b1220"
+        const LIGHT_THEME_COLOR = "#f8fafc"
+        const root = document.documentElement
+
+        const getSystemTheme = () =>
+          window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark"
+
+        let theme = "dark"
+        try {
+          const storedTheme = localStorage.getItem(STORAGE_KEY)
+          theme = storedTheme === "light" || storedTheme === "dark"
+            ? storedTheme
+            : getSystemTheme()
+        } catch {
+          theme = getSystemTheme()
+        }
+
+        root.dataset.theme = theme
+        root.style.colorScheme = theme
+
+        const themeColorMeta = document.getElementById("theme-color-meta")
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute(
+            "content",
+            theme === "light" ? LIGHT_THEME_COLOR : DARK_THEME_COLOR
+          )
+        }
+      })()
+    </script>
 
     <!-- Favicon y App Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -143,9 +179,9 @@ const breadcrumbJsonLd = {
     <meta name="bingbot" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
     <!-- Temática y Color -->
-    <meta name="theme-color" content="#050505" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="msapplication-TileColor" content="#050505" />
+    <meta name="theme-color" id="theme-color-meta" content={darkThemeColor} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="msapplication-TileColor" content={lightThemeColor} />
 
     <!-- Geo y Audiencia -->
     <meta name="geo.region" content="ES" />

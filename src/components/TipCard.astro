@@ -66,8 +66,8 @@ const searchableText = `${title} ${authorName} ${plainContent}`
 <div
   class:list={[
     "tip-card relative overflow-hidden rounded-lg border border-white/[0.06]",
-    "bg-transparent transition-colors duration-200",
-    !isPlaceholder && "group hover:border-white/[0.1] hover:bg-white/[0.02]",
+    "transition-colors duration-200",
+    !isPlaceholder && "group",
     isPlaceholder && "is-placeholder",
   ]}
   data-category={category}
@@ -179,6 +179,37 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     border-radius: 22%;
   }
 
+  .tip-card {
+    background: var(--card-bg);
+  }
+
+  .tip-card:not(.is-placeholder) {
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 220ms ease,
+      transform 220ms ease;
+  }
+
+  .tip-card:not(.is-placeholder):hover,
+  .tip-card:not(.is-placeholder):focus-within {
+    background: var(--card-hover-bg);
+    border-color: var(--card-hover-border);
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tip-card:not(.is-placeholder) {
+      transition: border-color 0.01ms, background-color 0.01ms, box-shadow 0.01ms;
+    }
+
+    .tip-card:not(.is-placeholder):hover,
+    .tip-card:not(.is-placeholder):focus-within {
+      transform: none;
+    }
+  }
+
   .tip-tooltip {
     position: absolute;
     top: calc(100% + 6px);
@@ -186,9 +217,9 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     white-space: nowrap;
     font-size: 10px;
     letter-spacing: 0.02em;
-    color: #a3a3a3;
-    background: #171717;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text-dim);
+    background: var(--surface);
+    border: 1px solid var(--border);
     padding: 3px 8px;
     pointer-events: none;
     opacity: 0;
