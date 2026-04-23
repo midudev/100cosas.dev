@@ -38,6 +38,9 @@ async function imageToBase64(filePath) {
 
 async function generateFormats() {
   await fs.ensureDir(OUTPUT_DIR);
+  const coverRelativePath = 'images/book-cover.png';
+  const coverAbsolutePath = path.join(process.cwd(), 'public', coverRelativePath);
+  const coverDataUrl = await imageToBase64(coverAbsolutePath);
 
   const highlighter = await createHighlighter({
     themes: ['github-light'],
@@ -182,6 +185,7 @@ async function generateFormats() {
       title: lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know',
       author: '100cosas.dev',
       publisher: '100cosas.dev',
+      cover: coverAbsolutePath,
       content: [
         {
           title: introTitle,
@@ -223,7 +227,8 @@ async function generateFormats() {
           :not(pre) > code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; }
           blockquote { border-left: 4px solid #ddd; padding-left: 20px; margin-left: 0; color: #666; font-style: italic; }
           .tip { break-before: page; }
-          .title-page { break-after: page; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+          .title-page { break-after: page; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+          .cover-image { width: 100%; max-width: 520px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); margin: 0 auto 24px; }
           img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
           .diagram { text-align: center; margin: 1.5rem auto; border-radius: 8px; overflow: hidden; }
           .diagram svg { max-width: 100%; height: auto; display: block; filter: invert(1) hue-rotate(180deg) brightness(1.06) contrast(1.05); }
@@ -234,7 +239,7 @@ async function generateFormats() {
       </head>
       <body>
         <div class="title-page">
-          <h1 style="border: none; font-size: 42px;">${lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know'}</h1>
+          ${coverDataUrl ? `<img class="cover-image" src="${coverDataUrl}" alt="${lang === 'es' ? 'Portada del libro 100 cosas que todo programador debería saber' : 'Cover of the book 100 things every programmer should know'}" />` : `<h1 style="border: none; font-size: 42px;">${lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know'}</h1>`}
           <p style="font-size: 22px; color: #666;">${lang === 'es' ? 'Mejora en programación, un consejo a la vez' : 'Improve your programming, one tip at a time'}</p>
         </div>
         <div class="tip" style="break-before: page;">
