@@ -11,11 +11,15 @@ import { useTranslations } from "../i18n/utils"
 
 interface Props {
   sortedTips: CollectionEntry<"tips">[]
+  canonical?: string
+  alternateUrl?: string
+  noindex?: boolean
 }
 
-const { sortedTips } = Astro.props
+const { sortedTips, canonical, alternateUrl, noindex = false } = Astro.props
 const lang = (Astro.currentLocale as "es" | "en") || "es"
 const t = useTranslations(lang)
+const searchIndexUrl = lang === "es" ? "/search-index.json" : "/en/search-index.json"
 
 const allTips = Array.from({ length: 100 }, (_, i) => {
   const tipId = (i + 1).toString().padStart(2, "0")
@@ -44,10 +48,18 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 <Layout
   title={`${t("hero.title")} ${t("hero.subtitle")} | 100cosas.dev`}
   description={t("hero.description")}
+  canonical={canonical}
+  alternateUrl={alternateUrl}
+  noindex={noindex}
 >
   <Navbar total={sortedTips.length} showSearch />
 
-  <main id="main-content" tabindex="-1" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 w-full">
+  <main
+    id="main-content"
+    tabindex="-1"
+    class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 w-full"
+    data-search-index-url={searchIndexUrl}
+  >
     <Hero />
     <BookCTA />
     <FilterBar />
@@ -64,31 +76,84 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 </Layout>
 
 <script>
+  type SearchRecord = {
+    id: string
+    text: string
+  }
+
+  type SearchState = {
+    index: Map<string, string> | null
+    indexPromise: Promise<Map<string, string>> | null
+  }
+
+  const searchState = ((globalThis as typeof globalThis & {
+    __tipsSearchState?: SearchState
+  }).__tipsSearchState ??= {
+    index: null,
+    indexPromise: null,
+  })
+
+  const normalizeSearch = (value: string) =>
+    value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\p{Letter}\p{Number}\s#-]/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+
+  async function loadSearchIndex() {
+    if (searchState.index) return searchState.index
+
+    if (!searchState.indexPromise) {
+      const main = document.getElementById("main-content")
+      const searchIndexUrl = main?.dataset.searchIndexUrl
+
+      if (!searchIndexUrl) return new Map<string, string>()
+
+      searchState.indexPromise = fetch(searchIndexUrl, {
+        headers: {
+          accept: "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Search index request failed")
+          return response.json() as Promise<{ records: SearchRecord[] }>
+        })
+        .then(({ records }) => {
+          const index = new Map(records.map((record) => [record.id, record.text]))
+          searchState.index = index
+          return index
+        })
+        .catch(() => {
+          const fallback = new Map<string, string>()
+          searchState.index = fallback
+          return fallback
+        })
+    }
+
+    return searchState.indexPromise
+  }
+
   function initSearch() {
     const searchInput = document.getElementById("tips-search") as HTMLInputElement | null
     const searchStatus = document.getElementById("tips-search-status")
-    const filterButtons = document.querySelectorAll(".filter-btn")
+    const filterContainer = document.getElementById("filter-container")
     const tipCards = document.querySelectorAll(".tip-card")
 
     if (!searchInput) return
 
-    const normalize = (value: string) =>
-      value
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-
     const applyFilters = () => {
       const activeButton = document.querySelector('.filter-btn[data-active="true"]') as HTMLElement | null
       const activeFilter = activeButton?.dataset.filter || "all"
-      const query = normalize(searchInput.value || "")
+      const query = normalizeSearch(searchInput.value || "")
       let visibleCount = 0
 
       tipCards.forEach((card) => {
         const el = card as HTMLElement
         const category = el.dataset.category || ""
-        const searchable = normalize(el.dataset.search || "")
+        const indexedSearch = el.dataset.id ? searchState.index?.get(el.dataset.id) : ""
+        const searchable = indexedSearch || el.dataset.search || ""
         const matchesCategory = activeFilter === "all" || category === activeFilter
         const matchesSearch = query.length === 0 || searchable.includes(query)
         const isVisible = matchesCategory && matchesSearch
@@ -104,9 +169,13 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
       }
     }
 
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        filterButtons.forEach((btn) => {
+    if (filterContainer?.dataset.filterBound !== "true") {
+      filterContainer.dataset.filterBound = "true"
+      filterContainer.addEventListener("click", (event) => {
+        const button = (event.target as HTMLElement | null)?.closest(".filter-btn")
+        if (!button) return
+
+        filterContainer.querySelectorAll(".filter-btn").forEach((btn) => {
           btn.setAttribute("data-active", "false")
           btn.setAttribute("aria-pressed", "false")
           btn.classList.remove("text-sky-400")
@@ -119,9 +188,19 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
         button.classList.remove("text-neutral-600")
         applyFilters()
       })
-    })
+    }
 
-    searchInput.addEventListener("input", applyFilters)
+    if (searchInput.dataset.searchBound !== "true") {
+      searchInput.dataset.searchBound = "true"
+      searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim()
+        applyFilters()
+
+        if (query.length > 0 && !searchState.index) {
+          void loadSearchIndex().then(applyFilters)
+        }
+      })
+    }
   }
 
   function handleSearchKeydown(event: KeyboardEvent) {
@@ -142,8 +221,10 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     }
   }
 
-  document.removeEventListener("keydown", handleSearchKeydown)
-  document.addEventListener("keydown", handleSearchKeydown)
+  if (document.documentElement.dataset.searchShortcutBound !== "true") {
+    document.documentElement.dataset.searchShortcutBound = "true"
+    document.addEventListener("keydown", handleSearchKeydown)
+  }
 
   initSearch()
   document.addEventListener("astro:page-load", initSearch)

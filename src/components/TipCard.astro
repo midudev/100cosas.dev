@@ -2,6 +2,7 @@
 import { getEntry } from "astro:content"
 import { getRelativeLocaleUrl } from "astro:i18n"
 import { useTranslations } from "../i18n/utils"
+import { normalizeSearchText } from "../utils/search"
 
 interface Props {
   id: string
@@ -21,7 +22,6 @@ const {
   category,
   categoryColor = "text-sky-400/70",
   author: authorId,
-  content = "",
   checked = false,
   slug = "#",
   isPlaceholder = false,
@@ -39,7 +39,7 @@ const readToggleLabel =
     : `Mark tip ${id} as read`
 
 let authorName = "Autor"
-let authorPhoto = "/authors/kent-c-dodds.webp"
+let authorPhoto = "/authors/thumbs/kent-c-dodds.webp"
 
 if (!isPlaceholder) {
   const authorEntry = await getEntry("authors", authorId)
@@ -49,18 +49,12 @@ if (!isPlaceholder) {
   }
 
   authorName = authorEntry.data.name
-  authorPhoto = `/authors/${authorEntry.data.id}.webp`
+  authorPhoto = `/authors/thumbs/${authorEntry.data.id}.webp`
 }
 
 const slugWithoutLang = slug.replace(/^(es|en)\//, "")
 const tipPath = lang === "es" ? "consejo" : "tip"
-const plainContent = content
-  .replace(/```[\s\S]*?```/g, " ")
-  .replace(/`[^`]*`/g, " ")
-  .replace(/[*_[\]#>!-]/g, " ")
-  .replace(/\s+/g, " ")
-  .trim()
-const searchableText = `${title} ${authorName} ${plainContent}`
+const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${category}`)
 ---
 
 <div
@@ -70,6 +64,7 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     !isPlaceholder && "group",
     isPlaceholder && "is-placeholder",
   ]}
+  data-id={id}
   data-category={category}
   data-search={searchableText}
   itemscope
@@ -96,13 +91,12 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     aria-label={tipLinkLabel}
     aria-disabled={isPlaceholder ? "true" : undefined}
     tabindex={isPlaceholder ? "-1" : undefined}
-    data-astro-prefetch="hover"
     itemprop="url"
   >
     <div class="flex items-center gap-2 mb-3 text-[11px] text-neutral-500">
-      <span class="font-pixel text-neutral-500" style={`view-transition-name: tip-number-${id}`}>#{id}</span>
+      <span class="font-pixel text-neutral-500" data-vt-part="number">#{id}</span>
       <span class="font-pixel text-neutral-600" aria-hidden="true">·</span>
-      <span class:list={[categoryColor]} itemprop="articleSection" style={`view-transition-name: tip-category-${id}`}>
+      <span class:list={[categoryColor]} itemprop="articleSection">
         {category}
       </span>
     </div>
@@ -110,7 +104,7 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     <h3
       class="text-[15px] sm:text-[15px] font-normal text-neutral-300 leading-relaxed text-balance"
       itemprop="headline"
-      style={`view-transition-name: tip-title-${id}`}
+      data-vt-part="title"
     >
       {title}
     </h3>
@@ -122,16 +116,19 @@ const searchableText = `${title} ${authorName} ${plainContent}`
       itemtype="https://schema.org/Person"
     >
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 squircle bg-neutral-800 overflow-hidden shrink-0" style={`view-transition-name: tip-avatar-${id}`}>
+        <div class="w-8 h-8 squircle bg-neutral-800 overflow-hidden shrink-0" data-vt-part="avatar">
           <img
             src={authorPhoto}
             alt={authorName}
+            width="32"
+            height="32"
+            loading="lazy"
+            decoding="async"
             class="w-full h-full object-cover"
-            onerror="this.style.display='none'"
             itemprop="image"
           />
         </div>
-        <span class="text-[11px] text-neutral-500" itemprop="name" style={`view-transition-name: tip-author-${id}`}>{authorName}</span>
+        <span class="text-[11px] text-neutral-500" itemprop="name" data-vt-part="author">{authorName}</span>
       </div>
     </div>
   </a>
@@ -154,17 +151,12 @@ const searchableText = `${title} ${authorName} ${plainContent}`
           <span class="tip-tooltip">{lang === "es" ? "Marcar como leído" : "Mark as read"}</span>
           <div class="eye-icon text-neutral-600 transition-colors group-has-checked/checkbox:text-emerald-500/80">
             {/* Eye (not read) */}
-            <svg class="w-3.5 h-3.5 block group-has-checked/checkbox:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-              <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+            <svg class="w-3.5 h-3.5 block group-has-checked/checkbox:hidden" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <use href="#icon-eye"></use>
             </svg>
             {/* Eye check (read) */}
-            <svg class="w-3.5 h-3.5 hidden group-has-checked/checkbox:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-              <path d="M11.102 17.957c-3.204 -.307 -5.904 -2.294 -8.102 -5.957c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6a19.5 19.5 0 0 1 -.663 1.032" />
-              <path d="M15 19l2 2l4 -4" />
+            <svg class="w-3.5 h-3.5 hidden group-has-checked/checkbox:block" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <use href="#icon-eye-check"></use>
             </svg>
           </div>
         </label>

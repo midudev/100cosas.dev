@@ -246,10 +246,150 @@ const breadcrumbJsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
   </head>
   <body class="min-h-screen flex flex-col">
     <a class="skip-link" href="#main-content">{skipToContentLabel}</a>
+    <svg aria-hidden="true" class="icon-sprite">
+      <symbol id="icon-eye" viewBox="0 0 24 24">
+        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+        <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path>
+      </symbol>
+      <symbol id="icon-eye-check" viewBox="0 0 24 24">
+        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+        <path d="M11.102 17.957c-3.204 -.307 -5.904 -2.294 -8.102 -5.957c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6a19.5 19.5 0 0 1 -.663 1.032"></path>
+        <path d="M15 19l2 2l4 -4"></path>
+      </symbol>
+    </svg>
     <slot />
+    <script>
+      const TRANSITION_NAMES = {
+        number: "active-tip-number",
+        title: "active-tip-title",
+        avatar: "active-tip-avatar",
+        author: "active-tip-author",
+      }
+
+      const STORAGE_KEY = "active-tip-transition-id"
+      const LIST_PATHS = new Set(["/", "/es", "/es/", "/en", "/en/"])
+
+      function clearTipTransitionNames(root: ParentNode = document) {
+        root.querySelectorAll<HTMLElement>("[data-vt-part]").forEach((element) => {
+          element.style.viewTransitionName = ""
+        })
+      }
+
+      function markTipTransition(root: ParentNode, id: string | null | undefined) {
+        if (!id) return false
+
+        const container =
+          root.querySelector<HTMLElement>(`.tip-card[data-id="${CSS.escape(id)}"]`) ||
+          root.querySelector<HTMLElement>(`[data-tip-id="${CSS.escape(id)}"]`)
+
+        if (!container) return false
+
+        Object.entries(TRANSITION_NAMES).forEach(([part, name]) => {
+          const element = container.querySelector<HTMLElement>(`[data-vt-part="${part}"]`)
+          if (element) element.style.viewTransitionName = name
+        })
+
+        return true
+      }
+
+      function getCurrentTipId() {
+        return document.querySelector<HTMLElement>("[data-tip-id]")?.dataset.tipId
+      }
+
+      function getSourceTipId(sourceElement: EventTarget | null) {
+        if (!(sourceElement instanceof Element)) return null
+        return sourceElement.closest<HTMLElement>(".tip-card")?.dataset.id || null
+      }
+
+      function shouldMarkCurrentTipForLink(link: HTMLAnchorElement) {
+        const currentTipId = getCurrentTipId()
+        if (!currentTipId) return false
+
+        const url = new URL(link.href, location.href)
+        return url.origin === location.origin && LIST_PATHS.has(url.pathname)
+      }
+
+      function setStoredTipId(id: string) {
+        try {
+          sessionStorage.setItem(STORAGE_KEY, id)
+        } catch {}
+      }
+
+      function getStoredTipId() {
+        try {
+          return sessionStorage.getItem(STORAGE_KEY)
+        } catch {
+          return null
+        }
+      }
+
+      function clearStoredTipId() {
+        try {
+          sessionStorage.removeItem(STORAGE_KEY)
+        } catch {}
+      }
+
+      const globalTransitionState = globalThis as typeof globalThis & {
+        __tipTransitionsBound?: boolean
+      }
+
+      if (!globalTransitionState.__tipTransitionsBound) {
+        globalTransitionState.__tipTransitionsBound = true
+
+        document.addEventListener(
+          "click",
+          (event) => {
+            const link = (event.target as Element | null)?.closest("a")
+            if (!link || link.target || link.hasAttribute("download")) return
+
+            clearTipTransitionNames()
+
+            const sourceTipId = getSourceTipId(link)
+            if (sourceTipId) {
+              markTipTransition(document, sourceTipId)
+              setStoredTipId(sourceTipId)
+              return
+            }
+
+            if (shouldMarkCurrentTipForLink(link)) {
+              const currentTipId = getCurrentTipId()
+              markTipTransition(document, currentTipId)
+              if (currentTipId) setStoredTipId(currentTipId)
+            }
+          },
+          { capture: true }
+        )
+
+        document.addEventListener("astro:before-swap", (event) => {
+          const transitionEvent = event as CustomEvent & {
+            sourceElement?: EventTarget | null
+            newDocument?: Document
+          }
+          const newDocument = transitionEvent.newDocument
+          if (!newDocument) return
+
+          clearTipTransitionNames(newDocument)
+
+          const sourceTipId = getSourceTipId(transitionEvent.sourceElement)
+          const currentTipId = getCurrentTipId()
+          const storedTipId = getStoredTipId()
+          const targetTipId = newDocument.querySelector<HTMLElement>("[data-tip-id]")?.dataset.tipId
+          const nextTipId = sourceTipId || (targetTipId ? null : currentTipId) || storedTipId
+
+          if (nextTipId) {
+            markTipTransition(newDocument, nextTipId)
+          }
+        })
+
+        document.addEventListener("astro:page-load", () => {
+          clearTipTransitionNames()
+          clearStoredTipId()
+        })
+      }
+    </script>
   </body>
 </html>

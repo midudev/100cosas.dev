@@ -15,11 +15,13 @@ interface Props {
   entry: CollectionEntry<"tips">
   total: number
   alternateUrl: string
+  canonical?: string
+  noindex?: boolean
   prev?: TipNavItem | null
   next?: TipNavItem | null
 }
 
-const { entry, total, alternateUrl, prev, next } = Astro.props
+const { entry, total, alternateUrl, canonical, noindex = false, prev, next } = Astro.props
 const { Content } = await render(entry)
 const { id, title, category, author: authorId, categoryColor } = entry.data
 const description = (entry.body ?? "").slice(0, 160).replace(/[#>]/g, "").trim()
@@ -77,6 +79,8 @@ const jsonLd = {
   description={description}
   ogType="article"
   image={`/og/${entry.id}.jpg`}
+  canonical={canonical}
+  noindex={noindex}
 >
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
@@ -109,22 +113,22 @@ const jsonLd = {
         class="max-w-[65ch]"
         itemscope
         itemtype="https://schema.org/Article"
+        data-tip-id={id}
       >
         <header class="mb-10">
           <div class="flex items-center gap-2 mb-5 text-[12px]">
-            <span class="font-pixel text-sky-400/50" style={`view-transition-name: tip-number-${id}`}>#{id}</span>
+            <span class="font-pixel text-sky-400/50" data-vt-part="number">#{id}</span>
             <span class="font-pixel text-neutral-700">·</span>
             <span
               class:list={["px-2 py-0.5 rounded-sm", categoryColor]}
-              itemprop="articleSection"
-              style={`view-transition-name: tip-category-${id}`}>{category}</span
+              itemprop="articleSection">{category}</span
             >
           </div>
 
           <h1
             class="text-2xl md:text-3xl font-semibold text-neutral-100 mb-6 leading-tight text-balance"
             itemprop="headline"
-            style={`view-transition-name: tip-title-${id}`}
+            data-vt-part="title"
           >
             {title}
           </h1>
@@ -138,13 +142,16 @@ const jsonLd = {
           >
             <div
               class="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center text-xs font-medium text-neutral-400 overflow-hidden"
-              style={`view-transition-name: tip-avatar-${id}`}
+              data-vt-part="avatar"
             >
               {
                 authorPhoto ? (
                   <img
                     src={authorPhoto}
                     alt={authorName}
+                    width="32"
+                    height="32"
+                    decoding="async"
                     class="w-full h-full object-cover"
                     itemprop="image"
                   />
@@ -156,7 +163,7 @@ const jsonLd = {
             <span
               class="text-sm text-neutral-400 group-hover:text-sky-400 transition-colors"
               itemprop="name"
-              style={`view-transition-name: tip-author-${id}`}
+              data-vt-part="author"
             >
               {authorName}
             </span>
@@ -191,7 +198,14 @@ const jsonLd = {
             <div class="w-10 h-10 rounded-full bg-neutral-800 overflow-hidden shrink-0">
               {
                 authorPhoto ? (
-                  <img src={authorPhoto} alt={authorName} class="w-full h-full object-cover" />
+                  <img
+                    src={authorPhoto}
+                    alt={authorName}
+                    width="40"
+                    height="40"
+                    decoding="async"
+                    class="w-full h-full object-cover"
+                  />
                 ) : (
                   <span class="w-full h-full flex items-center justify-center text-sm text-neutral-400">{authorInitials}</span>
                 )

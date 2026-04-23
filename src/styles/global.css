@@ -158,6 +158,44 @@ body {
     background-attachment: fixed;
 }
 
+@media (max-width: 767px) {
+    body {
+        background-attachment: scroll;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-group(root) {
+        animation-duration: 120ms;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    ::view-transition-group(active-tip-number),
+    ::view-transition-group(active-tip-title),
+    ::view-transition-group(active-tip-avatar),
+    ::view-transition-group(active-tip-author) {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root),
+    ::view-transition-old(active-tip-avatar),
+    ::view-transition-new(active-tip-avatar) {
+        mix-blend-mode: normal;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(root),
+    ::view-transition-group(active-tip-number),
+    ::view-transition-group(active-tip-title),
+    ::view-transition-group(active-tip-avatar),
+    ::view-transition-group(active-tip-author) {
+        animation-duration: 1ms !important;
+    }
+}
+
 .skip-link {
     position: absolute;
     left: 0.75rem;
@@ -172,6 +210,13 @@ body {
 
 .skip-link:focus-visible {
     top: 0.75rem;
+}
+
+.icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 :focus {
