@@ -74,6 +74,7 @@ const jsonLd = {
   title={`${title} | 100cosas.dev`}
   description={description}
   ogType="article"
+  image={`/og/${entry.id}.jpg`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
