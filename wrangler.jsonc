@@ -9,5 +9,11 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"routes": [
+		{
+			"pattern": "100cosas.dev",
+			"custom_domain": true
+		}
+	]
 }
