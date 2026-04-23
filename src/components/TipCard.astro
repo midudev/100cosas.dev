@@ -150,10 +150,10 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
           />
           <span class="tip-tooltip">{lang === "es" ? "Marcar como leído" : "Mark as read"}</span>
           <div class="eye-icon text-neutral-600 transition-colors group-has-checked/checkbox:text-emerald-500/80">
-            <svg class="tip-card-icon w-3.5 h-3.5 block group-has-checked/checkbox:hidden" aria-hidden="true">
+            <svg class="w-3.5 h-3.5 block group-has-checked/checkbox:hidden" aria-hidden="true">
               <use href="#icon-eye"></use>
             </svg>
-            <svg class="tip-card-icon w-3.5 h-3.5 hidden group-has-checked/checkbox:block" aria-hidden="true">
+            <svg class="w-3.5 h-3.5 hidden group-has-checked/checkbox:block" aria-hidden="true">
               <use href="#icon-eye-check"></use>
             </svg>
           </div>
@@ -218,14 +218,6 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
 
   label:hover .tip-tooltip {
     opacity: 1;
-  }
-
-  .tip-card-icon {
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.5;
   }
 
 </style>
