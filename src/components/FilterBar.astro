@@ -64,9 +64,22 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
+
+  @media (hover: hover) and (pointer: fine) {
+    .filter-scroll {
+      cursor: grab;
+    }
+
+    .filter-scroll.is-dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+  }
+
   .filter-scroll::-webkit-scrollbar {
     display: none;
   }
+
   .fade-right {
     position: absolute;
     right: 0;
@@ -77,3 +90,63 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
     pointer-events: none;
   }
 </style>
+
+<script>
+  function initFilterScroll() {
+    const container = document.getElementById("filter-container")
+    if (!(container instanceof HTMLElement)) return
+    if (container.dataset.scrollEnhanced === "true") return
+
+    container.dataset.scrollEnhanced = "true"
+
+    let isDragging = false
+    let startX = 0
+    let startScrollLeft = 0
+    let moved = false
+
+    container.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return
+        e.preventDefault()
+        container.scrollLeft += e.deltaY
+      },
+      { passive: false }
+    )
+
+    container.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return
+      isDragging = true
+      moved = false
+      startX = e.clientX
+      startScrollLeft = container.scrollLeft
+      container.classList.add("is-dragging")
+    })
+
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return
+
+      const dx = e.clientX - startX
+      if (Math.abs(dx) > 4) moved = true
+      container.scrollLeft = startScrollLeft - dx
+    })
+
+    window.addEventListener("mouseup", () => {
+      isDragging = false
+      container.classList.remove("is-dragging")
+    })
+
+    container.addEventListener(
+      "click",
+      (e) => {
+        if (!moved) return
+        e.preventDefault()
+        e.stopPropagation()
+      },
+      true
+    )
+  }
+
+  initFilterScroll()
+  document.addEventListener("astro:page-load", initFilterScroll)
+</script>
