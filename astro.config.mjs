@@ -6,9 +6,12 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import { codeLangBadge } from './src/utils/code-lang-badge.mjs';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://100cosas.dev',
+
   vite: {
     plugins: [tailwindcss()]
   },
@@ -48,6 +51,7 @@ export default defineConfig({
       },
     }),
   ],
+
   markdown: {
     shikiConfig: {
       theme: 'tokyo-night',
@@ -61,5 +65,7 @@ export default defineConfig({
     routing: {
       prefixDefaultLocale: false
     }
-  }
+  },
+
+  adapter: cloudflare()
 });

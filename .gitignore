@@ -4,6 +4,10 @@ dist/
 # generated types
 .astro/
 
+# cloudflare / wrangler
+.wrangler/
+worker-configuration.d.ts
+
 # dependencies
 node_modules/
 
