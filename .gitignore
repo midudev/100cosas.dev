@@ -8,6 +8,9 @@ dist/
 .wrangler/
 worker-configuration.d.ts
 
+# generated OG images (built from content at build time)
+public/og/
+
 # dependencies
 node_modules/
 

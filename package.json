@@ -5,11 +5,12 @@
   "license": "CC-BY-NC-4.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/generate-og-tips.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "export": "node scripts/generate-formats.mjs",
     "generate:og": "node scripts/generate-og-image.mjs",
+    "generate:og-tips": "node scripts/generate-og-tips.mjs",
     "generate-types": "wrangler types"
   },
   "dependencies": {
