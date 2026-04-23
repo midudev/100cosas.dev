@@ -5,8 +5,9 @@
   "license": "CC-BY-NC-4.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/generate-og-tips.mjs && astro build",
+    "build": "node scripts/generate-author-thumbs.mjs && node scripts/generate-og-tips.mjs && astro build",
     "preview": "astro preview",
+    "performance:budget": "node scripts/check-performance-budget.mjs",
     "astro": "astro",
     "export": "node scripts/generate-formats.mjs",
     "generate:og": "node scripts/generate-og-image.mjs",

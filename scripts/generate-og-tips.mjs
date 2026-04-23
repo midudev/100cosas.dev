@@ -3,7 +3,14 @@
 // Runs in Node (locally and in the Cloudflare Pages build container),
 // never inside the Worker runtime, so native modules are fine here.
 
-import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from "node:fs"
+import {
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync,
+  statSync,
+} from "node:fs"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 import matter from "gray-matter"
@@ -221,6 +228,17 @@ async function renderToJpeg(markup) {
   return sharp(pngBuffer).jpeg({ quality: 85 }).toBuffer()
 }
 
+function isFresh(outputPath, dependencies) {
+  if (!existsSync(outputPath)) return false
+
+  const outputMtime = statSync(outputPath).mtimeMs
+
+  return dependencies
+    .filter(Boolean)
+    .filter((dependency) => existsSync(dependency))
+    .every((dependency) => statSync(dependency).mtimeMs <= outputMtime)
+}
+
 async function main() {
   if (!existsSync(TIPS_DIR)) {
     console.warn(`[og] tips directory not found at ${TIPS_DIR}; skipping`)
@@ -243,7 +261,20 @@ async function main() {
       continue
     }
 
+    const slug = file
+      .replace(`${TIPS_DIR}/`, "")
+      .replace(/\.mdx?$/, "")
+
+    const outPath = join(OUTPUT_DIR, `${slug}.jpg`)
     const authorId = data.author
+    const authorPath = authorId ? join(AUTHORS_DIR, `${authorId}.json`) : null
+    const avatarPath = authorId ? join(ROOT, `public/authors/${authorId}.webp`) : null
+
+    if (isFresh(outPath, [file, authorPath, avatarPath])) {
+      skipped += 1
+      continue
+    }
+
     const authorEntry = authorId ? authors.get(authorId) : null
     const authorName = authorEntry?.name ?? authorId ?? ""
     const avatarUri = authorId ? await getAvatarDataUri(authorId) : null
@@ -257,11 +288,6 @@ async function main() {
     })
 
     const jpg = await renderToJpeg(markup)
-    const slug = file
-      .replace(`${TIPS_DIR}/`, "")
-      .replace(/\.mdx?$/, "")
-
-    const outPath = join(OUTPUT_DIR, `${slug}.jpg`)
     mkdirSync(dirname(outPath), { recursive: true })
     writeFileSync(outPath, jpg)
     ok += 1
