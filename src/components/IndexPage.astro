@@ -47,14 +47,14 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 >
   <Navbar total={sortedTips.length} showSearch />
 
-  <main id="main-content" tabindex="-1" class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 pb-24 w-full">
+  <main id="main-content" tabindex="-1" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 w-full">
     <Hero />
     <BookCTA />
     <FilterBar />
 
     <div
       id="tips-grid"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-0"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 lg:gap-x-8 lg:gap-y-10"
     >
       {allTips.map((tip) => <TipCard {...tip} />)}
     </div>

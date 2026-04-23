@@ -65,8 +65,9 @@ const searchableText = `${title} ${authorName} ${plainContent}`
 
 <div
   class:list={[
-    "tip-card border-b border-white/[0.04] relative -mx-3 px-3",
-    !isPlaceholder && "group transition-colors duration-300 hover:bg-white/[0.02] hover:border-white/10",
+    "tip-card relative overflow-hidden rounded-lg border border-white/[0.06]",
+    "bg-transparent transition-colors duration-200",
+    !isPlaceholder && "group hover:border-white/[0.1] hover:bg-white/[0.02]",
     isPlaceholder && "is-placeholder",
   ]}
   data-category={category}
@@ -88,7 +89,8 @@ const searchableText = `${title} ${authorName} ${plainContent}`
       ? "#"
       : getRelativeLocaleUrl(lang, `/${tipPath}/${slugWithoutLang}`)}
     class:list={[
-      "py-4 h-full flex flex-col",
+      "relative z-[1] block h-full min-h-[9.5rem] flex flex-col rounded-lg p-4 sm:p-5",
+      "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-white/15",
       isPlaceholder && "blur-[2px] opacity-20 select-none pointer-events-none",
     ]}
     aria-label={tipLinkLabel}
@@ -97,16 +99,16 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     data-astro-prefetch="hover"
     itemprop="url"
   >
-    <div class="flex items-center gap-2 mb-3 text-[11px]">
-      <span class="font-pixel text-sky-400/40 transition-colors group-hover:text-sky-400/90" style={`view-transition-name: tip-number-${id}`}>#{id}</span>
-      <span class="font-pixel text-neutral-800 transition-colors group-hover:text-neutral-600">·</span>
+    <div class="flex items-center gap-2 mb-3 text-[11px] text-neutral-500">
+      <span class="font-pixel text-neutral-500" style={`view-transition-name: tip-number-${id}`}>#{id}</span>
+      <span class="font-pixel text-neutral-600" aria-hidden="true">·</span>
       <span class:list={[categoryColor]} itemprop="articleSection" style={`view-transition-name: tip-category-${id}`}>
         {category}
       </span>
     </div>
 
     <h3
-      class="text-[15px] font-medium text-neutral-300 group-hover:text-white transition-colors leading-snug text-balance"
+      class="text-[15px] sm:text-[15px] font-normal text-neutral-300 leading-relaxed text-balance"
       itemprop="headline"
       style={`view-transition-name: tip-title-${id}`}
     >
@@ -114,7 +116,7 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     </h3>
 
     <div
-      class="mt-auto pt-4 flex items-center justify-between"
+      class="mt-auto pt-4 flex items-center justify-between gap-3"
       itemprop="author"
       itemscope
       itemtype="https://schema.org/Person"
@@ -129,14 +131,14 @@ const searchableText = `${title} ${authorName} ${plainContent}`
             itemprop="image"
           />
         </div>
-        <span class="text-[11px] text-neutral-600 transition-colors group-hover:text-neutral-400" itemprop="name" style={`view-transition-name: tip-author-${id}`}>{authorName}</span>
+        <span class="text-[11px] text-neutral-500" itemprop="name" style={`view-transition-name: tip-author-${id}`}>{authorName}</span>
       </div>
     </div>
   </a>
 
   {
     !isPlaceholder && (
-      <div class="absolute top-4 right-2 z-10">
+      <div class="absolute top-4 right-3 z-10">
         <label
           class="cursor-pointer group/checkbox relative"
           data-tooltip-pending={lang === "es" ? "Marcar como leído" : "Mark as read"}
@@ -150,7 +152,7 @@ const searchableText = `${title} ${authorName} ${plainContent}`
             aria-label={readToggleLabel}
           />
           <span class="tip-tooltip">{lang === "es" ? "Marcar como leído" : "Mark as read"}</span>
-          <div class="eye-icon text-neutral-800 transition-colors group-has-checked/checkbox:text-emerald-500">
+          <div class="eye-icon text-neutral-600 transition-colors group-has-checked/checkbox:text-emerald-500/80">
             {/* Eye (not read) */}
             <svg class="w-3.5 h-3.5 block group-has-checked/checkbox:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -197,19 +199,6 @@ const searchableText = `${title} ${authorName} ${plainContent}`
     opacity: 1;
   }
 
-  .tip-card:not(.is-placeholder)::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.05) 0%, transparent 40%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .tip-card:not(.is-placeholder):hover::before {
-    opacity: 1;
-  }
 </style>
 
 <script>
