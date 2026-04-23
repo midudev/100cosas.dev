@@ -213,7 +213,7 @@ body {
 /* Code blocks */
 .prose pre[class*="astro-code"] {
     position: relative !important;
-    padding: 2.5rem 1.5rem 1.25rem !important;
+    padding: 1.75rem 1.5rem 1.25rem !important;
     border-radius: 0 !important;
     font-size: 0.8125rem !important;
     line-height: 1.7 !important;
@@ -225,12 +225,28 @@ body {
     width: calc(100% + 3rem) !important;
 }
 
+:root[data-theme="light"] .prose pre[class*="astro-code"] {
+    color: var(--shiki-light) !important;
+}
+
+:root[data-theme="light"] .prose pre[class*="astro-code"] span {
+    color: var(--shiki-light) !important;
+}
+
+:root[data-theme="dark"] .prose pre[class*="astro-code"] {
+    color: var(--shiki-dark) !important;
+}
+
+:root[data-theme="dark"] .prose pre[class*="astro-code"] span {
+    color: var(--shiki-dark) !important;
+}
+
 @media (min-width: 768px) {
     .prose pre[class*="astro-code"] {
         margin-left: -2.5rem !important;
         margin-right: -2.5rem !important;
         width: calc(100% + 5rem) !important;
-        padding: 2.5rem 2.5rem 1.25rem !important;
+        padding: 1.75rem 2.5rem 1.25rem !important;
     }
 }
 

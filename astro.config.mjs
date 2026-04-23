@@ -54,7 +54,11 @@ export default defineConfig({
 
   markdown: {
     shikiConfig: {
-      theme: 'tokyo-night',
+      themes: {
+        light: 'github-light',
+        dark: 'tokyo-night',
+      },
+      defaultColor: false,
       transformers: [codeLangBadge()],
     },
   },
