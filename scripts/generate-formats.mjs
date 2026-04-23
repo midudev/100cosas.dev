@@ -185,11 +185,11 @@ async function generateFormats() {
       content: [
         {
           title: introTitle,
-          data: `<h1>${introTitle}</h1>${introHtml}`
+          data: introHtml
         },
         ...tips.map(tip => ({
           title: tip.title,
-          data: `<h1>${tip.title}</h1><p><em>${lang === 'es' ? 'Por' : 'By'} ${tip.author} - ${tip.category}</em></p>${tip.html}`
+          data: `<p><em>${lang === 'es' ? 'Por' : 'By'} ${tip.author} - ${tip.category}</em></p>${tip.html}`
         }))
       ]
     };
