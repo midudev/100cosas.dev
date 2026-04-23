@@ -89,14 +89,19 @@ async function generateFormats() {
       
       let fixedHtml = html;
 
-      // For SVG images, inline the SVG element directly (avoids epub-gen ENAMETOOLONG)
+      // For SVG diagrams, inline the SVG and invert to light mode for PDF/EPUB
       const svgImgTags = [...html.matchAll(/<img\s+[^>]*src="\/([^"]+\.svg)"[^>]*>/g)];
       for (const match of svgImgTags) {
         const relativePath = match[1];
         const absolutePath = path.join(publicPath, relativePath);
         try {
           const svgContent = await fs.readFile(absolutePath, 'utf-8');
-          fixedHtml = fixedHtml.replace(match[0], `<div class="diagram">${svgContent}</div>`);
+          const isDiagram = relativePath.includes('images/diagrams/');
+          const style = isDiagram ? ' style="filter:invert(1) hue-rotate(180deg) brightness(1.06) contrast(1.05)"' : '';
+          const svgWithStyle = isDiagram
+            ? svgContent.replace('<svg ', `<svg${style} `)
+            : svgContent;
+          fixedHtml = fixedHtml.replace(match[0], `<div class="diagram">${svgWithStyle}</div>`);
         } catch { /* skip missing SVGs */ }
       }
 
@@ -221,7 +226,7 @@ async function generateFormats() {
           .title-page { break-after: page; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
           img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
           .diagram { text-align: center; margin: 1.5rem auto; border-radius: 8px; overflow: hidden; }
-          .diagram svg { max-width: 100%; height: auto; display: block; }
+          .diagram svg { max-width: 100%; height: auto; display: block; filter: invert(1) hue-rotate(180deg) brightness(1.06) contrast(1.05); }
           @media print {
             .tip:first-of-type { break-before: avoid; }
           }
