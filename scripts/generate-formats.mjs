@@ -217,7 +217,8 @@ async function generateFormats() {
       <head>
         <meta charset="UTF-8">
         <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px; }
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .book-content { max-width: 800px; margin: 0 auto; padding: 2cm; box-sizing: border-box; }
           h1 { color: #000; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; }
           h2 { color: #444; margin-top: 30px; }
           .tip-meta { color: #666; font-style: italic; margin-bottom: 20px; }
@@ -227,8 +228,8 @@ async function generateFormats() {
           :not(pre) > code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; }
           blockquote { border-left: 4px solid #ddd; padding-left: 20px; margin-left: 0; color: #666; font-style: italic; }
           .tip { break-before: page; }
-          .title-page { break-after: page; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-          .cover-image { width: 100%; max-width: 520px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); margin: 0 auto 24px; }
+          .title-page { break-after: page; width: 210mm; height: 297mm; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background: #000; overflow: hidden; }
+          .cover-image { width: 100%; height: 100%; object-fit: cover; margin: 0; border-radius: 0; box-shadow: none; }
           img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
           .diagram { text-align: center; margin: 1.5rem auto; border-radius: 8px; overflow: hidden; }
           .diagram svg { max-width: 100%; height: auto; display: block; filter: invert(1) hue-rotate(180deg) brightness(1.06) contrast(1.05); }
@@ -240,19 +241,20 @@ async function generateFormats() {
       <body>
         <div class="title-page">
           ${coverDataUrl ? `<img class="cover-image" src="${coverDataUrl}" alt="${lang === 'es' ? 'Portada del libro 100 cosas que todo programador debería saber' : 'Cover of the book 100 things every programmer should know'}" />` : `<h1 style="border: none; font-size: 42px;">${lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know'}</h1>`}
-          <p style="font-size: 22px; color: #666;">${lang === 'es' ? 'Mejora en programación, un consejo a la vez' : 'Improve your programming, one tip at a time'}</p>
         </div>
-        <div class="tip" style="break-before: page;">
-          <h1 style="font-size: 32px;">${lang === 'es' ? 'Introducción' : 'Introduction'}</h1>
-          ${introHtml}
-        </div>
-        ${tips.map(tip => `
-          <div class="tip">
-            <h1>${tip.title}</h1>
-            <div class="tip-meta">Por ${tip.author} - ${tip.category}</div>
-            ${tip.html}
+        <div class="book-content">
+          <div class="tip" style="break-before: page;">
+            <h1 style="font-size: 32px;">${lang === 'es' ? 'Introducción' : 'Introduction'}</h1>
+            ${introHtml}
           </div>
-        `).join('')}
+          ${tips.map(tip => `
+            <div class="tip">
+              <h1>${tip.title}</h1>
+              <div class="tip-meta">Por ${tip.author} - ${tip.category}</div>
+              ${tip.html}
+            </div>
+          `).join('')}
+        </div>
       </body>
       </html>
     `;
@@ -261,7 +263,7 @@ async function generateFormats() {
     await page.pdf({
       path: pdfPath,
       format: 'A4',
-      margin: { top: '2cm', right: '2cm', bottom: '2cm', left: '2cm' },
+      margin: { top: '0', right: '0', bottom: '0', left: '0' },
       printBackground: true,
       displayHeaderFooter: true,
       headerTemplate: '<span></span>',
