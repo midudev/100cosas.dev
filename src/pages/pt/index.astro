@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content"
+import IndexPage from "../../components/IndexPage.astro"
+
+const tipsEntries = await getCollection("tips", ({ id }) => {
+  return id.startsWith("pt/")
+})
+
+// Sort by ID to maintain order
+const sortedTips = tipsEntries.sort(
+  (a, b) => parseInt(a.data.id) - parseInt(b.data.id)
+)
+---
+
+<IndexPage sortedTips={sortedTips} />

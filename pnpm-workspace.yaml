@@ -1,0 +1,6 @@
+allowBuilds:
+  ejs: false
+  esbuild: true
+  puppeteer: true
+  sharp: true
+  workerd: true

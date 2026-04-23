@@ -1,0 +1,24 @@
+---
+import { getCollection, getEntry } from "astro:content"
+import AuthorPage from "../../../components/AuthorPage.astro"
+
+export async function getStaticPaths() {
+  const authors = await getCollection("authors")
+
+  return authors.map((author) => ({
+    params: { id: author.id },
+    props: { author },
+  }))
+}
+
+const { author } = Astro.props
+const tipsEntries = await getCollection("tips", ({ id }) => {
+  return id.startsWith("pt/") && id.includes(author.id)
+})
+
+const sortedTips = tipsEntries.sort(
+  (a, b) => parseInt(a.data.id) - parseInt(b.data.id)
+)
+---
+
+<AuthorPage author={author} sortedTips={sortedTips} />
