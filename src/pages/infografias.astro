@@ -1,0 +1,191 @@
+---
+import { getCollection } from "astro:content"
+import { getRelativeLocaleUrl } from "astro:i18n"
+import Layout from "../layouts/Layout.astro"
+import Navbar from "../components/Navbar.astro"
+import Footer from "../components/Footer.astro"
+
+const tipsEntries = (
+  await getCollection("tips", ({ id }) => id.startsWith("es/"))
+).sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
+
+const diagramPattern = /!\[([^\]]*)\]\((\/images\/diagrams\/(?!light\/)[^)]+)\)/g
+
+const infographics = tipsEntries.flatMap((entry) => {
+  const slug = entry.id.replace(/^es\//, "")
+  const body = entry.body ?? ""
+
+  return Array.from(body.matchAll(diagramPattern), (match) => {
+    const [, alt, src] = match
+    const lightSrc = src.replace("/images/diagrams/", "/images/diagrams/light/")
+
+    return {
+      id: entry.data.id,
+      title: entry.data.title,
+      category: entry.data.category,
+      categoryColor: entry.data.categoryColor,
+      slug,
+      alt,
+      src,
+      lightSrc,
+    }
+  })
+})
+---
+
+<Layout
+  title="Infografías | 100cosas.dev"
+  description="Vista rápida de todas las infografías de 100cosas.dev para revisar conceptos sin entrar en cada artículo."
+  canonical="/infografias"
+  alternateUrl="/en"
+  noindex={true}
+>
+  <Navbar total={tipsEntries.length} />
+
+  <main id="main-content" tabindex="-1" class="grow w-full">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+      <a
+        href={getRelativeLocaleUrl("es", "/")}
+        class="inline-flex items-center text-neutral-500 hover:text-neutral-300 mb-8 transition-colors group text-sm"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Volver a la lista
+      </a>
+
+      <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
+        <div>
+          <p class="font-pixel text-sm text-sky-400/70 mb-3">/infografias</p>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl text-neutral-100 leading-tight tracking-normal">
+            Todas las infografías, en una sola vista.
+          </h1>
+        </div>
+
+        <div class="rounded-md border border-white/[0.06] bg-white/[0.025] px-4 py-3 lg:justify-self-end">
+          <p class="text-[11px] uppercase tracking-widest text-neutral-600 mb-1">Total</p>
+          <p class="font-pixel text-3xl text-sky-400">{infographics.length}</p>
+          <p class="text-xs text-neutral-500 mt-1">diagramas disponibles</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      {
+        infographics.length > 0 ? (
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {infographics.map((item) => (
+              <article class="infographic-card group">
+                <a
+                  href={`/consejo/${item.slug}`}
+                  class="block rounded-md border border-white/[0.07] bg-white/[0.025] overflow-hidden transition-colors hover:border-sky-500/35 hover:bg-white/[0.045]"
+                >
+                  <div class="flex items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
+                    <div class="min-w-0">
+                      <p class="font-pixel text-xs text-sky-400/70 mb-1">#{item.id}</p>
+                      <h2 class="text-sm text-neutral-200 group-hover:text-sky-300 transition-colors leading-snug truncate">
+                        {item.title}
+                      </h2>
+                    </div>
+
+                    <span
+                      class:list={[
+                        "shrink-0 text-[11px] px-2 py-1 rounded-sm",
+                        item.categoryColor ?? "bg-neutral-800 text-neutral-300",
+                      ]}
+                    >
+                      {item.category}
+                    </span>
+                  </div>
+
+                  <figure class="bg-[var(--surface)]">
+                    <img
+                      src={item.src}
+                      data-diagram-dark-src={item.src}
+                      data-diagram-light-src={item.lightSrc}
+                      alt={item.alt}
+                      loading="lazy"
+                      decoding="async"
+                      class="diagram-preview w-full h-auto"
+                    />
+                  </figure>
+                </a>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="rounded-md border border-white/[0.07] bg-white/[0.025] p-8 text-neutral-400">
+            No hay infografías publicadas todavía.
+          </div>
+        )
+      }
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline>
+  (() => {
+    function syncInfographicsToTheme() {
+      const isLight = document.documentElement.dataset.theme === "light"
+      document.querySelectorAll("[data-diagram-dark-src]").forEach((image) => {
+        if (!(image instanceof HTMLImageElement)) return
+        const img = image
+        const nextSrc = isLight
+          ? img.dataset.diagramLightSrc
+          : img.dataset.diagramDarkSrc
+
+        if (nextSrc && img.getAttribute("src") !== nextSrc) {
+          img.setAttribute("src", nextSrc)
+        }
+
+        if (img.dataset.diagramFallbackBound === "true") return
+        img.dataset.diagramFallbackBound = "true"
+        img.addEventListener("error", () => {
+          const darkSrc = img.dataset.diagramDarkSrc
+          if (darkSrc && img.getAttribute("src") !== darkSrc) {
+            img.setAttribute("src", darkSrc)
+          }
+        })
+      })
+    }
+
+    const observer = new MutationObserver(syncInfographicsToTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    })
+
+    syncInfographicsToTheme()
+    document.addEventListener("astro:page-load", syncInfographicsToTheme)
+  })()
+</script>
+
+<style>
+  .infographic-card {
+    break-inside: avoid;
+  }
+
+  .diagram-preview {
+    display: block;
+    min-height: 260px;
+    object-fit: contain;
+  }
+
+  @media (min-width: 1024px) {
+    .diagram-preview {
+      min-height: 320px;
+    }
+  }
+</style>

@@ -1,20 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="380" viewBox="0 0 600 380">
-  <text x="300" y="32" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#e5e5e5">Complejidad Esencial vs. Accidental</text>
+  <text x="300" y="32" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#1f2937">Complejidad Esencial vs. Accidental</text>
 
   <!-- Outer circle: Accidental complexity -->
-  <circle cx="300" cy="185" r="130" fill="#1a0a0a" stroke="#f87171" stroke-width="2.5" stroke-dasharray="8,4"/>
-  <circle cx="300" cy="185" r="130" fill="url(#redGrad)" stroke="#f87171" stroke-width="2.5" stroke-dasharray="8,4"/>
-
-  <!-- Gradient for outer -->
-  <defs>
-    <radialGradient id="redGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="60%" stop-color="transparent"/>
-      <stop offset="100%" stop-color="#2a0f0f"/>
-    </radialGradient>
-  </defs>
+  <circle cx="300" cy="185" r="130" fill="#f87171" fill-opacity="0.14" stroke="#f87171" stroke-width="2.5" stroke-dasharray="8,4"/>
 
   <!-- Inner circle: Essential complexity -->
-  <circle cx="300" cy="185" r="70" fill="#0a1628" stroke="#60a5fa" stroke-width="2.5"/>
+  <circle cx="300" cy="185" r="70" fill="#eff6ff" stroke="#60a5fa" stroke-width="2.5"/>
 
   <!-- Inner label -->
   <text x="300" y="176" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#93c5fd">Complejidad</text>
@@ -25,18 +16,18 @@
   <text x="448" y="118" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#fca5a5">Accidental</text>
 
   <!-- Descriptive labels -->
-  <text x="300" y="212" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#737373">Inherente al problema</text>
-  <text x="300" y="224" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#737373">(finanzas, medicina, logística...)</text>
+  <text x="300" y="212" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">Inherente al problema</text>
+  <text x="300" y="224" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">(finanzas, medicina, logística...)</text>
 
-  <text x="448" y="136" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#737373">Introducida por tus</text>
-  <text x="448" y="148" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#737373">decisiones técnicas</text>
+  <text x="448" y="136" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">Introducida por tus</text>
+  <text x="448" y="148" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">decisiones técnicas</text>
 
   <!-- Arrow pointing inward -->
   <line x1="458" y1="202" x2="435" y2="210" stroke="#f87171" stroke-width="1.5"/>
   <polygon points="435,210 442,204 440,213" fill="#f87171"/>
 
   <!-- Bottom message box -->
-  <rect x="60" y="334" width="480" height="32" rx="16" fill="#071a12" stroke="#34d399" stroke-width="1.5"/>
+  <rect x="60" y="334" width="480" height="32" rx="16" fill="#ecfdf5" stroke="#34d399" stroke-width="1.5"/>
   <text x="300" y="354" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#34d399">La simplicidad elimina lo accidental sin negar lo esencial</text>
 
   <!-- Arrow from box to outer ring -->

@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="220" viewBox="0 0 600 220">
-  <text x="300" y="32" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#e5e5e5">La regla del 97/3 de Knuth</text>
+  <text x="300" y="32" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#1f2937">La regla del 97/3 de Knuth</text>
 
   <!-- Bar background -->
-  <rect x="40" y="56" width="520" height="54" rx="6" fill="#262626"/>
+  <rect x="40" y="56" width="520" height="54" rx="6" fill="#d8e0ea"/>
 
   <!-- 97% section -->
-  <rect x="40" y="56" width="504" height="54" rx="6" fill="#0a1628"/>
-  <text x="282" y="88" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e5e5e5">No necesita optimización</text>
+  <rect x="40" y="56" width="504" height="54" rx="6" fill="#eff6ff"/>
+  <text x="282" y="88" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#1f2937">No necesita optimización</text>
 
   <!-- 3% section -->
   <rect x="544" y="56" width="16" height="54" rx="0" fill="#f87171"/>
@@ -19,12 +19,12 @@
   <!-- Callout for the critical 3% -->
   <line x1="552" y1="118" x2="552" y2="128" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,3"/>
   <text x="552" y="149" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="800" fill="#f87171">3%</text>
-  <text x="552" y="166" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#fca5a5">cuello de botella</text>
+  <text x="552" y="166" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#ef4444">cuello de botella</text>
 
   <!-- Labels below percentages -->
-  <text x="282" y="158" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#737373">de tu código</text>
+  <text x="282" y="158" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#64748b">de tu código</text>
 
   <!-- Bottom message -->
-  <rect x="100" y="188" width="400" height="24" rx="12" fill="#1a0a0a"/>
+  <rect x="100" y="188" width="400" height="24" rx="12" fill="#fff1f2"/>
   <text x="300" y="204" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#f87171">Identifica el 3% con DATOS, no con intuición</text>
 </svg>

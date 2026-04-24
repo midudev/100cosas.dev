@@ -34,6 +34,7 @@ export default defineConfig({
         const pathname = new URL(page).pathname;
 
         if (pathname.includes('/404')) return false;
+        if (pathname === '/infografias' || pathname === '/infografias/') return false;
 
         // Exclude legacy duplicated routes from sitemap.
         if (

@@ -5,34 +5,34 @@
     </style>
   </defs>
 
-  <text x="300" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#e5e5e5">Tokens de innovación</text>
+  <text x="300" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2937">Tokens de innovación</text>
 
   <!-- Left panel: Sin estrategia -->
-  <rect x="20" y="50" width="270" height="310" rx="8" fill="#1a0a0a" stroke="#4a1c1c" stroke-width="1"/>
+  <rect x="20" y="50" width="270" height="310" rx="8" fill="#fff1f2" stroke="#fca5a5" stroke-width="1"/>
   <text x="155" y="76" text-anchor="middle" font-size="14" font-weight="600" fill="#f87171">✗ Sin estrategia</text>
 
   <!-- Token 1 -->
   <circle cx="75" cy="130" r="28" fill="#f87171" opacity="0.15" stroke="#f87171" stroke-width="2"/>
   <text x="75" y="126" text-anchor="middle" font-size="10" font-weight="600" fill="#f87171">Token</text>
   <text x="75" y="139" text-anchor="middle" font-size="9" fill="#f87171">1</text>
-  <text x="75" y="176" text-anchor="middle" font-size="10" fill="#e5e5e5">DB exótica</text>
+  <text x="75" y="176" text-anchor="middle" font-size="10" fill="#1f2937">DB exótica</text>
 
   <!-- Token 2 -->
   <circle cx="155" cy="130" r="28" fill="#f87171" opacity="0.15" stroke="#f87171" stroke-width="2"/>
   <text x="155" y="126" text-anchor="middle" font-size="10" font-weight="600" fill="#f87171">Token</text>
   <text x="155" y="139" text-anchor="middle" font-size="9" fill="#f87171">2</text>
-  <text x="155" y="176" text-anchor="middle" font-size="10" fill="#e5e5e5">Framework</text>
-  <text x="155" y="188" text-anchor="middle" font-size="10" fill="#e5e5e5">nuevo</text>
+  <text x="155" y="176" text-anchor="middle" font-size="10" fill="#1f2937">Framework</text>
+  <text x="155" y="188" text-anchor="middle" font-size="10" fill="#1f2937">nuevo</text>
 
   <!-- Token 3 -->
   <circle cx="235" cy="130" r="28" fill="#f87171" opacity="0.15" stroke="#f87171" stroke-width="2"/>
   <text x="235" y="126" text-anchor="middle" font-size="10" font-weight="600" fill="#f87171">Token</text>
   <text x="235" y="139" text-anchor="middle" font-size="9" fill="#f87171">3</text>
-  <text x="235" y="176" text-anchor="middle" font-size="10" fill="#e5e5e5">Deploy</text>
-  <text x="235" y="188" text-anchor="middle" font-size="10" fill="#e5e5e5">experimental</text>
+  <text x="235" y="176" text-anchor="middle" font-size="10" fill="#1f2937">Deploy</text>
+  <text x="235" y="188" text-anchor="middle" font-size="10" fill="#1f2937">experimental</text>
 
   <!-- Left result -->
-  <rect x="40" y="210" width="230" height="56" rx="6" fill="#1a0a0a" stroke="#4a1c1c" stroke-width="1"/>
+  <rect x="40" y="210" width="230" height="56" rx="6" fill="#fff1f2" stroke="#fca5a5" stroke-width="1"/>
   <text x="155" y="233" text-anchor="middle" font-size="11" font-weight="600" fill="#fca5a5">0 tokens para tu producto</text>
   <text x="155" y="252" text-anchor="middle" font-size="10" fill="#f87171">5 incógnitas simultáneas</text>
 
@@ -43,27 +43,27 @@
   <path d="M143 320 Q155 312 167 320" stroke="#f87171" stroke-width="2" fill="none" stroke-linecap="round"/>
 
   <!-- Right panel: Con estrategia -->
-  <rect x="310" y="50" width="270" height="310" rx="8" fill="#071a12" stroke="#1a4a2e" stroke-width="1"/>
+  <rect x="310" y="50" width="270" height="310" rx="8" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
   <text x="445" y="76" text-anchor="middle" font-size="14" font-weight="600" fill="#34d399">✓ Con estrategia</text>
 
   <!-- Token 1 saved -->
-  <circle cx="365" cy="130" r="28" fill="#161616" stroke="#525252" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <text x="365" y="126" text-anchor="middle" font-size="9" fill="#525252">Guardado</text>
-  <text x="365" y="139" text-anchor="middle" font-size="9" fill="#525252">PostgreSQL</text>
+  <circle cx="365" cy="130" r="28" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="365" y="126" text-anchor="middle" font-size="9" fill="#94a3b8">Guardado</text>
+  <text x="365" y="139" text-anchor="middle" font-size="9" fill="#94a3b8">PostgreSQL</text>
 
   <!-- Token 2 saved -->
-  <circle cx="445" cy="130" r="28" fill="#161616" stroke="#525252" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <text x="445" y="126" text-anchor="middle" font-size="9" fill="#525252">Guardado</text>
-  <text x="445" y="139" text-anchor="middle" font-size="9" fill="#525252">React</text>
+  <circle cx="445" cy="130" r="28" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="445" y="126" text-anchor="middle" font-size="9" fill="#94a3b8">Guardado</text>
+  <text x="445" y="139" text-anchor="middle" font-size="9" fill="#94a3b8">React</text>
 
   <!-- Token 3 spent well -->
   <circle cx="525" cy="130" r="28" fill="#34d399" opacity="0.15" stroke="#34d399" stroke-width="2"/>
   <text x="525" y="126" text-anchor="middle" font-size="10" font-weight="600" fill="#34d399">Token</text>
   <text x="525" y="139" text-anchor="middle" font-size="9" fill="#34d399">3</text>
-  <text x="525" y="176" text-anchor="middle" font-size="10" font-weight="600" fill="#e5e5e5">Tu producto</text>
+  <text x="525" y="176" text-anchor="middle" font-size="10" font-weight="600" fill="#1f2937">Tu producto</text>
 
   <!-- Right result -->
-  <rect x="330" y="210" width="230" height="56" rx="6" fill="#071a12" stroke="#1a4a2e" stroke-width="1"/>
+  <rect x="330" y="210" width="230" height="56" rx="6" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
   <text x="445" y="233" text-anchor="middle" font-size="11" font-weight="600" fill="#86efac">1 token en lo que importa</text>
   <text x="445" y="252" text-anchor="middle" font-size="10" fill="#34d399">1 incógnita controlada</text>
 

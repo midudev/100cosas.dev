@@ -184,6 +184,65 @@ const jsonLd = {
         >
           <Content />
         </div>
+
+        <script is:inline>
+          (() => {
+            const DIAGRAM_PATH = "/images/diagrams/"
+            const LIGHT_DIAGRAM_PATH = "/images/diagrams/light/"
+
+            function getDiagramSources(img) {
+              const currentSrc = img.dataset.diagramDarkSrc || img.getAttribute("src") || ""
+              const currentPath = currentSrc.startsWith("http")
+                ? new URL(currentSrc).pathname
+                : currentSrc
+
+              if (!currentPath.includes(DIAGRAM_PATH)) return null
+
+              const darkSrc = currentPath.includes(LIGHT_DIAGRAM_PATH)
+                ? currentPath.replace(LIGHT_DIAGRAM_PATH, DIAGRAM_PATH)
+                : currentPath
+              const lightSrc = darkSrc.replace(DIAGRAM_PATH, LIGHT_DIAGRAM_PATH)
+
+              img.dataset.diagramDarkSrc = darkSrc
+              img.dataset.diagramLightSrc = lightSrc
+
+              return { darkSrc, lightSrc }
+            }
+
+            function syncDiagramsToTheme() {
+              const isLight = document.documentElement.dataset.theme === "light"
+              document
+                .querySelectorAll('article .prose img[src*="/images/diagrams/"], article .prose img[data-diagram-dark-src]')
+                .forEach((img) => {
+                  const sources = getDiagramSources(img)
+                  if (!sources) return
+
+                  const nextSrc = isLight ? sources.lightSrc : sources.darkSrc
+                  if (img.getAttribute("src") !== nextSrc) {
+                    img.setAttribute("src", nextSrc)
+                  }
+
+                  if (img.dataset.diagramFallbackBound === "true") return
+                  img.dataset.diagramFallbackBound = "true"
+                  img.addEventListener("error", () => {
+                    const darkSrc = img.dataset.diagramDarkSrc
+                    if (darkSrc && img.getAttribute("src") !== darkSrc) {
+                      img.setAttribute("src", darkSrc)
+                    }
+                  })
+                })
+            }
+
+            const observer = new MutationObserver(syncDiagramsToTheme)
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ["data-theme"],
+            })
+
+            syncDiagramsToTheme()
+            document.addEventListener("astro:page-load", syncDiagramsToTheme)
+          })()
+        </script>
       </article>
 
       <!-- Aside -->

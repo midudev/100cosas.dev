@@ -3,6 +3,7 @@
 User-agent: *
 Allow: /
 Disallow: /404
+Disallow: /infografias
 
 Sitemap: https://100cosas.dev/sitemap-index.xml
 

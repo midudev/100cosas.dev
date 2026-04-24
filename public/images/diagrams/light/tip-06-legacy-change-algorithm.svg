@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="520" viewBox="0 0 600 520">
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+  </defs>
+
+  <text x="300" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2937">Algoritmo de cambio de código legacy</text>
+  <text x="300" y="54" text-anchor="middle" font-size="11" fill="#64748b">Michael Feathers — Working Effectively with Legacy Code</text>
+
+  <!-- Step 1 -->
+  <rect x="150" y="76" width="300" height="60" rx="8" fill="#ffffff" stroke="#60a5fa" stroke-width="2"/>
+  <circle cx="178" cy="106" r="14" fill="#60a5fa"/>
+  <text x="178" y="111" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">1</text>
+  <text x="330" y="100" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2937">Identifica los puntos</text>
+  <text x="330" y="118" text-anchor="middle" font-size="11" fill="#64748b">de cambio</text>
+
+  <!-- Arrow 1-2 -->
+  <path d="M 300 140 V 151" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 300 160 L 294 151 H 306 Z" fill="#94a3b8"/>
+
+  <!-- Step 2 -->
+  <rect x="150" y="164" width="300" height="60" rx="8" fill="#ffffff" stroke="#60a5fa" stroke-width="2"/>
+  <circle cx="178" cy="194" r="14" fill="#60a5fa"/>
+  <text x="178" y="199" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">2</text>
+  <text x="330" y="188" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2937">Encuentra los puntos</text>
+  <text x="330" y="206" text-anchor="middle" font-size="11" fill="#64748b">de test</text>
+
+  <!-- Arrow 2-3 -->
+  <path d="M 300 228 V 239" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 300 248 L 294 239 H 306 Z" fill="#94a3b8"/>
+
+  <!-- Step 3 -->
+  <rect x="150" y="252" width="300" height="60" rx="8" fill="#ffffff" stroke="#fbbf24" stroke-width="2"/>
+  <circle cx="178" cy="282" r="14" fill="#fbbf24"/>
+  <text x="178" y="287" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">3</text>
+  <text x="330" y="276" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2937">Rompe dependencias</text>
+  <text x="330" y="294" text-anchor="middle" font-size="11" fill="#64748b">Aisla el código a testear</text>
+
+  <!-- Arrow 3-4 -->
+  <path d="M 300 316 V 327" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 300 336 L 294 327 H 306 Z" fill="#94a3b8"/>
+
+  <!-- Step 4 -->
+  <rect x="150" y="340" width="300" height="60" rx="8" fill="#ffffff" stroke="#34d399" stroke-width="2"/>
+  <circle cx="178" cy="370" r="14" fill="#34d399"/>
+  <text x="178" y="375" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">4</text>
+  <text x="330" y="364" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2937">Escribe tests</text>
+  <text x="330" y="382" text-anchor="middle" font-size="11" fill="#64748b">de caracterización</text>
+
+  <!-- Arrow 4-5 -->
+  <path d="M 300 404 V 415" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 300 424 L 294 415 H 306 Z" fill="#94a3b8"/>
+
+  <!-- Step 5 -->
+  <rect x="150" y="428" width="300" height="60" rx="8" fill="#ffffff" stroke="#34d399" stroke-width="2"/>
+  <circle cx="178" cy="458" r="14" fill="#34d399"/>
+  <text x="178" y="463" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">5</text>
+  <text x="330" y="452" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2937">Haz los cambios</text>
+  <text x="330" y="470" text-anchor="middle" font-size="11" fill="#64748b">Con la red de seguridad</text>
+
+  <!-- Side annotation -->
+  <rect x="475" y="76" width="105" height="148" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="527" y="100" text-anchor="middle" font-size="10" font-weight="600" fill="#60a5fa">Entender</text>
+  <text x="527" y="115" text-anchor="middle" font-size="10" font-weight="600" fill="#60a5fa">y proteger</text>
+  <text x="527" y="151" text-anchor="middle" font-size="22" font-weight="700" fill="#60a5fa">⬇︎</text>
+  <text x="527" y="175" text-anchor="middle" font-size="9" fill="#64748b">No empiezas</text>
+  <text x="527" y="188" text-anchor="middle" font-size="9" fill="#64748b">cambiando</text>
+
+  <rect x="475" y="340" width="105" height="148" rx="6" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
+  <text x="527" y="364" text-anchor="middle" font-size="10" font-weight="600" fill="#34d399">Cambiar</text>
+  <text x="527" y="379" text-anchor="middle" font-size="10" font-weight="600" fill="#34d399">con confianza</text>
+  <text x="527" y="415" text-anchor="middle" font-size="22" font-weight="700" fill="#34d399">⬇︎</text>
+  <text x="527" y="439" text-anchor="middle" font-size="9" fill="#64748b">Ahora sí,</text>
+  <text x="527" y="452" text-anchor="middle" font-size="9" fill="#64748b">con seguridad</text>
+</svg>
