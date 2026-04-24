@@ -7,7 +7,7 @@ export async function getStaticPaths() {
     await getCollection("tips", ({ id }) => {
       return id.startsWith("es/")
     })
-  ).sort((a, b) => a.id.localeCompare(b.id))
+  ).sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
 
   return tipsEntries.map((entry, index) => {
     const slug = entry.id.replace(/^es\//, "")
