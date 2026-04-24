@@ -6,11 +6,13 @@ import { marked } from 'marked';
 import { createHighlighter } from 'shiki';
 import Epub from 'epub-gen';
 import puppeteer from 'puppeteer';
+import { pathToFileURL } from 'url';
 
 const LANGUAGES = ['es', 'en'];
 const CONTENT_PATH = 'src/content/tips';
 const AUTHORS_PATH = 'src/content/authors';
-const OUTPUT_DIR = 'dist/exports';
+const OUTPUT_DIR = 'public';
+const EPUB_OPF_TEMPLATE_PATH = 'scripts/templates/epub3-content.opf.ejs';
 
 async function getAuthor(authorId) {
   try {
@@ -38,9 +40,10 @@ async function imageToBase64(filePath) {
 
 async function generateFormats() {
   await fs.ensureDir(OUTPUT_DIR);
-  const coverRelativePath = 'images/book-cover.png';
+  const coverRelativePath = 'images/book-cover.jpg';
   const coverAbsolutePath = path.join(process.cwd(), 'public', coverRelativePath);
   const coverDataUrl = await imageToBase64(coverAbsolutePath);
+  const coverFileUrl = pathToFileURL(coverAbsolutePath).href;
 
   const highlighter = await createHighlighter({
     themes: ['github-light'],
@@ -186,7 +189,15 @@ async function generateFormats() {
       author: '100cosas.dev',
       publisher: '100cosas.dev',
       cover: coverAbsolutePath,
+      customOpfTemplatePath: path.join(process.cwd(), EPUB_OPF_TEMPLATE_PATH),
       content: [
+        {
+          title: '',
+          filename: 'cover',
+          excludeFromToc: true,
+          beforeToc: true,
+          data: `<div class="epub-cover-page"><img src="${coverFileUrl}" alt="${lang === 'es' ? 'Portada del libro 100 cosas que todo programador debería saber' : 'Cover of the book 100 things every programmer should know'}" style="display:block;width:100%;height:100vh;object-fit:cover;margin:0;padding:0;" /></div>`
+        },
         {
           title: introTitle,
           data: introHtml
@@ -217,8 +228,11 @@ async function generateFormats() {
       <head>
         <meta charset="UTF-8">
         <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-          .book-content { max-width: 800px; margin: 0 auto; padding: 2cm; box-sizing: border-box; }
+          @page { size: A4; margin: 0; }
+          html, body { width: 100%; min-height: 100%; }
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; background: #000; margin: 0; padding: 0; }
+          .book-content { width: 100%; min-height: 100vh; background: #fff; padding: 2cm 0; box-sizing: border-box; }
+          .tip { max-width: 800px; margin: 0 auto; padding: 0 2cm; box-sizing: border-box; }
           h1 { color: #000; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 40px; }
           h2 { color: #444; margin-top: 30px; }
           .tip-meta { color: #666; font-style: italic; margin-bottom: 20px; }
@@ -227,15 +241,12 @@ async function generateFormats() {
           code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
           :not(pre) > code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; }
           blockquote { border-left: 4px solid #ddd; padding-left: 20px; margin-left: 0; color: #666; font-style: italic; }
-          .tip { break-before: page; }
-          .title-page { break-after: page; width: 210mm; height: 297mm; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background: #000; overflow: hidden; }
-          .cover-image { width: 100%; height: 100%; object-fit: cover; margin: 0; border-radius: 0; box-shadow: none; }
+          .tip + .tip { break-before: page; }
+          .title-page { break-after: page; page-break-after: always; position: relative; width: 211mm; height: 297mm; margin: 0; padding: 0; background: #000; overflow: hidden; }
+          .cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.01); transform-origin: center; margin: 0; border-radius: 0; box-shadow: none; }
           img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
           .diagram { text-align: center; margin: 1.5rem auto; border-radius: 8px; overflow: hidden; }
           .diagram svg { max-width: 100%; height: auto; display: block; filter: invert(1) hue-rotate(180deg) brightness(1.06) contrast(1.05); }
-          @media print {
-            .tip:first-of-type { break-before: avoid; }
-          }
         </style>
       </head>
       <body>
@@ -243,7 +254,7 @@ async function generateFormats() {
           ${coverDataUrl ? `<img class="cover-image" src="${coverDataUrl}" alt="${lang === 'es' ? 'Portada del libro 100 cosas que todo programador debería saber' : 'Cover of the book 100 things every programmer should know'}" />` : `<h1 style="border: none; font-size: 42px;">${lang === 'es' ? '100 cosas que todo programador debería saber' : '100 things every programmer should know'}</h1>`}
         </div>
         <div class="book-content">
-          <div class="tip" style="break-before: page;">
+          <div class="tip">
             <h1 style="font-size: 32px;">${lang === 'es' ? 'Introducción' : 'Introduction'}</h1>
             ${introHtml}
           </div>
@@ -264,10 +275,7 @@ async function generateFormats() {
       path: pdfPath,
       format: 'A4',
       margin: { top: '0', right: '0', bottom: '0', left: '0' },
-      printBackground: true,
-      displayHeaderFooter: true,
-      headerTemplate: '<span></span>',
-      footerTemplate: '<div style="font-size: 10px; width: 100%; text-align: center;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
+      printBackground: true
     });
 
     await browser.close();
