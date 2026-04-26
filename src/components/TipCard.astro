@@ -40,6 +40,7 @@ const readToggleLabel =
 
 let authorName = "Autor"
 let authorPhoto = "/authors/thumbs/kent-c-dodds.webp"
+let initials = "?"
 
 if (!isPlaceholder) {
   const authorEntry = await getEntry("authors", authorId)
@@ -49,6 +50,7 @@ if (!isPlaceholder) {
   }
 
   authorName = authorEntry.data.name
+  initials = authorEntry.data.initials
   authorPhoto = `/authors/thumbs/${authorEntry.data.id}.webp`
 }
 
@@ -116,7 +118,7 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
       itemtype="https://schema.org/Person"
     >
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 squircle bg-neutral-800 overflow-hidden shrink-0" data-vt-part="avatar">
+        <div class="w-8 h-8 squircle bg-neutral-800 overflow-hidden shrink-0 flex items-center justify-center text-[10px] text-neutral-400" data-vt-part="avatar">
           <img
             src={authorPhoto}
             alt={authorName}
@@ -126,7 +128,9 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
             decoding="async"
             class="w-full h-full object-cover"
             itemprop="image"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
           />
+          <span class="hidden w-full h-full items-center justify-center">{initials}</span>
         </div>
         <span class="text-[11px] text-neutral-500" itemprop="name" data-vt-part="author">{authorName}</span>
       </div>
