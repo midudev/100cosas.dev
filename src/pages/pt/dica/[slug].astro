@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content"
+import TipPage from "../../../components/TipPage.astro"
+
+export async function getStaticPaths() {
+  const tipsEntries = (
+    await getCollection("tips", ({ id }) => {
+      return id.startsWith("pt/")
+    })
+  ).sort((a, b) => a.id.localeCompare(b.id))
+
+  return tipsEntries.map((entry, index) => {
+    const slug = entry.id.replace(/^pt\//, "")
+    const prevEntry = index > 0 ? tipsEntries[index - 1] : null
+    const nextEntry =
+      index < tipsEntries.length - 1 ? tipsEntries[index + 1] : null
+
+    const prev = prevEntry
+      ? {
+          slug: prevEntry.id.replace(/^pt\//, ""),
+          title: prevEntry.data.title,
+        }
+      : null
+    const next = nextEntry
+      ? {
+          slug: nextEntry.id.replace(/^pt\//, ""),
+          title: nextEntry.data.title,
+        }
+      : null
+
+    return {
+      params: { slug },
+      props: {
+        entry,
+        total: tipsEntries.length,
+        prev,
+        next,
+      },
+    }
+  })
+}
+
+const { entry, total, prev, next } = Astro.props
+const { id } = entry.data
+const portugueseSlug = entry.id.replace(/^pt\//, "")
+
+// Find the equivalent tip in Spanish for the language switcher
+const otherTips = await getCollection("tips", (tip) => {
+  return tip.id.startsWith("es/") && tip.data.id === id
+})
+const spanishSlug =
+  otherTips.length > 0 ? otherTips[0].id.replace(/^es\//, "") : null
+const alternateUrl = spanishSlug ? `/consejo/${spanishSlug}` : "/"
+---
+
+<TipPage
+  entry={entry}
+  total={total}
+  alternateUrl={alternateUrl}
+  canonical={`/pt/dica/${portugueseSlug}`}
+  noindex={true}
+  prev={prev}
+  next={next}
+/>

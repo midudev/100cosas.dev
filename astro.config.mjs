@@ -25,6 +25,7 @@ export default defineConfig({
         locales: {
           es: 'es-ES',
           en: 'en-US',
+          pt: 'pt-BR',
         },
       },
       changefreq: 'weekly',
@@ -44,7 +45,10 @@ export default defineConfig({
           pathname.startsWith('/es/autor/') ||
           pathname === '/es/sobre-el-proyecto' ||
           pathname.startsWith('/en/consejo/') ||
-          pathname === '/en/sobre-el-proyecto'
+          pathname === '/en/sobre-el-proyecto' ||
+          pathname.startsWith('/pt/dica/') ||
+          pathname.startsWith('/pt/autor/') ||
+          pathname === '/pt/sobre-o-projeto'
         ) {
           return false;
         }
@@ -67,7 +71,7 @@ export default defineConfig({
 
   i18n: {
     defaultLocale: 'es',
-    locales: ['es', 'en'],
+    locales: ['es', 'en', 'pt'],
     routing: {
       prefixDefaultLocale: false
     }
