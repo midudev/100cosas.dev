@@ -3,6 +3,7 @@ import { getEntry, getCollection, render, type CollectionEntry } from "astro:con
 import Layout from "../layouts/Layout.astro"
 import Navbar from "./Navbar.astro"
 import Footer from "./Footer.astro"
+import StickyNav from "./StickyNav.astro"
 import { getRelativeLocaleUrl } from "astro:i18n"
 import { useTranslations } from "../i18n/utils"
 
@@ -21,7 +22,7 @@ interface Props {
   next?: TipNavItem | null
 }
 
-const { entry, total, alternateUrl, canonical, noindex = false, prev, next } = Astro.props
+const { entry, total, alternateUrl, canonical, noindex = false, prev = null, next = null } = Astro.props
 const { Content } = await render(entry)
 const { id, title, category, author: authorId, categoryColor } = entry.data
 const description = (entry.body ?? "").slice(0, 160).replace(/[#>]/g, "").trim()
@@ -366,17 +367,9 @@ const jsonLd = {
         </nav>
       </aside>
     </div>
+
+    <StickyNav id={id} total={total} prev={prev} next={next} />
   </main>
 
   <Footer />
 </Layout>
-
-<script define:vars={{ id }}>
-  const STORAGE_KEY = "read-tips"
-  const stored = localStorage.getItem(STORAGE_KEY)
-  const readTips = stored ? JSON.parse(stored) : []
-  if (!readTips.includes(id)) {
-    readTips.push(id)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(readTips))
-  }
-</script>
