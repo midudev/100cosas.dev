@@ -56,13 +56,29 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
       ))
     }
   </div>
-  <div class="fade-right"></div>
 </div>
 
 <style>
   .filter-scroll {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    --fade-left: 0px;
+    --fade-right: 0px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--fade-left),
+      #000 calc(100% - var(--fade-right)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--fade-left),
+      #000 calc(100% - var(--fade-right)),
+      transparent 100%
+    );
+    transition: --fade-left 0.2s ease, --fade-right 0.2s ease;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -80,14 +96,32 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
     display: none;
   }
 
-  .fade-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 3rem;
-    background: linear-gradient(to right, transparent, var(--bg));
-    pointer-events: none;
+  /* Typed custom properties so the mask's fade width can animate
+     (a bare custom property would snap instead of transitioning). */
+  @property --fade-left {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+
+  @property --fade-right {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+
+  .filter-bar.can-scroll-left .filter-scroll {
+    --fade-left: 3rem;
+  }
+
+  .filter-bar.can-scroll-right .filter-scroll {
+    --fade-right: 3rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filter-scroll {
+      transition: none;
+    }
   }
 </style>
 
@@ -98,6 +132,18 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
     if (container.dataset.scrollEnhanced === "true") return
 
     container.dataset.scrollEnhanced = "true"
+
+    const bar = container.closest(".filter-bar")
+
+    const updateFades = () => {
+      if (!(bar instanceof HTMLElement)) return
+      const maxScroll = container.scrollWidth - container.clientWidth
+      bar.classList.toggle("can-scroll-left", container.scrollLeft > 1)
+      bar.classList.toggle(
+        "can-scroll-right",
+        container.scrollLeft < maxScroll - 1
+      )
+    }
 
     let isDragging = false
     let startX = 0
@@ -145,6 +191,22 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
       },
       true
     )
+
+    container.addEventListener("scroll", updateFades, { passive: true })
+
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(updateFades).observe(container)
+    } else {
+      window.addEventListener("resize", updateFades)
+    }
+
+    // Recompute once web fonts have loaded: font swaps change text width
+    // (and therefore scrollWidth) without triggering a container resize.
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(updateFades)
+    }
+
+    updateFades()
   }
 
   initFilterScroll()
