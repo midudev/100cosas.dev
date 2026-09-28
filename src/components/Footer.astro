@@ -6,33 +6,36 @@ const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
 ---
 
-<footer class="border-t border-white/[0.04] mt-auto py-10">
-  <div class="max-w-6xl mx-auto px-4 text-center">
-    <p class="text-neutral-600 text-[12px] mb-1.5">
-      {t("footer.based")}
-    </p>
-    <p class="text-neutral-700 text-[11px]">
+<footer class="border-t border-line mt-auto">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div class="space-y-2">
+      <a
+        href={getRelativeLocaleUrl(lang, "/")}
+        class="inline-flex items-baseline gap-1 group"
+      >
+        <span class="font-pixel text-[15px] text-accent leading-none">100</span>
+        <span class="text-[12px] text-fg-dim group-hover:text-fg transition-colors leading-none">cosas.dev</span>
+      </a>
+      <p class="font-serif italic text-[15px] text-fg-muted max-w-sm">
+        {t("footer.based")}
+      </p>
+    </div>
+
+    <p class="text-[12px] text-fg-muted">
       {t("footer.collected")}
       <a
         href="https://x.com/midudev"
         target="_blank"
         rel="noopener noreferrer"
         aria-label={lang === "es" ? "Perfil de midudev en X (se abre en una pestaña nueva)" : "midudev profile on X (opens in a new tab)"}
-        class="hover:text-sky-400 transition-colors">@midudev</a
-      > &middot; <a
+        class="text-fg-dim hover:text-accent transition-colors">@midudev</a>
+      <span class="mx-1.5 text-line-strong" aria-hidden="true">/</span>
+      <a
         href="https://creativecommons.org/licenses/by-nc/4.0/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label={lang === "es" ? "Licencia Creative Commons BY-NC 4.0 (se abre en una pestaña nueva)" : "Creative Commons BY-NC 4.0 license (opens in a new tab)"}
-        class="hover:text-sky-400 transition-colors">{t("footer.license")}</a
-      >
+        class="text-fg-dim hover:text-accent transition-colors">{t("footer.license")}</a>
     </p>
-    <div class="mt-6">
-      <a
-        href={getRelativeLocaleUrl(lang, "/")}
-        class="font-pixel text-neutral-800 text-xs hover:text-neutral-600 transition-colors"
-        >100cosas.dev</a
-      >
-    </div>
   </div>
 </footer>

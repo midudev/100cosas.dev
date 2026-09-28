@@ -1,0 +1,208 @@
+---
+// Fondo decorativo: un brillo de píxeles con dithering ordenado (Bayer 4×4)
+// que hace eco de la fuente pixel del "100". Se genera en build: cero JS.
+const CELL = 8
+const WIDTH = 1440
+const HEIGHT = 480
+const COLS = WIDTH / CELL
+const ROWS = HEIGHT / CELL
+
+const BAYER = [
+  [0, 8, 2, 10],
+  [12, 4, 14, 6],
+  [3, 11, 1, 9],
+  [15, 7, 13, 5],
+]
+
+// Foco del brillo: fuera de la esquina superior derecha. Elipse ancha y baja
+// para llenar el hueco sobre el hero sin meterse detrás del texto.
+const FOCUS_X = WIDTH + 60
+const FOCUS_Y = 0
+const RADIUS_X = 1150
+const RADIUS_Y = 230
+
+// Umbrales de intensidad de cada banda de color (b1 = centro, b4 = borde)
+const BANDS = [0.5, 0.28, 0.12, 0]
+// Variación de opacidad por píxel para que el bloque no sea plano
+const LEVELS = [0.45, 0.7, 1]
+
+// Ruido determinista para que el borde no sea un arco perfecto
+const hash = (x: number, y: number) => {
+  const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453
+  return s - Math.floor(s)
+}
+
+const square = (x: number, y: number) => `M${x} ${y}h${CELL}v${CELL}h-${CELL}z`
+
+// Cada combinación banda/opacidad es un único <path> con movimientos relativos
+const groups = new Map<string, { d: string; x: number; y: number }>()
+let blinking = ""
+
+for (let row = 0; row < ROWS; row++) {
+  for (let col = 0; col < COLS; col++) {
+    const x = col * CELL
+    const y = row * CELL
+    const distance = Math.hypot((x - FOCUS_X) / RADIUS_X, (y - FOCUS_Y) / RADIUS_Y)
+    const noise = (hash(col, row) - 0.5) * 0.1
+    const intensity = Math.max(0, 1 - distance + noise) ** 1.5
+    const threshold = (BAYER[row % 4][col % 4] + 0.5) / 16
+    const band = BANDS.findIndex((min) => intensity > min) + 1
+    const chance = hash(row + 7, col + 3)
+    const lit = intensity > threshold
+
+    // Algunos píxeles se apagan (encendidos) o se encienden (apagados) con un fundido
+    if ((lit && chance > 0.95) || (!lit && intensity > 0.08 && chance > 0.965)) {
+      const duration = (6 + hash(col + 1, row) * 6).toFixed(1)
+      const delay = (hash(col, row + 11) * -12).toFixed(1)
+      blinking += `<path class="b${band} ${lit ? "off" : "on"}" style="animation-duration:${duration}s;animation-delay:${delay}s" d="${square(x, y)}"/>`
+      continue
+    }
+
+    if (!lit) continue
+
+    const level = LEVELS[Math.floor(hash(col + 5, row + 13) * LEVELS.length)]
+    const key = `${band}|${level}`
+    const group = groups.get(key) ?? { d: "", x: 0, y: 0 }
+    group.d += `m${x - group.x} ${y - group.y}h${CELL}v${CELL}h-${CELL}z`
+    group.x = x
+    group.y = y
+    groups.set(key, group)
+  }
+}
+
+const staticPixels = [...groups]
+  .map(([key, { d }]) => {
+    const [band, level] = key.split("|")
+    return `<path class="b${band}" fill-opacity="${level}" d="M0 0${d}"/>`
+  })
+  .join("")
+
+// Se inyecta como HTML para no repetir el atributo de scope de Astro en cada píxel
+const svg = `
+  <defs>
+    <pattern id="pb-dots" width="${CELL * 4}" height="${CELL * 4}" patternUnits="userSpaceOnUse">
+      <rect x="3" y="3" width="2" height="2" class="dot"/>
+    </pattern>
+    <radialGradient id="pb-fade" cx="1" cy="0" r="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.9" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="pb-mask">
+      <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#pb-fade)"/>
+    </mask>
+  </defs>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#pb-dots)" mask="url(#pb-mask)"/>
+  <g shape-rendering="crispEdges">${staticPixels}${blinking}</g>
+`
+---
+
+<div class="pixel-backdrop" aria-hidden="true">
+  <svg
+    viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+    width={WIDTH}
+    height={HEIGHT}
+    focusable="false"
+    set:html={svg}
+  />
+</div>
+
+<style>
+  .pixel-backdrop {
+    --pb-dot: rgba(255, 255, 255, 0.1);
+    --pb-1: rgba(120, 214, 255, 0.62);
+    --pb-2: rgba(76, 195, 255, 0.5);
+    --pb-3: rgba(110, 140, 255, 0.42);
+    --pb-4: rgba(167, 120, 255, 0.34);
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: -1;
+    height: 480px;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  :global(:root[data-theme="light"]) .pixel-backdrop {
+    --pb-dot: rgba(28, 25, 20, 0.12);
+    --pb-1: rgba(10, 99, 153, 0.42);
+    --pb-2: rgba(10, 99, 153, 0.32);
+    --pb-3: rgba(67, 56, 202, 0.24);
+    --pb-4: rgba(109, 40, 217, 0.2);
+  }
+
+  .pixel-backdrop svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 1440px;
+    max-width: none;
+    height: auto;
+  }
+
+  /* En móvil se reduce para que el brillo no quede entero bajo la navbar */
+  @media (max-width: 639px) {
+    .pixel-backdrop svg {
+      width: 1080px;
+    }
+  }
+
+  .pixel-backdrop :global(.dot) {
+    fill: var(--pb-dot);
+  }
+
+  .pixel-backdrop :global(.b1) {
+    fill: var(--pb-1);
+  }
+
+  .pixel-backdrop :global(.b2) {
+    fill: var(--pb-2);
+  }
+
+  .pixel-backdrop :global(.b3) {
+    fill: var(--pb-3);
+  }
+
+  .pixel-backdrop :global(.b4) {
+    fill: var(--pb-4);
+  }
+
+  /* Reposo: los "off" se ven encendidos y los "on" apagados */
+  .pixel-backdrop :global(.off) {
+    --rest: 1;
+    --peak: 0;
+    opacity: 1;
+  }
+
+  .pixel-backdrop :global(.on) {
+    --rest: 0;
+    --peak: 1;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pixel-backdrop :global(.off),
+    .pixel-backdrop :global(.on) {
+      animation-name: pb-blink;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+  }
+
+  @keyframes pb-blink {
+    0%,
+    30% {
+      opacity: var(--rest);
+    }
+
+    42%,
+    64% {
+      opacity: var(--peak);
+    }
+
+    76%,
+    100% {
+      opacity: var(--rest);
+    }
+  }
+</style>

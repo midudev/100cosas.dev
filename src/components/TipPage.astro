@@ -5,6 +5,12 @@ import Navbar from "./Navbar.astro"
 import Footer from "./Footer.astro"
 import { getRelativeLocaleUrl } from "astro:i18n"
 import { useTranslations } from "../i18n/utils"
+import ArrowLeftIcon from "../assets/icons/arrow-left.svg"
+import CheckIcon from "../assets/icons/check.svg"
+import ChevronDownIcon from "../assets/icons/chevron-down.svg"
+import LinkIcon from "../assets/icons/link.svg"
+import LinkedinIcon from "../assets/icons/linkedin.svg"
+import XIcon from "../assets/icons/x.svg"
 
 interface TipNavItem {
   slug: string
@@ -22,7 +28,9 @@ interface Props {
 }
 
 const { entry, total, alternateUrl, canonical, noindex = false, prev, next } = Astro.props
-const { Content } = await render(entry)
+const { Content, headings } = await render(entry)
+// Índice del consejo: solo secciones de primer nivel (##) para que quepa en el aside
+const tocHeadings = headings.filter((heading) => heading.depth === 2)
 const { id, title, category, author: authorId, categoryColor } = entry.data
 const description = (entry.body ?? "").slice(0, 160).replace(/[#>]/g, "").trim()
 
@@ -42,7 +50,8 @@ const {
   name: authorName,
   initials: authorInitials,
 } = authorEntry.data
-const authorPhoto = `/authors/${authorEntry.data.id}.webp`
+// Avatares de 32/40px: usar la miniatura de 64px (~4 KB) en vez de la foto completa (1200px+, 40-96 KB)
+const authorPhoto = `/authors/thumbs/${authorEntry.data.id}.webp`
 
 const allTips = await getCollection("tips", ({ id: tipId }) =>
   tipId.startsWith(`${lang}/`)
@@ -52,12 +61,30 @@ const authorTips = allTips
   .sort((a, b) => parseInt(a.data.id) - parseInt(b.data.id))
   .slice(0, 5)
 
+// Tiempo de lectura aproximado (sin contar bloques de código)
+const proseWords = (entry.body ?? "")
+  .replace(/```[\s\S]*?```/g, "")
+  .split(/\s+/)
+  .filter(Boolean).length
+const readingMinutes = Math.max(1, Math.round(proseWords / 220))
+const dotColor = categoryColor?.split(" ").find((c) => c.startsWith("text-")) ?? "text-sky-400"
+
+const pageUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).toString()
+const xShareUrl = `https://x.com/intent/post?${new URLSearchParams({
+  text: `${title} — ${authorName}`,
+  url: pageUrl,
+  via: "midudev",
+})}`
+const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams({ url: pageUrl })}`
+// El slug empieza por el número del consejo: "02-el-tipo-correcto..."
+const nextNumber = next?.slug.split("-")[0]
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: title,
   description,
-  mainEntityOfPage: new URL(canonical ?? Astro.url.pathname, Astro.site).toString(),
+  mainEntityOfPage: pageUrl,
   image: [new URL(`/og/${entry.id}.jpg`, Astro.site).toString()],
   inLanguage: lang === "es" ? "es-ES" : "en-US",
   author: {
@@ -93,105 +120,150 @@ const jsonLd = {
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <Navbar total={total} alternateUrl={alternateUrl} />
+  <div class="reading-progress" aria-hidden="true"></div>
 
-  <main id="main-content" tabindex="-1" class="grow max-w-6xl mx-auto px-4 sm:px-6 py-10 w-full">
+  <main id="main-content" tabindex="-1" class="grow max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-12 pb-24 w-full">
     <a
       href={getRelativeLocaleUrl(lang, "/")}
-      class="inline-flex items-center text-neutral-500 hover:text-neutral-300 mb-8 transition-colors group text-sm"
+      class="inline-flex items-center gap-1.5 text-[12px] text-fg-muted hover:text-fg mb-10 md:mb-14 transition-colors group"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M15 19l-7-7 7-7"></path>
-      </svg>
+      <ArrowLeftIcon class="size-3.5 transition-transform group-hover:-translate-x-0.5" />
       {t('tip.back')}
     </a>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-10 lg:gap-16 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_248px] gap-14 lg:gap-20 items-start">
       <!-- Article -->
       <article
-        class="max-w-[65ch]"
+        class="min-w-0 max-w-[40rem]"
         itemscope
         itemtype="https://schema.org/Article"
         data-tip-id={id}
       >
-        <header class="mb-10">
-          <div class="flex items-center gap-2 mb-5 text-[12px]">
-            <span class="font-pixel text-sky-400/50" data-vt-part="number">#{id}</span>
-            <span class="font-pixel text-neutral-700">·</span>
-            <span
-              class:list={["px-2 py-0.5 rounded-sm", categoryColor]}
-              itemprop="articleSection">{category}</span
-            >
+        <header class="mb-12 pb-10 border-b border-line">
+          <div class="flex items-center gap-2.5 mb-6 text-[12px] text-fg-muted">
+            <span class="text-accent tabular-nums" data-vt-part="number">Nº {id}</span>
+            <span class="text-line-strong" aria-hidden="true">/</span>
+            <span class:list={["cat-dot", dotColor]} aria-hidden="true"></span>
+            <span itemprop="articleSection">{category}</span>
           </div>
 
           <h1
-            class="text-2xl md:text-3xl font-semibold text-neutral-100 mb-6 leading-tight text-balance"
+            class="font-serif text-[2.25rem] md:text-5xl lg:text-[3.4rem] font-normal text-fg leading-[1.08] tracking-[-0.022em] text-balance mb-9"
             itemprop="headline"
             data-vt-part="title"
           >
             {title}
           </h1>
 
-          <a
-            href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
-            class="inline-flex items-center gap-3 hover:opacity-80 transition-opacity group"
-            itemprop="author"
-            itemscope
-            itemtype="https://schema.org/Person"
-          >
-            <div
-              class="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center text-xs font-medium text-neutral-400 overflow-hidden"
-              data-vt-part="avatar"
+          <div class="flex items-center justify-between gap-4 flex-wrap">
+            <a
+              href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
+              class="inline-flex items-center gap-3 group"
+              itemprop="author"
+              itemscope
+              itemtype="https://schema.org/Person"
             >
-              {
-                authorPhoto ? (
-                  <img
-                    src={authorPhoto}
-                    alt={authorName}
-                    width="32"
-                    height="32"
-                    decoding="async"
-                    class="w-full h-full object-cover"
-                    itemprop="image"
-                  />
-                ) : (
-                  authorInitials
-                )
-              }
-            </div>
-            <span
-              class="text-sm text-neutral-400 group-hover:text-sky-400 transition-colors"
-              itemprop="name"
-              data-vt-part="author"
-            >
-              {authorName}
-            </span>
-          </a>
+              <div
+                class="size-9 rounded-full bg-surface-2 flex items-center justify-center text-xs text-fg-dim overflow-hidden"
+                data-vt-part="avatar"
+              >
+                {
+                  authorPhoto ? (
+                    <img
+                      src={authorPhoto}
+                      alt=""
+                      width="36"
+                      height="36"
+                      decoding="async"
+                      class="w-full h-full object-cover"
+                      itemprop="image"
+                    />
+                  ) : (
+                    authorInitials
+                  )
+                }
+              </div>
+              <span class="flex flex-col">
+                <span class="eyebrow !text-[10px]">{t('tip.author')}</span>
+                <span
+                  class="text-[13px] text-fg group-hover:text-accent transition-colors"
+                  itemprop="name"
+                  data-vt-part="author"
+                >
+                  {authorName}
+                </span>
+              </span>
+            </a>
+            <span class="text-[12px] text-fg-muted tabular-nums">{readingMinutes} {t('tip.reading_time')}</span>
+          </div>
         </header>
 
+        <!-- Índice en móvil: en escritorio vive en el aside -->
+        {tocHeadings.length >= 2 && (
+          <details class="toc-mobile lg:hidden mb-12">
+            <summary class="toc-mobile-summary">
+              <span class="eyebrow">{t("tip.toc")}</span>
+              <span class="ml-auto text-[11px] text-fg-muted tabular-nums">{tocHeadings.length} {t("tip.toc_sections")}</span>
+              <ChevronDownIcon class="toc-mobile-chevron size-3.5 text-fg-muted" />
+            </summary>
+            <ol class="toc-mobile-list">
+              {tocHeadings.map((heading, index) => (
+                <li>
+                  <a href={`#${heading.slug}`} class="toc-mobile-link" data-toc-link data-slug={heading.slug}>
+                    <span class="text-[11px] text-fg-muted tabular-nums font-mono">{String(index + 1).padStart(2, "0")}</span>
+                    <span>{heading.text}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
+
         <div
-          class="prose prose-invert prose-sky max-w-none
-                  prose-headings:text-neutral-200 prose-headings:font-semibold
-                  prose-p:text-neutral-400 prose-p:leading-[1.8] prose-p:text-[15px]
-                  prose-strong:text-neutral-200
-                  prose-code:text-sky-300
-                  prose-ul:text-neutral-400 prose-li:my-1.5
-                  prose-ol:text-neutral-400
-                  prose-pre:bg-[#050505] prose-pre:border-0 prose-pre:rounded-none prose-pre:my-6
-                  prose-a:text-sky-400 prose-a:no-underline hover:prose-a:underline"
+          class="prose prose-reading max-w-none"
           itemprop="articleBody"
+          data-tip-prose
+          data-anchor-label={t("tip.copy_section_link")}
+          data-copied-label={t("tip.link_copied")}
         >
           <Content />
         </div>
+        <!-- Iconos del enlace de cada título: el script los clona al añadir los anclas -->
+        <template data-heading-anchor-icons>
+          <LinkIcon class="copy-icon-link" />
+          <CheckIcon class="copy-icon-check" />
+        </template>
+        <p class="sr-only" role="status" aria-live="polite" data-copy-status></p>
+
+        <!-- Prev / Next navigation -->
+        {(prev || next) && (
+          <nav class="mt-20 pt-8 border-t border-line grid gap-3 sm:grid-cols-2" aria-label={lang === "es" ? "Navegación entre consejos" : "Tip navigation"}>
+            {prev ? (
+              <a
+                href={getRelativeLocaleUrl(lang, `/${tipPath}/${prev.slug}`)}
+                class="tip-nav group"
+              >
+                <span class="eyebrow flex items-center gap-1.5">
+                  <span aria-hidden="true" class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
+                  {t("tip.prev")}
+                </span>
+                <span class="font-serif text-lg leading-snug text-fg group-hover:text-accent transition-colors text-balance">{prev.title}</span>
+              </a>
+            ) : <span class="hidden sm:block"></span>}
+            {next && (
+              <a
+                href={getRelativeLocaleUrl(lang, `/${tipPath}/${next.slug}`)}
+                class="tip-nav group sm:text-right sm:items-end"
+              >
+                <span class="eyebrow flex items-center gap-1.5">
+                  {t("tip.next")}
+                  <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+                </span>
+                <span class="font-serif text-lg leading-snug text-fg group-hover:text-accent transition-colors text-balance">{next.title}</span>
+              </a>
+            )}
+          </nav>
+        )}
 
         <script is:inline>
           (() => {
@@ -253,117 +325,140 @@ const jsonLd = {
         </script>
       </article>
 
-      <!-- Aside -->
-      <aside class="lg:sticky lg:top-20 space-y-8 lg:border-l lg:border-white/[0.04] lg:pl-8">
-        <!-- Author card -->
-        <div>
-          <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.author')}</p>
-          <a
-            href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
-            class="flex items-center gap-3 group"
-          >
-            <div class="w-10 h-10 rounded-full bg-neutral-800 overflow-hidden shrink-0">
-              {
-                authorPhoto ? (
-                  <img
-                    src={authorPhoto}
-                    alt={authorName}
-                    width="40"
-                    height="40"
-                    decoding="async"
-                    class="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span class="w-full h-full flex items-center justify-center text-sm text-neutral-400">{authorInitials}</span>
-                )
-              }
-            </div>
-            <div>
-              <p class="text-sm text-neutral-200 group-hover:text-sky-400 transition-colors font-medium">{authorName}</p>
-              <p class="text-[11px] text-neutral-600">{t('tip.view_profile')} &rarr;</p>
-            </div>
-          </a>
-        </div>
-
-        <!-- More by this author -->
-        {authorTips.length > 0 && (
+      <!-- Aside: autor arriba (se va con el scroll), índice + descargas fijos -->
+      <aside class="lg:self-stretch lg:pt-2">
+        <div class="space-y-10">
+          <!-- Author card -->
           <div>
-            <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.more_by_author')}</p>
-            <ul class="space-y-2">
-              {authorTips.map((tip) => {
-                const tipSlug = tip.id.replace(/^(es|en)\//, "")
-                return (
-                  <li>
-                    <a
-                      href={getRelativeLocaleUrl(lang, `/${tipPath}/${tipSlug}`)}
-                      class="flex items-baseline gap-2 text-[13px] text-neutral-500 hover:text-sky-400 transition-colors group"
-                    >
-                      <span class="font-pixel text-[10px] text-sky-400/40 shrink-0">#{tip.data.id}</span>
-                      <span class="group-hover:text-sky-400 leading-snug">{tip.data.title}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        )}
-
-        <!-- Category -->
-        <div>
-          <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t('tip.category_label')}</p>
-          <span class:list={["text-[12px] px-2 py-0.5 rounded-sm", categoryColor]}>{category}</span>
-        </div>
-
-        <!-- Download formats -->
-        <div>
-          <p class="text-[10px] text-neutral-600 uppercase tracking-widest mb-3">{t("book.download")}</p>
-          <div class="space-y-2">
+            <p class="eyebrow mb-4">{t('tip.author')}</p>
             <a
-              href={pdfUrl}
-              download
-              class="group flex items-center justify-between rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-[12px] text-neutral-300 hover:border-sky-500/30 hover:text-sky-300 transition-colors"
+              href={getRelativeLocaleUrl(lang, `/autor/${authorId}`)}
+              class="flex items-center gap-3 group"
             >
-              <span class="font-medium">{t("book.format_pdf")}</span>
-              <span aria-hidden="true" class="text-neutral-600 group-hover:text-sky-400 transition-colors">&darr;</span>
-            </a>
-            <a
-              href={epubUrl}
-              download
-              class="group flex items-center justify-between rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-[12px] text-neutral-300 hover:border-emerald-500/30 hover:text-emerald-300 transition-colors"
-            >
-              <span class="font-medium">{t("book.format_epub")}</span>
-              <span aria-hidden="true" class="text-neutral-600 group-hover:text-emerald-400 transition-colors">&darr;</span>
+              <div class="size-10 rounded-full bg-surface-2 overflow-hidden shrink-0">
+                {
+                  authorPhoto ? (
+                    <img
+                      src={authorPhoto}
+                      alt=""
+                      width="40"
+                      height="40"
+                      decoding="async"
+                      class="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span class="w-full h-full flex items-center justify-center text-sm text-fg-dim">{authorInitials}</span>
+                  )
+                }
+              </div>
+              <div>
+                <p class="font-serif text-[17px] leading-tight text-fg group-hover:text-accent transition-colors">{authorName}</p>
+                <p class="text-[11px] text-fg-muted mt-0.5">{t('tip.view_profile')} &rarr;</p>
+              </div>
             </a>
           </div>
-        </div>
 
-        <!-- Prev / Next navigation -->
-        <nav class="space-y-2">
-          {prev && (
-            <a
-              href={getRelativeLocaleUrl(lang, `/${tipPath}/${prev.slug}`)}
-              class="block group"
-            >
-              <span class="text-[10px] text-neutral-700 uppercase tracking-widest">{t("tip.prev")}</span>
-              <span class="text-[13px] text-neutral-500 group-hover:text-sky-400 transition-colors flex items-center gap-1.5 leading-snug mt-0.5">
-                <span class="shrink-0">&larr;</span>
-                {prev.title}
-              </span>
-            </a>
+          <!-- More by this author -->
+          {authorTips.length > 0 && (
+            <div>
+              <p class="eyebrow mb-4">{t('tip.more_by_author')}</p>
+              <ul class="space-y-3">
+                {authorTips.map((tip) => {
+                  const tipSlug = tip.id.replace(/^(es|en)\//, "")
+                  return (
+                    <li>
+                      <a
+                        href={getRelativeLocaleUrl(lang, `/${tipPath}/${tipSlug}`)}
+                        class="flex items-baseline gap-3 group"
+                      >
+                        <span class="text-[11px] text-fg-muted tabular-nums shrink-0 group-hover:text-accent transition-colors">{tip.data.id}</span>
+                        <span class="font-serif text-[15px] leading-snug text-fg-dim group-hover:text-fg transition-colors">{tip.data.title}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           )}
+        </div>
+
+        <div class="aside-sticky mt-10 space-y-10">
+          <!-- Table of contents -->
+          {tocHeadings.length >= 2 && (
+            <nav class="hidden lg:block pt-8 border-t border-line" aria-labelledby="toc-title" data-toc>
+              <p id="toc-title" class="eyebrow mb-4">{t("tip.toc")}</p>
+              <div class="toc-track">
+                <span class="toc-indicator" aria-hidden="true" data-toc-indicator></span>
+                <ol>
+                  {tocHeadings.map((heading) => (
+                    <li>
+                      <a href={`#${heading.slug}`} class="toc-link" data-toc-link data-slug={heading.slug}>
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </nav>
+          )}
+
+          <!-- Siguiente consejo: aparece cuando queda poco para terminar de leer -->
           {next && (
-            <a
-              href={getRelativeLocaleUrl(lang, `/${tipPath}/${next.slug}`)}
-              class="block group"
-            >
-              <span class="text-[10px] text-neutral-700 uppercase tracking-widest">{t("tip.next")}</span>
-              <span class="text-[13px] text-neutral-500 group-hover:text-sky-400 transition-colors flex items-center gap-1.5 leading-snug mt-0.5">
-                {next.title}
-                <span class="shrink-0">&rarr;</span>
-              </span>
-            </a>
+            <div class="next-up" data-next-up inert>
+              <div class="min-h-0 overflow-hidden">
+                <a href={getRelativeLocaleUrl(lang, `/${tipPath}/${next.slug}`)} class="next-up-card group">
+                  <span class="eyebrow flex items-center gap-1.5">
+                    {t("tip.next")}
+                    <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+                  </span>
+                  <span class="flex items-baseline gap-3">
+                    <span class="text-[11px] text-fg-muted tabular-nums shrink-0 group-hover:text-accent transition-colors">{nextNumber}</span>
+                    <span class="font-serif text-[17px] leading-snug text-fg group-hover:text-accent transition-colors text-balance">{next.title}</span>
+                  </span>
+                </a>
+              </div>
+            </div>
           )}
-        </nav>
+
+          <!-- Share + download formats -->
+          <div class="pt-8 border-t border-line">
+            <div class="flex items-center justify-between gap-3 mb-6">
+              <p class="eyebrow">{t("tip.share")}</p>
+              <div class="flex items-center gap-1 -mr-2">
+                <a href={xShareUrl} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label={t("tip.share_x")} title="X">
+                  <XIcon class="size-3.5" />
+                </a>
+                <a href={linkedinShareUrl} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label={t("tip.share_linkedin")} title="LinkedIn">
+                  <LinkedinIcon class="size-3.5" />
+                </a>
+                <button type="button" class="share-btn" data-copy-link={pageUrl} aria-label={t("tip.copy_link")} title={t("tip.copy_link")}>
+                  <LinkIcon class="copy-icon-link size-3.5" />
+                  <CheckIcon class="copy-icon-check size-3.5" />
+                </button>
+              </div>
+            </div>
+
+            <p class="eyebrow mb-4">{t("book.download")}</p>
+            <div class="flex gap-2">
+              <a
+                href={pdfUrl}
+                download
+                title={t("book.format_pdf_desc")}
+                class="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 text-[12px] text-fg hover:bg-surface transition-colors"
+              >
+                {t("book.format_pdf")} <span aria-hidden="true" class="text-fg-muted">&darr;</span>
+              </a>
+              <a
+                href={epubUrl}
+                download
+                title={t("book.format_epub_desc")}
+                class="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 text-[12px] text-fg hover:bg-surface transition-colors"
+              >
+                {t("book.format_epub")} <span aria-hidden="true" class="text-fg-muted">&darr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </aside>
     </div>
   </main>
@@ -380,3 +475,399 @@ const jsonLd = {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(readTips))
   }
 </script>
+
+<script>
+  import { $, $$ } from "../utils/dom"
+
+  // Interacciones de la página de un consejo: índice con scroll-spy, "siguiente consejo",
+  // enlaces a secciones y copiar enlace.
+  // Con ClientRouter el módulo se ejecuta una vez; se reinicia en cada astro:page-load.
+  let pageController: AbortController | undefined
+
+  function jumpToHeading(heading: HTMLElement, hash: string) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    heading.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" })
+    heading.setAttribute("tabindex", "-1")
+    heading.focus({ preventScroll: true })
+    history.replaceState(history.state, "", hash)
+  }
+
+  async function copyLink(url: string, trigger: HTMLElement, copiedLabel: string) {
+    try {
+      await navigator.clipboard.writeText(url)
+    } catch {
+      return
+    }
+
+    trigger.dataset.copied = ""
+    const status = $("[data-copy-status]")
+    if (status) status.textContent = copiedLabel
+    window.setTimeout(() => {
+      delete trigger.dataset.copied
+      if (status) status.textContent = ""
+    }, 1800)
+  }
+
+  // Botón de enlace al final de cada título (##/###). Se añade en cliente para poder
+  // traducir su etiqueta; no ocupa ancho, así que no cambia cómo se parte el título.
+  function addHeadingAnchors(prose: HTMLElement) {
+    const label = prose.dataset.anchorLabel ?? ""
+    const icons = $<HTMLTemplateElement>("[data-heading-anchor-icons]")
+    $$("h2[id], h3[id]", prose).forEach((heading) => {
+      if ($(".heading-anchor", heading)) return
+      const anchor = document.createElement("a")
+      anchor.className = "heading-anchor"
+      anchor.href = `#${heading.id}`
+      anchor.setAttribute("aria-label", `${label}: ${heading.textContent?.trim()}`)
+      if (icons) anchor.append(icons.content.cloneNode(true))
+      heading.append(anchor)
+    })
+  }
+
+  // Scroll-spy del índice: resalta la sección que se está leyendo
+  function createTocSpy(toc: HTMLElement | null): (force?: boolean) => void {
+    if (!toc) return () => {}
+
+    const links = $$<HTMLAnchorElement>("[data-toc-link]", toc)
+    const headings = links.map((link) => document.getElementById(link.dataset.slug ?? ""))
+    const track = $(".toc-track", toc)
+    const indicator = $("[data-toc-indicator]", toc)
+    if (headings.some((heading) => !heading)) return () => {}
+
+    let activeIndex = -2
+
+    return function update(force = false) {
+      // Una sección está activa cuando su título cruza el primer tercio de la pantalla
+      const threshold = window.innerHeight * 0.3
+      let index = -1
+      for (let i = 0; i < headings.length; i++) {
+        if (headings[i]!.getBoundingClientRect().top > threshold) break
+        index = i
+      }
+
+      // Al llegar al final de la página, la última sección cuenta como leída aunque sea corta
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+      if (atBottom) index = headings.length - 1
+
+      if (index === activeIndex && !force) return
+      activeIndex = index
+
+      links.forEach((link, i) => {
+        if (i === index) link.setAttribute("aria-current", "location")
+        else link.removeAttribute("aria-current")
+        link.dataset.state = i < index ? "read" : ""
+      })
+
+      const active = links[index]
+      if (indicator) {
+        indicator.style.opacity = active ? "1" : "0"
+        if (active) {
+          indicator.style.transform = `translateY(${active.offsetTop}px)`
+          indicator.style.height = `${active.offsetHeight}px`
+        }
+      }
+
+      // Índice con scroll interno: mantener visible la sección activa sin mover la página
+      if (active && track && track.scrollHeight > track.clientHeight) {
+        const outOfView =
+          active.offsetTop < track.scrollTop ||
+          active.offsetTop + active.offsetHeight > track.scrollTop + track.clientHeight
+        if (outOfView) track.scrollTop = active.offsetTop - track.clientHeight / 3
+      }
+    }
+  }
+
+  // "Siguiente consejo" en el aside: visible cuando queda menos de ~una pantalla por leer
+  function createNextUp(nextUp: HTMLElement | null, prose: HTMLElement): () => boolean {
+    if (!nextUp) return () => false
+
+    return function update() {
+      const visible = prose.getBoundingClientRect().bottom < window.innerHeight * 1.75
+      if (visible === nextUp.hasAttribute("data-visible")) return false
+      nextUp.toggleAttribute("data-visible", visible)
+      nextUp.inert = !visible
+      return true
+    }
+  }
+
+  function initTipPage() {
+    pageController?.abort()
+
+    const main = $("#main-content")
+    const prose = $("[data-tip-prose]")
+    if (!main || !prose) return
+
+    pageController = new AbortController()
+    const { signal } = pageController
+    const copiedLabel = prose.dataset.copiedLabel ?? ""
+
+    addHeadingAnchors(prose)
+    const updateToc = createTocSpy($("[data-toc]"))
+    const updateNextUp = createNextUp($("[data-next-up]"), prose)
+
+    let frame = 0
+    function update(force = false) {
+      frame = 0
+      // Si aparece "siguiente consejo" el índice encoge: recolocar la sección activa
+      const nextUpChanged = updateNextUp()
+      updateToc(force || nextUpChanged)
+    }
+
+    function schedule() {
+      if (!frame) frame = requestAnimationFrame(() => update())
+    }
+
+    window.addEventListener("scroll", schedule, { passive: true, signal })
+    window.addEventListener("resize", () => update(true), { passive: true, signal })
+
+    // Escuchar en <main> y no en document: así se ejecuta antes que ClientRouter,
+    // que trataría los enlaces #seccion como una navegación
+    main.addEventListener(
+      "click",
+      (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+        const target = event.target as Element | null
+
+        const copyButton = target?.closest<HTMLElement>("[data-copy-link]")
+        if (copyButton) {
+          copyLink(copyButton.dataset.copyLink ?? location.href, copyButton, copiedLabel)
+          return
+        }
+
+        const anchor = target?.closest<HTMLAnchorElement>(".heading-anchor")
+        if (anchor) {
+          event.preventDefault()
+          jumpToHeading(anchor.parentElement as HTMLElement, anchor.hash)
+          copyLink(anchor.href, anchor, copiedLabel)
+          return
+        }
+
+        const tocLink = target?.closest<HTMLAnchorElement>("[data-toc-link]")
+        const heading = tocLink && document.getElementById(tocLink.dataset.slug ?? "")
+        if (!tocLink || !heading) return
+
+        event.preventDefault()
+        // Cerrar primero el índice móvil: si no, al plegarse desplazaría el destino
+        const details = tocLink.closest("details")
+        if (details) details.open = false
+        jumpToHeading(heading, tocLink.hash)
+      },
+      { signal }
+    )
+
+    update(true)
+  }
+
+  document.addEventListener("astro:page-load", initTipPage)
+</script>
+
+<style>
+  .tip-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .tip-nav:hover {
+    border-color: var(--border-hover);
+    background: var(--card-hover-bg);
+  }
+
+  /* Solo fijo si cabe: en pantallas bajas el bloque quedaría cortado */
+  @media (min-width: 64rem) and (min-height: 44rem) {
+    .aside-sticky {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  .toc-track {
+    position: relative;
+    border-left: 1px solid var(--border);
+  }
+
+  /* Índices largos: scroll interno para que todo el bloque fijo quepa en pantalla.
+     El hueco reservado crece cuando aparece "siguiente consejo". */
+  @media (min-width: 64rem) and (min-height: 44rem) {
+    .toc-track {
+      max-height: calc(100dvh - 24rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+
+    .aside-sticky:has(.next-up[data-visible]) .toc-track {
+      max-height: calc(100dvh - 32rem);
+    }
+  }
+
+  .toc-indicator {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: 0;
+    border-radius: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transition:
+      transform 260ms cubic-bezier(0.2, 0, 0, 1),
+      height 260ms cubic-bezier(0.2, 0, 0, 1),
+      opacity 150ms ease;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.375rem 0 0.375rem 1rem;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.35;
+    color: var(--text-dim);
+    text-wrap: pretty;
+    transition: color 150ms ease;
+  }
+
+  .toc-link[data-state="read"] {
+    color: var(--text-muted);
+  }
+
+  .toc-link:hover,
+  .toc-link[aria-current] {
+    color: var(--text);
+  }
+
+  /* Dentro del contenedor con scroll, un outline exterior quedaría recortado */
+  .toc-link:focus-visible {
+    outline-offset: -2px;
+  }
+
+  /* Índice móvil plegable */
+  .toc-mobile {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+
+  .toc-mobile-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .toc-mobile-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-mobile-chevron {
+    transition: transform 150ms ease;
+  }
+
+  .toc-mobile[open] .toc-mobile-chevron {
+    transform: rotate(180deg);
+  }
+
+  .toc-mobile-list {
+    padding: 0.25rem 1rem 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .toc-mobile-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.35;
+    color: var(--text-dim);
+    text-wrap: pretty;
+  }
+
+  .toc-mobile-link:hover {
+    color: var(--text);
+  }
+
+  /* Siguiente consejo: se despliega (0fr → 1fr) al acercarse al final.
+     Solo en escritorio; en móvil ya está la navegación bajo el artículo. */
+  .next-up {
+    display: none;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    translate: 0 6px;
+    /* Sustituye al space-y del contenedor (:where, sin especificidad) para animarlo */
+    margin-block-end: 0;
+    transition:
+      grid-template-rows 320ms cubic-bezier(0.2, 0, 0, 1),
+      margin-block-end 320ms cubic-bezier(0.2, 0, 0, 1),
+      opacity 200ms ease,
+      translate 320ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .next-up[data-visible] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    translate: 0 0;
+    margin-block-end: 2.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .next-up {
+      display: grid;
+    }
+  }
+
+  .next-up-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1rem 1.125rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .next-up-card:hover {
+    border-color: var(--border-hover);
+    background: var(--card-hover-bg);
+  }
+
+  /* El contenedor del despliegue recorta: outline hacia dentro */
+  .next-up-card:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    color: var(--text-dim);
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .share-btn:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+
+  .share-btn .copy-icon-check,
+  .share-btn[data-copied] .copy-icon-link {
+    display: none;
+  }
+
+  .share-btn[data-copied] {
+    color: var(--success);
+  }
+
+  .share-btn[data-copied] .copy-icon-check {
+    display: block;
+  }
+</style>

@@ -1,0 +1,19 @@
+# Caché de larga duración para recursos estáticos no-hasheados.
+# El adapter de Astro añade su propia regla inmutable para /_astro/*.
+# Las fuentes no cambian de nombre y son estables: caché inmutable.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Imágenes regenerables (avatares, miniaturas, diagramas, OG, iconos):
+# se pueden regenerar con el mismo nombre en cada build → SWR corto + revalidación en segundo plano.
+/authors/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/og/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/icons/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

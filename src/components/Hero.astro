@@ -1,23 +1,40 @@
 ---
 import { useTranslations } from "../i18n/utils"
+import BookCTA from "./BookCTA.astro"
 
+interface Props {
+  tipsCount: number
+  authorsCount: number
+}
+
+const { tipsCount, authorsCount } = Astro.props
 const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
 ---
 
-<header class="relative pt-16 pb-10 px-4 max-w-4xl mx-auto">
-  <h1 class="flex items-center gap-5 md:gap-7 justify-center mb-5">
-    <span class="font-pixel text-8xl md:text-[10rem] text-sky-400 leading-[0.75] tracking-tighter select-none shrink-0">
-      100
-    </span>
-    <span class="text-[1.4rem] md:text-[2.1rem] leading-[1.2] tracking-tight">
-      <span class="text-neutral-500">{t("hero.headline_pre")}</span><br />
-      <span class="text-neutral-100 font-medium">{t("hero.headline_accent")}</span><br />
-      <span class="text-neutral-500">{t("hero.headline_post")}</span>
-    </span>
-  </h1>
+<header class="hero grid gap-10 lg:gap-16 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end pt-14 md:pt-24 pb-14 md:pb-20">
+  <div>
+    <h1 class="reveal font-serif font-normal text-fg text-[2.6rem] sm:text-6xl lg:text-[5.5rem] leading-[1.02] tracking-[-0.03em] text-balance">
+      <span class="font-pixel text-accent tracking-normal text-[0.92em]">100</span>
+      {t("hero.headline_pre")} <em class="italic">{t("hero.headline_accent")}</em>
+      {t("hero.headline_post")}
+    </h1>
+  </div>
 
-  <p class="text-center text-neutral-500 text-xs tracking-widest uppercase">
-    {t("hero.title")} <span class="text-neutral-300">{t("hero.subtitle")}</span>
-  </p>
+  <div class="reveal lg:pb-2" style="--i: 1">
+    <p class="font-serif text-lg md:text-xl leading-snug text-fg-dim text-balance mb-7">
+      {t("hero.title")} {t("hero.subtitle")}
+    </p>
+    <BookCTA />
+    <dl class="mt-8 pt-5 border-t border-line flex gap-8 text-[12px]">
+      <div>
+        <dt class="sr-only">{t("hero.stats_tips")}</dt>
+        <dd><span class="font-serif text-2xl text-fg tabular-nums">{tipsCount}</span> <span class="text-fg-muted">{t("hero.stats_tips")}</span></dd>
+      </div>
+      <div>
+        <dt class="sr-only">{t("hero.stats_authors")}</dt>
+        <dd><span class="font-serif text-2xl text-fg tabular-nums">{authorsCount}</span> <span class="text-fg-muted">{t("hero.stats_authors")}</span></dd>
+      </div>
+    </dl>
+  </div>
 </header>

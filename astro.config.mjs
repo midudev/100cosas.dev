@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
@@ -13,10 +13,34 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://100cosas.dev',
   trailingSlash: 'always',
-  prefetch: false,
+  // Astro 7 aplica por defecto reglas de espacios tipo JSX ('jsx'), que eliminan
+  // los saltos de línea entre texto y elementos inline ("iniciativa de@midudev").
+  // `true` comprime el HTML sin perder los espacios que afectan al render.
+  compressHTML: true,
+  // Prefetch en hover: la navegación con ClientRouter (view transitions) carga la
+  // página siguiente antes del clic, haciendo las transiciones instantáneas.
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
+
+  // Serif de lectura para títulos y cuerpo. Astro la descarga en build,
+  // la sirve desde el propio dominio y genera fallbacks con métricas ajustadas (sin CLS).
+  // Sin eje `opsz`: con él el archivo latin pasa de ~58 KB a ~130 KB.
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Newsreader',
+      cssVariable: '--font-newsreader',
+      weights: ['400 600'],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
+      fallbacks: ['Georgia', 'serif'],
+    },
+  ],
 
   // 301s for legacy locale prefixes, broken hreflang URLs, and renamed tips.
   redirects: {

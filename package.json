@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.3",
   "license": "CC-BY-NC-4.0",
-  "packageManager": "pnpm@11.7.0",
+  "packageManager": "pnpm@11.22.0",
   "scripts": {
     "dev": "astro dev",
     "build": "node scripts/generate-author-thumbs.mjs && node scripts/generate-og-tips.mjs && astro build",
@@ -16,25 +16,25 @@
     "generate-types": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "14.2.0",
-    "@astrojs/mdx": "7.0.5",
-    "@astrojs/sitemap": "3.7.3",
+    "@astrojs/cloudflare": "14.3.3",
+    "@astrojs/mdx": "8.0.2",
+    "@astrojs/sitemap": "3.7.4",
     "@resvg/resvg-js": "2.6.2",
     "@tailwindcss/typography": "0.5.20",
     "@tailwindcss/vite": "4.3.3",
-    "astro": "7.2.0",
-    "satori": "0.29.0",
-    "sharp": "0.35.3",
+    "astro": "7.3.5",
+    "satori": "0.33.5",
+    "sharp": "0.35.4",
     "tailwindcss": "4.3.3",
-    "wrangler": "4.120.0"
+    "wrangler": "4.141.0"
   },
   "devDependencies": {
     "epub-gen": "0.1.0",
-    "fs-extra": "11.4.0",
+    "fs-extra": "11.4.1",
     "glob": "13.0.6",
     "gray-matter": "4.0.3",
-    "marked": "18.0.9",
-    "puppeteer": "25.5.0",
-    "shiki": "4.4.2"
+    "marked": "18.0.14",
+    "puppeteer": "25.12.0",
+    "shiki": "4.4.3"
   }
 }

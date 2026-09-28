@@ -1,5 +1,6 @@
 ---
 import { useTranslations } from "../i18n/utils"
+import DownloadIcon from "../assets/icons/download.svg"
 
 const lang = (Astro.currentLocale || "es") as "es" | "en"
 const t = useTranslations(lang)
@@ -8,44 +9,26 @@ const pdfUrl = `/100cosas-${lang}.pdf`
 const epubUrl = `/100cosas-${lang}.epub`
 ---
 
-<section class="mb-10">
-  <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-
+<div>
+  <p class="eyebrow mb-3">{t("book.download")}</p>
+  <div class="flex flex-wrap gap-2">
     <a
       href={pdfUrl}
       download
-      class="book-btn-secondary group inline-flex items-center gap-3 px-5 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-sky-500/20 transition-all"
+      title={t("book.format_pdf_desc")}
+      class="book-btn group inline-flex items-center gap-2 rounded-full bg-fg text-bg px-4 py-2 text-[13px] font-medium hover:opacity-85 transition-opacity"
     >
-      <span class="flex items-center justify-center size-9 rounded-lg bg-red-500/10 text-red-400 shrink-0 group-hover:bg-red-500/15 transition-colors">
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="12" y1="18" x2="12" y2="12" />
-          <polyline points="9 15 12 18 15 15" />
-        </svg>
-      </span>
-      <span class="text-left">
-        <span class="block text-sm font-medium text-neutral-100">{t("book.format_pdf")}</span>
-        <span class="block text-[11px] text-neutral-500">{t("book.format_pdf_desc")}</span>
-      </span>
+      {t("book.format_pdf")}
+      <DownloadIcon class="size-3.5 transition-transform group-hover:translate-y-0.5" />
     </a>
-
     <a
       href={epubUrl}
       download
-      class="book-btn-secondary group inline-flex items-center gap-3 px-5 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-emerald-500/20 transition-all"
+      title={t("book.format_epub_desc")}
+      class="book-btn group inline-flex items-center gap-2 rounded-full border border-line-strong text-fg px-4 py-2 text-[13px] font-medium hover:bg-surface transition-colors"
     >
-      <span class="flex items-center justify-center size-9 rounded-lg bg-emerald-500/10 text-emerald-400 shrink-0 group-hover:bg-emerald-500/15 transition-colors">
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
-        </svg>
-      </span>
-      <span class="text-left">
-        <span class="block text-sm font-medium text-neutral-100">{t("book.format_epub")}</span>
-        <span class="block text-[11px] text-neutral-500">{t("book.format_epub_desc")}</span>
-      </span>
+      {t("book.format_epub")}
+      <DownloadIcon class="size-3.5 transition-transform group-hover:translate-y-0.5" />
     </a>
-
   </div>
-</section>
+</div>

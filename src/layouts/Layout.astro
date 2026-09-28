@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css"
 import { ClientRouter } from "astro:transitions"
+import { Font } from "astro:assets"
 
 interface Props {
   title?: string
@@ -46,8 +47,8 @@ const canonicalURL = new URL(canonicalPath, Astro.site)
 const fullImageURL = new URL(image, Astro.site).toString()
 const skipToContentLabel =
   lang === "es" ? "Saltar al contenido principal" : "Skip to main content"
-const darkThemeColor = "#0b1220"
-const lightThemeColor = "#f8fafc"
+const darkThemeColor = "#0e0e0f"
+const lightThemeColor = "#fbfaf6"
 
 // Logic for hreflang — never invent alternate paths by prefixing locale;
 // wrong guesses create 404s (e.g. /en/consejo/spanish-slug).
@@ -144,8 +145,8 @@ const breadcrumbJsonLd = {
     <script is:inline>
       (() => {
         const STORAGE_KEY = "site-theme"
-        const DARK_THEME_COLOR = "#0b1220"
-        const LIGHT_THEME_COLOR = "#f8fafc"
+        const DARK_THEME_COLOR = "#0e0e0f"
+        const LIGHT_THEME_COLOR = "#fbfaf6"
         const root = document.documentElement
 
         const getSystemTheme = () =>
@@ -247,6 +248,7 @@ const breadcrumbJsonLd = {
     <!-- Font preload -->
     <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin />
+    <Font cssVariable="--font-newsreader" preload={[{ style: "normal", subset: "latin" }]} />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
@@ -256,35 +258,10 @@ const breadcrumbJsonLd = {
   </head>
   <body class="min-h-screen flex flex-col">
     <a class="skip-link" href="#main-content">{skipToContentLabel}</a>
-    <svg aria-hidden="true" class="icon-sprite">
-      <symbol
-        id="icon-eye"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-        <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path>
-      </symbol>
-      <symbol
-        id="icon-eye-check"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-        <path d="M11.102 17.957c-3.204 -.307 -5.904 -2.294 -8.102 -5.957c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6a19.5 19.5 0 0 1 -.663 1.032"></path>
-        <path d="M15 19l2 2l4 -4"></path>
-      </symbol>
-    </svg>
     <slot />
     <script>
+      import { $, $$ } from "../utils/dom"
+
       const TRANSITION_NAMES = {
         number: "active-tip-number",
         title: "active-tip-title",
@@ -296,7 +273,7 @@ const breadcrumbJsonLd = {
       const LIST_PATHS = new Set(["/", "/es", "/es/", "/en", "/en/"])
 
       function clearTipTransitionNames(root: ParentNode = document) {
-        root.querySelectorAll<HTMLElement>("[data-vt-part]").forEach((element) => {
+        $$("[data-vt-part]", root).forEach((element) => {
           element.style.viewTransitionName = ""
         })
       }
@@ -305,13 +282,13 @@ const breadcrumbJsonLd = {
         if (!id) return false
 
         const container =
-          root.querySelector<HTMLElement>(`.tip-card[data-id="${CSS.escape(id)}"]`) ||
-          root.querySelector<HTMLElement>(`[data-tip-id="${CSS.escape(id)}"]`)
+          $(`.tip-card[data-id="${CSS.escape(id)}"]`, root) ||
+          $(`[data-tip-id="${CSS.escape(id)}"]`, root)
 
         if (!container) return false
 
         Object.entries(TRANSITION_NAMES).forEach(([part, name]) => {
-          const element = container.querySelector<HTMLElement>(`[data-vt-part="${part}"]`)
+          const element = $(`[data-vt-part="${part}"]`, container)
           if (element) element.style.viewTransitionName = name
         })
 
@@ -319,7 +296,7 @@ const breadcrumbJsonLd = {
       }
 
       function getCurrentTipId() {
-        return document.querySelector<HTMLElement>("[data-tip-id]")?.dataset.tipId
+        return $("[data-tip-id]")?.dataset.tipId
       }
 
       function getSourceTipId(sourceElement: EventTarget | null) {
@@ -399,7 +376,7 @@ const breadcrumbJsonLd = {
           const sourceTipId = getSourceTipId(transitionEvent.sourceElement)
           const currentTipId = getCurrentTipId()
           const storedTipId = getStoredTipId()
-          const targetTipId = newDocument.querySelector<HTMLElement>("[data-tip-id]")?.dataset.tipId
+          const targetTipId = $("[data-tip-id]", newDocument)?.dataset.tipId
           const nextTipId = sourceTipId || (targetTipId ? null : currentTipId) || storedTipId
 
           if (nextTipId) {

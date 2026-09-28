@@ -7,8 +7,8 @@ const DIST = "dist/client"
 const KB = 1024
 
 const budgets = [
+  // El ES es el locale por defecto sin prefijo: su home es "/index.html".
   { label: "home HTML", path: "index.html", maxGzip: 30 * KB },
-  { label: "ES home HTML", path: "es/index.html", maxGzip: 30 * KB },
   { label: "EN home HTML", path: "en/index.html", maxGzip: 30 * KB },
   { label: "ES search index", path: "search-index.json", maxGzip: 100 * KB },
   { label: "EN search index", path: "en/search-index.json", maxGzip: 55 * KB },

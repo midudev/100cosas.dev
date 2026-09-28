@@ -46,10 +46,10 @@ const otherCategories = [...usedCategories].filter(
 const allToDisplay = [...displayedCategories, ...otherCategories]
 ---
 
-<div class="filter-bar relative mb-8">
-  <div class="filter-scroll flex items-center gap-0.5 overflow-x-auto py-2 border-b border-white/[0.04]" id="filter-container">
+<div class="filter-bar relative mb-2 border-y border-line">
+  <div class="filter-scroll flex items-center gap-1 overflow-x-auto py-2.5" id="filter-container">
     <FilterButton active filter="all">{t("filter.all")}</FilterButton>
-    <span class="font-pixel text-neutral-800 select-none shrink-0">·</span>
+    <span class="w-px h-4 bg-line mx-1.5 shrink-0" aria-hidden="true"></span>
     {
       allToDisplay.map((categoryName) => (
         <FilterButton filter={categoryName}>{categoryName}</FilterButton>
@@ -92,9 +92,11 @@ const allToDisplay = [...displayedCategories, ...otherCategories]
 </style>
 
 <script>
+  import { $ } from "../utils/dom"
+
   function initFilterScroll() {
-    const container = document.getElementById("filter-container")
-    if (!(container instanceof HTMLElement)) return
+    const container = $("#filter-container")
+    if (!container) return
     if (container.dataset.scrollEnhanced === "true") return
 
     container.dataset.scrollEnhanced = "true"

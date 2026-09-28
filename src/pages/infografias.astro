@@ -4,6 +4,7 @@ import { getRelativeLocaleUrl } from "astro:i18n"
 import Layout from "../layouts/Layout.astro"
 import Navbar from "../components/Navbar.astro"
 import Footer from "../components/Footer.astro"
+import ChevronLeftIcon from "../assets/icons/chevron-left.svg"
 
 const tipsEntries = (
   await getCollection("tips", ({ id }) => id.startsWith("es/"))
@@ -48,26 +49,14 @@ const infographics = tipsEntries.flatMap((entry) => {
         href={getRelativeLocaleUrl("es", "/")}
         class="inline-flex items-center text-neutral-500 hover:text-neutral-300 mb-8 transition-colors group text-sm"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"></path>
-        </svg>
+        <ChevronLeftIcon class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform" />
         Volver a la lista
       </a>
 
       <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
         <div>
-          <p class="font-pixel text-sm text-sky-400/70 mb-3">/infografias</p>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl text-neutral-100 leading-tight tracking-normal">
+          <p class="eyebrow mb-4">/infografias</p>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-fg leading-[1.05] tracking-[-0.025em]">
             Todas las infografías, en una sola vista.
           </h1>
         </div>

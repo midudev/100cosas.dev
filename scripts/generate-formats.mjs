@@ -40,8 +40,9 @@ async function imageToBase64(filePath) {
 
 async function generateFormats() {
   await fs.ensureDir(OUTPUT_DIR);
-  const coverRelativePath = 'images/book-cover.jpg';
-  const coverAbsolutePath = path.join(process.cwd(), 'public', coverRelativePath);
+  // La portada vive en scripts/assets (no en public/): no debe desplegarse como asset público.
+  const coverRelativePath = 'assets/book-cover.jpg';
+  const coverAbsolutePath = path.join(process.cwd(), 'scripts', coverRelativePath);
   const coverDataUrl = await imageToBase64(coverAbsolutePath);
   const coverFileUrl = pathToFileURL(coverAbsolutePath).href;
 

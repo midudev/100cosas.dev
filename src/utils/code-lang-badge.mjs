@@ -1,8 +1,8 @@
 const LANGS = {
-  javascript: { name: 'JavaScript', icon: 'javascript', color: 'F7DF1E' },
-  js: { name: 'JavaScript', icon: 'javascript', color: 'F7DF1E' },
-  typescript: { name: 'TypeScript', icon: 'typescript', color: '3178C6' },
-  ts: { name: 'TypeScript', icon: 'typescript', color: '3178C6' },
+  javascript: { name: 'JavaScript', localIcon: '/icons/langs/javascript.svg' },
+  js: { name: 'JavaScript', localIcon: '/icons/langs/javascript.svg' },
+  typescript: { name: 'TypeScript', localIcon: '/icons/langs/typescript.svg' },
+  ts: { name: 'TypeScript', localIcon: '/icons/langs/typescript.svg' },
   python: { name: 'Python', icon: 'python', color: '3776AB' },
   py: { name: 'Python', icon: 'python', color: '3776AB' },
   html: { name: 'HTML', icon: 'html5', color: 'E34F26' },

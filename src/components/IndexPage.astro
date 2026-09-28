@@ -1,13 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import Navbar from "./Navbar.astro"
+import PixelBackdrop from "./PixelBackdrop.astro"
 import Hero from "./Hero.astro"
-import BookCTA from "./BookCTA.astro"
 import FilterBar from "./FilterBar.astro"
 import TipCard from "./TipCard.astro"
 import Footer from "./Footer.astro"
 import { type CollectionEntry } from "astro:content"
 import { useTranslations } from "../i18n/utils"
+import CloseIcon from "../assets/icons/close.svg"
 
 interface Props {
   sortedTips: CollectionEntry<"tips">[]
@@ -22,6 +23,7 @@ const t = useTranslations(lang)
 const searchIndexUrl = lang === "es" ? "/search-index.json" : "/en/search-index.json"
 const pageTitle = `${t("hero.title")} ${t("hero.subtitle")}`
 const pageDescription = t("hero.description")
+const authorsCount = new Set(sortedTips.map((tip) => tip.data.author)).size
 
 const collectionJsonLd = {
   "@context": "https://schema.org",
@@ -70,30 +72,75 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 >
   <script type="application/ld+json" set:html={JSON.stringify(collectionJsonLd)} />
 
+  <PixelBackdrop />
   <Navbar total={sortedTips.length} showSearch alternateUrl={alternateUrl} />
 
   <main
     id="main-content"
     tabindex="-1"
-    class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 w-full"
+    class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 pb-28 w-full"
     data-search-index-url={searchIndexUrl}
   >
-    <Hero />
-    <BookCTA />
+    <Hero tipsCount={sortedTips.length} authorsCount={authorsCount} />
+
+    <h2 class="sr-only">{t("index.title")}</h2>
     <FilterBar />
 
     <div
+      id="search-summary"
+      class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-5 pb-1"
+      data-label-one={t("search.results_one")}
+      data-label-other={t("search.results_other")}
+      hidden
+    >
+      <p class="min-w-0 text-[13px] leading-snug text-fg-dim">
+        <span class="font-serif text-[1.75rem] leading-none text-fg tabular-nums mr-1" data-search-count>0</span>
+        <span data-search-label></span>
+        <q class="search-query text-accent" data-search-query></q>
+        <span data-search-category-wrap hidden>
+          {t("search.in_category")} <span class="text-fg" data-search-category></span>
+        </span>
+      </p>
+      <button
+        type="button"
+        data-search-clear
+        class="inline-flex items-center gap-1.5 text-[12px] text-fg-dim hover:text-fg transition-colors px-2.5 py-1.5 rounded-full hover:bg-surface"
+      >
+        <CloseIcon class="size-3" />
+        {t("search.clear")}
+      </button>
+    </div>
+
+    <div
       id="tips-grid"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 lg:gap-x-8 lg:gap-y-10"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10"
     >
       {allTips.map((tip) => <TipCard {...tip} />)}
+    </div>
+
+    <div id="search-empty" class="py-20 text-center" hidden>
+      <p class="font-serif text-2xl text-fg text-balance">{t("search.empty_title")}</p>
+      <p class="mt-2 text-[13px] text-fg-muted">{t("search.empty_hint")}</p>
     </div>
   </main>
 
   <Footer />
 </Layout>
 
+<style>
+  .search-query {
+    quotes: "«" "»";
+    overflow-wrap: anywhere;
+  }
+
+  .search-query:lang(en) {
+    quotes: "\201C" "\201D";
+  }
+</style>
+
 <script>
+  import { $, $$ } from "../utils/dom"
+
   type SearchRecord = {
     id: string
     text: string
@@ -124,7 +171,7 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     if (searchState.index) return searchState.index
 
     if (!searchState.indexPromise) {
-      const main = document.getElementById("main-content")
+      const main = $("#main-content")
       const searchIndexUrl = main?.dataset.searchIndexUrl
 
       if (!searchIndexUrl) return new Map<string, string>()
@@ -153,57 +200,94 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     return searchState.indexPromise
   }
 
+  const prefersReducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  // Al buscar desde la navbar con el hero en pantalla, la rejilla queda fuera de la vista
+  // y no se aprecia el filtrado: desplaza la página hasta el resumen de resultados
+  function revealResults(target: HTMLElement) {
+    const navbarBottom = $("#navbar")?.getBoundingClientRect().bottom ?? 0
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight
+    const { top } = target.getBoundingClientRect()
+    if (top >= navbarBottom && top <= viewportHeight / 2) return
+
+    window.scrollTo({
+      top: window.scrollY + top - navbarBottom - 16,
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    })
+  }
+
   function initSearch() {
-    const searchInput = document.getElementById("tips-search") as HTMLInputElement | null
-    const searchStatus = document.getElementById("tips-search-status")
-    const filterContainer = document.getElementById("filter-container")
-    const tipCards = document.querySelectorAll(".tip-card")
+    const searchInput = $<HTMLInputElement>("#tips-search")
+    const searchStatus = $("#tips-search-status")
+    const searchSummary = $("#search-summary")
+    const searchEmpty = $("#search-empty")
+    const filterContainer = $("#filter-container")
+    const tipCards = $$(".tip-card")
 
     if (!searchInput) return
 
+    const summaryCount = searchSummary && $("[data-search-count]", searchSummary)
+    const summaryLabel = searchSummary && $("[data-search-label]", searchSummary)
+    const summaryQuery = searchSummary && $("[data-search-query]", searchSummary)
+    const summaryCategoryWrap = searchSummary && $("[data-search-category-wrap]", searchSummary)
+    const summaryCategory = searchSummary && $("[data-search-category]", searchSummary)
+
     const applyFilters = () => {
-      const activeButton = document.querySelector('.filter-btn[data-active="true"]') as HTMLElement | null
+      const activeButton = $('.filter-btn[data-active="true"]')
       const activeFilter = activeButton?.dataset.filter || "all"
       const query = normalizeSearch(searchInput.value || "")
+      const isSearching = query.length > 0
       let visibleCount = 0
 
-      tipCards.forEach((card) => {
-        const el = card as HTMLElement
+      tipCards.forEach((el) => {
         const category = el.dataset.category || ""
         const indexedSearch = el.dataset.id ? searchState.index?.get(el.dataset.id) : ""
         const searchable = indexedSearch || el.dataset.search || ""
         const matchesCategory = activeFilter === "all" || category === activeFilter
-        const matchesSearch = query.length === 0 || searchable.includes(query)
+        // Los huecos "Próximamente" no son resultados: se ocultan mientras se busca
+        const isPlaceholder = el.classList.contains("is-placeholder")
+        const matchesSearch = !isSearching || (!isPlaceholder && searchable.includes(query))
         const isVisible = matchesCategory && matchesSearch
 
         el.style.display = isVisible ? "block" : "none"
         if (isVisible) visibleCount += 1
       })
 
+      if (searchSummary) {
+        searchSummary.hidden = !isSearching
+
+        if (isSearching) {
+          const { labelOne = "", labelOther = "" } = searchSummary.dataset
+          if (summaryCount) summaryCount.textContent = String(visibleCount)
+          if (summaryLabel) summaryLabel.textContent = visibleCount === 1 ? labelOne : labelOther
+          if (summaryQuery) summaryQuery.textContent = searchInput.value.trim()
+          if (summaryCategory) summaryCategory.textContent = activeFilter
+          if (summaryCategoryWrap) summaryCategoryWrap.hidden = activeFilter === "all"
+        }
+      }
+
+      if (searchEmpty) searchEmpty.hidden = !isSearching || visibleCount > 0
+
       if (searchStatus) {
         const label = searchStatus.dataset.resultsLabel || "resultados encontrados"
-        searchStatus.textContent =
-          searchInput.value.trim().length > 0 ? `${visibleCount} ${label}` : ""
+        searchStatus.textContent = isSearching ? `${visibleCount} ${label}` : ""
       }
     }
 
-    if (filterContainer?.dataset.filterBound !== "true") {
+    if (filterContainer && filterContainer.dataset.filterBound !== "true") {
       filterContainer.dataset.filterBound = "true"
       filterContainer.addEventListener("click", (event) => {
         const button = (event.target as HTMLElement | null)?.closest(".filter-btn")
         if (!button) return
 
-        filterContainer.querySelectorAll(".filter-btn").forEach((btn) => {
+        $$(".filter-btn", filterContainer).forEach((btn) => {
           btn.setAttribute("data-active", "false")
           btn.setAttribute("aria-pressed", "false")
-          btn.classList.remove("text-sky-400")
-          btn.classList.add("text-neutral-600")
         })
 
         button.setAttribute("data-active", "true")
         button.setAttribute("aria-pressed", "true")
-        button.classList.add("text-sky-400")
-        button.classList.remove("text-neutral-600")
         applyFilters()
       })
     }
@@ -214,11 +298,32 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
         const query = searchInput.value.trim()
         applyFilters()
 
+        if (searchSummary && !searchSummary.hidden) revealResults(searchSummary)
+
         if (query.length > 0 && !searchState.index) {
           void loadSearchIndex().then(applyFilters)
         }
       })
     }
+  }
+
+  function handleSearchClear(event: MouseEvent) {
+    const button = (event.target as HTMLElement | null)?.closest("[data-search-clear]")
+    if (!button) return
+
+    const desktopInput = $<HTMLInputElement>("#tips-search")
+    const mobileInput = $<HTMLInputElement>("#tips-search-mobile")
+    if (!desktopInput) return
+
+    // El input de escritorio propaga el valor al de móvil (ver Navbar)
+    desktopInput.value = ""
+    desktopInput.dispatchEvent(new Event("input", { bubbles: true }))
+
+    // El botón pulsado se oculta: devuelve el foco al buscador visible
+    const mobileBar = $("#mobile-search-bar")
+    const isMobileBarOpen = !!mobileBar && !["", "0px"].includes(mobileBar.style.maxHeight)
+    const input = desktopInput.offsetParent ? desktopInput : isMobileBarOpen ? mobileInput : null
+    input?.focus({ preventScroll: true })
   }
 
   function handleSearchKeydown(event: KeyboardEvent) {
@@ -230,7 +335,7 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
       target?.isContentEditable
 
     if (event.key === "/" && !isEditable) {
-      const searchInput = document.getElementById("tips-search") as HTMLInputElement | null
+      const searchInput = $<HTMLInputElement>("#tips-search")
       if (searchInput) {
         event.preventDefault()
         searchInput.focus()
@@ -242,6 +347,7 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
   if (document.documentElement.dataset.searchShortcutBound !== "true") {
     document.documentElement.dataset.searchShortcutBound = "true"
     document.addEventListener("keydown", handleSearchKeydown)
+    document.addEventListener("click", handleSearchClear)
   }
 
   initSearch()

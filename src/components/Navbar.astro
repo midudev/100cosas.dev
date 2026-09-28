@@ -2,6 +2,11 @@
 import { useTranslations } from "../i18n/utils"
 import { getRelativeLocaleUrl } from "astro:i18n"
 import { routes } from "../i18n/ui"
+import ArrowUpRightIcon from "../assets/icons/arrow-up-right.svg"
+import CloseIcon from "../assets/icons/close.svg"
+import MoonIcon from "../assets/icons/moon.svg"
+import SearchIcon from "../assets/icons/search.svg"
+import SunIcon from "../assets/icons/sun.svg"
 
 interface Props {
   total?: number
@@ -30,26 +35,24 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
   data-theme-dark={themeDarkLabel}
   data-switch-to-light={switchToLightLabel}
   data-switch-to-dark={switchToDarkLabel}
-  class="navbar sticky top-0 z-50 border-b border-white/[0.06]"
+  class="navbar sticky top-0 z-50 border-b border-line"
 >
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex items-center h-14 gap-4">
 
       <a
         href={getRelativeLocaleUrl(lang, "/")}
-        class="navbar-logo group flex items-center gap-1.5 shrink-0"
+        class="navbar-logo group flex items-baseline gap-1 shrink-0"
       >
-        <span class="font-pixel text-lg text-sky-400 tracking-tight leading-none">100</span>
-        <span class="text-[13px] text-neutral-500 group-hover:text-neutral-300 transition-colors leading-none">cosas.dev</span>
+        <span class="font-pixel text-[19px] text-accent leading-none">100</span>
+        <span class="text-[13px] text-fg-dim group-hover:text-fg transition-colors leading-none">cosas.dev</span>
       </a>
 
       {showSearch && (
-        <div class="navbar-search hidden md:flex items-center flex-1 max-w-md mx-auto">
+        <div class="navbar-search hidden md:flex items-center flex-1 max-w-sm mx-auto">
           <label for="tips-search" class="sr-only">{t("nav.search")}</label>
-          <div class="relative w-full">
-            <svg class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-neutral-600" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-            </svg>
+          <div class="search-field relative w-full">
+            <SearchIcon class="search-field-icon pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-fg-muted" />
             <input
               id="tips-search"
               type="search"
@@ -59,9 +62,17 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
               aria-keyshortcuts="/"
               aria-describedby="tips-search-hint tips-search-status"
               placeholder={t("nav.search_placeholder")}
-              class="navbar-search-input w-full rounded-lg border border-white/[0.06] bg-white/[0.03] pl-8 pr-10 py-1.5 text-[12px] text-neutral-200 placeholder:text-neutral-600 focus:border-sky-500/30 focus:bg-white/[0.05] transition-all"
+              class="navbar-search-input w-full rounded-full border border-line bg-surface pl-9 pr-10 py-1.5 text-[12px] text-fg placeholder:text-fg-muted hover:border-line-strong focus:border-accent/50 transition-colors"
             />
-            <kbd class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-white/[0.1] bg-white/[0.03] px-1.5 py-0.5 text-[10px] leading-none text-neutral-600 font-mono">/</kbd>
+            <kbd class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded border border-line px-1.5 py-0.5 text-[10px] leading-none text-fg-muted font-mono">/</kbd>
+            <button
+              type="button"
+              data-search-clear
+              aria-label={t("search.clear")}
+              class="search-field-clear absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center size-6 rounded-full text-fg-muted hover:text-fg hover:bg-surface-2 transition-colors"
+            >
+              <CloseIcon class="size-3" />
+            </button>
           </div>
           <span id="tips-search-hint" class="sr-only">{t("nav.search_shortcut")}</span>
           <span
@@ -77,10 +88,10 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
 
       <div class="hidden md:flex items-center gap-1 shrink-0 ml-auto">
         <div class="navbar-progress flex items-center gap-2.5 px-2">
-          <div class="w-20 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
+          <div class="w-16 h-[2px] bg-line rounded-full overflow-hidden">
             <div
               id="progress-bar"
-              class="h-full bg-sky-500/80 rounded-full w-[0%]"
+              class="h-full bg-accent rounded-full w-[0%]"
               style="transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
             >
             </div>
@@ -90,8 +101,8 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
             role="status"
             aria-live="polite"
             aria-atomic="true"
-            class="text-[11px] text-neutral-600 tabular-nums whitespace-nowrap"
-            data-text-read={t("nav.read")}><span class="font-pixel text-sky-400/60">0/{total}</span> <span class="text-neutral-700">{t("nav.read")}</span></span
+            class="text-[11px] text-fg-muted tabular-nums whitespace-nowrap"
+            data-text-read={t("nav.read")}>0/{total} {t("nav.read")}</span
           >
         </div>
 
@@ -101,23 +112,11 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
           type="button"
           data-theme-toggle
           aria-label={switchToLightLabel}
-          class="theme-toggle inline-flex items-center gap-2 text-[12px] text-neutral-500 hover:text-neutral-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-white/[0.03]"
+          class="theme-toggle inline-flex items-center gap-2 text-[12px] text-fg-dim hover:text-fg transition-colors px-2.5 py-1.5 rounded-full hover:bg-surface"
         >
           <span class="theme-toggle-icon" aria-hidden="true">
-            <svg class="theme-icon theme-icon-moon size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-            <svg class="theme-icon theme-icon-sun size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2v2" />
-              <path d="M12 20v2" />
-              <path d="m4.93 4.93 1.41 1.41" />
-              <path d="m17.66 17.66 1.41 1.41" />
-              <path d="M2 12h2" />
-              <path d="M20 12h2" />
-              <path d="m6.34 17.66-1.41 1.41" />
-              <path d="m19.07 4.93-1.41 1.41" />
-            </svg>
+            <MoonIcon class="theme-icon theme-icon-moon size-3.5" />
+            <SunIcon class="theme-icon theme-icon-sun size-3.5" />
           </span>
           <span class="theme-toggle-label hidden xl:inline" data-theme-label>{themeLabel}</span>
         </button>
@@ -125,7 +124,7 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
         <div class="flex items-center">
           <a
             href={getRelativeLocaleUrl(lang, `/${aboutPath}`)}
-            class="navbar-link text-[12px] text-neutral-500 hover:text-neutral-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-white/[0.03]"
+            class="navbar-link text-[12px] text-fg-dim hover:text-fg transition-colors px-2.5 py-1.5 rounded-full hover:bg-surface"
           >
             {t("nav.about")}
           </a>
@@ -134,12 +133,10 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
             target="_blank"
             rel="noopener noreferrer"
             aria-label={lang === "es" ? "GitHub (se abre en una pestaña nueva)" : "GitHub (opens in a new tab)"}
-            class="navbar-link text-[12px] text-neutral-500 hover:text-neutral-200 transition-colors px-2.5 py-1.5 rounded-md hover:bg-white/[0.03] flex items-center gap-1"
+            class="navbar-link text-[12px] text-fg-dim hover:text-fg transition-colors px-2.5 py-1.5 rounded-full hover:bg-surface flex items-center gap-1"
           >
             GitHub
-            <svg class="size-3 opacity-40" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M4.53 4.75A.75.75 0 015.28 4h6.01a.75.75 0 01.75.75v6.01a.75.75 0 01-1.5 0V6.31l-5.263 5.263a.75.75 0 01-1.06-1.06L9.44 5.25H5.28a.75.75 0 01-.75-.75z" />
-            </svg>
+            <ArrowUpRightIcon class="size-3 opacity-40" />
           </a>
         </div>
 
@@ -152,11 +149,9 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
             type="button"
             id="mobile-search-toggle"
             aria-label={t("nav.search")}
-            class="text-neutral-500 hover:text-neutral-300 transition-colors p-1.5"
+            class="text-fg-dim hover:text-fg transition-colors p-1.5"
           >
-            <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-            </svg>
+            <SearchIcon class="size-4" />
           </button>
         )}
 
@@ -164,23 +159,11 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
           type="button"
           data-theme-toggle
           aria-label={switchToLightLabel}
-          class="theme-toggle-mobile text-neutral-500 hover:text-neutral-300 transition-colors p-1.5 rounded-md hover:bg-white/[0.03]"
+          class="theme-toggle-mobile text-fg-dim hover:text-fg transition-colors p-1.5 rounded-full hover:bg-surface"
         >
           <span class="theme-toggle-icon" aria-hidden="true">
-            <svg class="theme-icon theme-icon-moon size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-            <svg class="theme-icon theme-icon-sun size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2v2" />
-              <path d="M12 20v2" />
-              <path d="m4.93 4.93 1.41 1.41" />
-              <path d="m17.66 17.66 1.41 1.41" />
-              <path d="M2 12h2" />
-              <path d="M20 12h2" />
-              <path d="m6.34 17.66-1.41 1.41" />
-              <path d="m19.07 4.93-1.41 1.41" />
-            </svg>
+            <MoonIcon class="theme-icon theme-icon-moon size-4" />
+            <SunIcon class="theme-icon theme-icon-sun size-4" />
           </span>
         </button>
 
@@ -190,12 +173,12 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
             role="status"
             aria-live="polite"
             aria-atomic="true"
-            class="text-[10px] font-pixel text-sky-400/60 tabular-nums leading-none">0/{total}</span
+            class="text-[11px] text-fg-muted tabular-nums leading-none">0/{total}</span
           >
-          <div class="w-12 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
+          <div class="w-12 h-[2px] bg-line rounded-full overflow-hidden">
             <div
               id="progress-bar-mobile"
-              class="h-full bg-sky-500/80 rounded-full w-[0%]"
+              class="h-full bg-accent rounded-full w-[0%]"
               style="transition: width 0.5s ease;"
             >
             </div>
@@ -215,10 +198,8 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
     >
       <div class="px-4 pb-3 pt-1">
         <label for="tips-search-mobile" class="sr-only">{t("nav.search")}</label>
-        <div class="relative">
-          <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-neutral-600" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-          </svg>
+        <div class="search-field relative">
+          <SearchIcon class="search-field-icon pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-fg-muted" />
           <input
             id="tips-search-mobile"
             type="search"
@@ -226,8 +207,16 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
             autocomplete="off"
             spellcheck="false"
             placeholder={t("nav.search_placeholder")}
-            class="navbar-search-input w-full rounded-lg border border-white/[0.06] bg-white/[0.03] pl-9 pr-4 py-2 text-[13px] text-neutral-200 placeholder:text-neutral-600 focus:border-sky-500/30 focus:bg-white/[0.05] transition-all"
+            class="navbar-search-input w-full rounded-full border border-line bg-surface pl-9 pr-10 py-2 text-[13px] text-fg placeholder:text-fg-muted focus:border-accent/50 transition-colors"
           />
+          <button
+            type="button"
+            data-search-clear
+            aria-label={t("search.clear")}
+            class="search-field-clear absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center size-7 rounded-full text-fg-muted hover:text-fg hover:bg-surface-2 transition-colors"
+          >
+            <CloseIcon class="size-3" />
+          </button>
         </div>
       </div>
     </div>
@@ -286,13 +275,29 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
     -webkit-appearance: none;
     appearance: none;
   }
+
+  /* Con texto en el buscador: se resalta y el atajo "/" deja paso al botón de limpiar */
+  .navbar-search-input:not(:placeholder-shown) {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  .search-field:has(.navbar-search-input:not(:placeholder-shown)) .search-field-icon {
+    color: var(--accent);
+  }
+
+  .search-field:has(.navbar-search-input:not(:placeholder-shown)) kbd,
+  .search-field:has(.navbar-search-input:placeholder-shown) .search-field-clear {
+    display: none;
+  }
 </style>
 
 <script>
+  import { $, $$ } from "../utils/dom"
+
   const READ_STORAGE_KEY = "read-tips"
   const THEME_STORAGE_KEY = "site-theme"
-  const DARK_THEME_COLOR = "#0b1220"
-  const LIGHT_THEME_COLOR = "#f8fafc"
+  const DARK_THEME_COLOR = "#0e0e0f"
+  const LIGHT_THEME_COLOR = "#fbfaf6"
 
   function getReadTips() {
     try {
@@ -320,33 +325,22 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
   }
 
   function updateProgress() {
-    const navbar = document.getElementById("navbar")
+    const navbar = $("#navbar")
     const total = parseInt(navbar?.dataset.total || "100")
     const readTips = getReadTips()
     const count = readTips.length
     const percentage = Math.round((count / total) * 100)
 
-    const progressBars = [
-      document.getElementById("progress-bar"),
-      document.getElementById("progress-bar-mobile"),
-    ]
-    const progressTexts = [
-      document.getElementById("progress-text"),
-      document.getElementById("progress-text-mobile"),
-    ]
-
-    progressBars.forEach((bar) => {
-      if (bar) bar.style.width = `${percentage}%`
+    $$("#progress-bar, #progress-bar-mobile").forEach((bar) => {
+      bar.style.width = `${percentage}%`
     })
 
-    progressTexts.forEach((text) => {
-      if (text) {
-        const isMobile = text.id.includes("mobile")
-        const readText = text.dataset.textRead || "leídos"
-        text.textContent = isMobile
-          ? `${count}/${total}`
-          : `${count}/${total} ${readText}`
-      }
+    $$("#progress-text, #progress-text-mobile").forEach((text) => {
+      const isMobile = text.id.includes("mobile")
+      const readText = text.dataset.textRead || "leídos"
+      text.textContent = isMobile
+        ? `${count}/${total}`
+        : `${count}/${total} ${readText}`
     })
   }
 
@@ -379,7 +373,7 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
     root.dataset.theme = theme
     root.style.colorScheme = theme
 
-    const navbar = document.getElementById("navbar")
+    const navbar = $("#navbar")
     const themeLabel = theme === "light"
       ? navbar?.dataset.themeLight || "Light"
       : navbar?.dataset.themeDark || "Dark"
@@ -387,7 +381,7 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
       ? navbar?.dataset.switchToDark || "Switch to dark mode"
       : navbar?.dataset.switchToLight || "Switch to light mode"
 
-    const themeColorMeta = document.getElementById("theme-color-meta")
+    const themeColorMeta = $("#theme-color-meta")
     if (themeColorMeta) {
       themeColorMeta.setAttribute(
         "content",
@@ -395,11 +389,11 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
       )
     }
 
-    document.querySelectorAll("[data-theme-label]").forEach((label) => {
+    $$("[data-theme-label]").forEach((label) => {
       label.textContent = themeLabel
     })
 
-    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    $$("[data-theme-toggle]").forEach((button) => {
       button.setAttribute("aria-label", switchLabel)
     })
 
@@ -412,16 +406,26 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
     }
   }
 
+  // Evita que elementos con transition-colors (p. ej. el buscador) cambien
+  // de color más tarde que el resto de la página al alternar el tema
+  function withoutColorTransitions(callback: () => void) {
+    const root = document.documentElement
+    root.dataset.themeSwitching = ""
+    callback()
+    void document.body.offsetHeight
+    requestAnimationFrame(() => {
+      delete root.dataset.themeSwitching
+    })
+  }
+
   function initThemeToggle() {
-    const toggles = document.querySelectorAll("[data-theme-toggle]")
-    toggles.forEach((toggle) => {
-      const button = toggle as HTMLButtonElement
+    $$<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
       if (button.dataset.themeBound === "true") return
       button.dataset.themeBound = "true"
 
       button.addEventListener("click", () => {
         const nextTheme = getCurrentTheme() === "dark" ? "light" : "dark"
-        setTheme(nextTheme, true)
+        withoutColorTransitions(() => setTheme(nextTheme, true))
       })
     })
 
@@ -434,10 +438,10 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
   }
 
   function initMobileSearch() {
-    const toggle = document.getElementById("mobile-search-toggle")
-    const bar = document.getElementById("mobile-search-bar")
-    const desktopInput = document.getElementById("tips-search") as HTMLInputElement | null
-    const mobileInput = document.getElementById("tips-search-mobile") as HTMLInputElement | null
+    const toggle = $("#mobile-search-toggle")
+    const bar = $("#mobile-search-bar")
+    const desktopInput = $<HTMLInputElement>("#tips-search")
+    const mobileInput = $<HTMLInputElement>("#tips-search-mobile")
 
     if (toggle && bar) {
       if (toggle.dataset.searchBound !== "true") {
@@ -475,10 +479,8 @@ const switchToDarkLabel = t("nav.theme_switch_to_dark")
   function init() {
     const readTips = getReadTips()
 
-    const checkboxes = document.querySelectorAll(".read-toggle")
-    checkboxes.forEach((checkbox) => {
-      const id = checkbox.getAttribute("data-id")
-      ;(checkbox as HTMLInputElement).checked = readTips.includes(id)
+    $$<HTMLInputElement>(".read-toggle").forEach((checkbox) => {
+      checkbox.checked = readTips.includes(checkbox.getAttribute("data-id"))
     })
 
     updateProgress()

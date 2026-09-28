@@ -9,15 +9,34 @@ const { active = false, filter } = Astro.props
 
 <button
   type="button"
-  class:list={[
-    "filter-btn whitespace-nowrap px-2.5 py-1 text-[11px] transition-colors cursor-pointer shrink-0",
-    active
-      ? "text-sky-400"
-      : "text-neutral-600 hover:text-neutral-300",
-  ]}
+  class="filter-btn"
   data-filter={filter}
   data-active={active ? "true" : "false"}
   aria-pressed={active ? "true" : "false"}
 >
   <slot />
 </button>
+
+<style>
+  .filter-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 0.375rem 0.75rem;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1rem;
+    color: var(--text-dim);
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .filter-btn:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+
+  .filter-btn[data-active="true"] {
+    color: var(--bg);
+    background: var(--text);
+  }
+</style>
