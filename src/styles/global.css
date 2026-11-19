@@ -17,6 +17,16 @@
     font-display: swap;
 }
 
+/* La marca y los contadores solo necesitan estos caracteres de Geist Pixel. */
+@font-face {
+    font-family: 'Geist Pixel';
+    src: url('/fonts/GeistPixel-Square-digits.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0023, U+0030-0039;
+}
+
 /* Tokens semánticos: text-fg, bg-surface, border-line, text-accent... */
 @theme inline {
     --font-serif: var(--font-newsreader), Georgia, serif;
@@ -169,6 +179,11 @@ body {
     font-optical-sizing: auto;
     font-kerning: normal;
 }
+
+[data-vt-active] [data-vt-part="number"] { view-transition-name: active-tip-number; }
+[data-vt-active] [data-vt-part="title"] { view-transition-name: active-tip-title; }
+[data-vt-active] [data-vt-part="avatar"] { view-transition-name: active-tip-avatar; }
+[data-vt-active] [data-vt-part="author"] { view-transition-name: active-tip-author; }
 
 @media (prefers-reduced-motion: no-preference) {
     ::view-transition-group(root) {

@@ -260,6 +260,7 @@ async function main() {
     const slug = file
       .replace(`${TIPS_DIR}/`, "")
       .replace(/\.mdx?$/, "")
+      .normalize("NFC")
 
     const outPath = join(OUTPUT_DIR, `${slug}.jpg`)
     const authorId = data.author

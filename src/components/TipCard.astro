@@ -13,7 +13,6 @@ interface Props {
   category: string
   categoryColor?: string
   author: string
-  content?: string
   checked?: boolean
   slug?: string
   isPlaceholder?: boolean
@@ -117,11 +116,7 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
         </div>
       </a>
 
-      <label
-        class="tc-read"
-        data-tooltip-pending={lang === "es" ? "Marcar como leído" : "Mark as read"}
-        data-tooltip-read={lang === "es" ? "Leído" : "Read"}
-      >
+      <label class="tc-read">
         <input
           type="checkbox"
           class="read-toggle sr-only"
@@ -129,7 +124,12 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
           data-id={id}
           aria-label={readToggleLabel}
         />
-        <span class="tip-tooltip">{lang === "es" ? "Marcar como leído" : "Mark as read"}</span>
+        <span
+          class="tip-tooltip"
+          aria-hidden="true"
+          data-pending={lang === "es" ? "Marcar como leído" : "Mark as read"}
+          data-read={lang === "es" ? "Leído" : "Read"}
+        ></span>
         <EyeIcon class="eye-off" />
         <EyeCheckIcon class="eye-on" />
       </label>
@@ -321,27 +321,16 @@ const searchableText = normalizeSearchText(`${id} ${title} ${authorName} ${categ
     transition: opacity 0.15s;
   }
 
+  .tip-tooltip::before {
+    content: attr(data-pending);
+  }
+
+  :checked ~ .tip-tooltip::before {
+    content: attr(data-read);
+  }
+
+  .tc-read:focus-within .tip-tooltip,
   .tc-read:hover .tip-tooltip {
     opacity: 1;
   }
 </style>
-
-<script>
-  import { $, $$ } from "../utils/dom"
-
-  $$(".tip-card label[data-tooltip-pending]").forEach((label) => {
-    const tooltip = $(".tip-tooltip", label)
-    const input = $("input", label)
-    if (!tooltip || !input) return
-
-    const pending = label.getAttribute("data-tooltip-pending") || ""
-    const read = label.getAttribute("data-tooltip-read") || ""
-
-    function update() {
-      tooltip!.textContent = input!.checked ? read : pending
-    }
-
-    input.addEventListener("change", update)
-    update()
-  })
-</script>

@@ -15,7 +15,7 @@ function loadTips(lang) {
   const map = new Map()
   const dir = join(root, "src/content/tips", lang)
   for (const f of readdirSync(dir).filter((x) => x.endsWith(".md"))) {
-    const slug = f.replace(/\.md$/, "")
+    const slug = f.replace(/\.md$/, "").normalize("NFC")
     const num = String(parseInt(slug.match(/^(\d+)/)?.[1] || "", 10))
     if (num !== "NaN") map.set(num, slug)
   }
@@ -65,9 +65,15 @@ function add(from, to) {
       : `${from}/`
   const toNorm = to.includes(".") ? to : to.endsWith("/") ? to : `${to}/`
   redirects[fromNorm] = toNorm
+  // Los enlaces publicados desde macOS también pueden contener tildes descompuestas.
+  const decomposed = fromNorm.normalize("NFD")
+  if (decomposed !== fromNorm) redirects[decomposed] = toNorm
 }
 
 for (const slug of es.values()) {
+  if (slug.normalize("NFD") !== slug) {
+    add(`/consejo/${slug.normalize("NFD")}`, `/consejo/${slug}/`)
+  }
   add(`/es/consejo/${slug}`, `/consejo/${slug}/`)
 }
 for (const id of authors) {

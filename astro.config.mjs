@@ -17,12 +17,8 @@ export default defineConfig({
   // los saltos de línea entre texto y elementos inline ("iniciativa de@midudev").
   // `true` comprime el HTML sin perder los espacios que afectan al render.
   compressHTML: true,
-  // Prefetch en hover: la navegación con ClientRouter (view transitions) carga la
-  // página siguiente antes del clic, haciendo las transiciones instantáneas.
-  prefetch: {
-    prefetchAll: false,
-    defaultStrategy: 'hover',
-  },
+  // Ningún enlace usa data-astro-prefetch. Evita recorrerlos tras cada navegación.
+  prefetch: false,
   vite: {
     plugins: [tailwindcss()],
   },
@@ -58,9 +54,6 @@ export default defineConfig({
           en: 'en-US',
         },
       },
-      changefreq: 'weekly',
-      priority: 0.7,
-      lastmod: new Date(),
       filter: (page) => {
         const pathname = new URL(page).pathname;
 

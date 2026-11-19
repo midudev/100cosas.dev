@@ -1,5 +1,6 @@
 ---
 id: "44"
+slug: "es/44-no-diseñes-para-el-peor-caso"
 title: "No diseñes para el peor caso, diseña para el caso real"
 category: "Arquitectura"
 categoryColor: "text-indigo-400 bg-indigo-900/20"

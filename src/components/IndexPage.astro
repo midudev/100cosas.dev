@@ -39,15 +39,15 @@ const collectionJsonLd = {
   },
 }
 
+const tipsById = new Map(sortedTips.map((tip) => [tip.data.id, tip]))
 const allTips = Array.from({ length: 100 }, (_, i) => {
   const tipId = (i + 1).toString().padStart(2, "0")
-  const existingTip = sortedTips.find((tip) => tip.data.id === tipId)
+  const existingTip = tipsById.get(tipId)
 
   if (existingTip) {
     return {
       ...existingTip.data,
       slug: existingTip.id,
-      content: existingTip.body ?? "",
       isPlaceholder: false,
     }
   }
@@ -57,7 +57,6 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     title: t("tip.upcoming"),
     category: "???",
     author: "midudev",
-    content: "",
     isPlaceholder: true,
   }
 })
@@ -140,64 +139,11 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
 
 <script>
   import { $, $$ } from "../utils/dom"
+  import { normalizeSearchText } from "../utils/search"
 
   type SearchRecord = {
     id: string
     text: string
-  }
-
-  type SearchState = {
-    index: Map<string, string> | null
-    indexPromise: Promise<Map<string, string>> | null
-  }
-
-  const searchState = ((globalThis as typeof globalThis & {
-    __tipsSearchState?: SearchState
-  }).__tipsSearchState ??= {
-    index: null,
-    indexPromise: null,
-  })
-
-  const normalizeSearch = (value: string) =>
-    value
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^\p{Letter}\p{Number}\s#-]/gu, " ")
-      .replace(/\s+/g, " ")
-      .trim()
-
-  async function loadSearchIndex() {
-    if (searchState.index) return searchState.index
-
-    if (!searchState.indexPromise) {
-      const main = $("#main-content")
-      const searchIndexUrl = main?.dataset.searchIndexUrl
-
-      if (!searchIndexUrl) return new Map<string, string>()
-
-      searchState.indexPromise = fetch(searchIndexUrl, {
-        headers: {
-          accept: "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Search index request failed")
-          return response.json() as Promise<{ records: SearchRecord[] }>
-        })
-        .then(({ records }) => {
-          const index = new Map(records.map((record) => [record.id, record.text]))
-          searchState.index = index
-          return index
-        })
-        .catch(() => {
-          const fallback = new Map<string, string>()
-          searchState.index = fallback
-          return fallback
-        })
-    }
-
-    return searchState.indexPromise
   }
 
   const prefersReducedMotion = () =>
@@ -225,7 +171,27 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     const filterContainer = $("#filter-container")
     const tipCards = $$(".tip-card")
 
-    if (!searchInput) return
+    if (!searchInput || searchInput.dataset.searchBound === "true") return
+
+    const searchIndexUrl = $("#main-content")?.dataset.searchIndexUrl
+    let index: Map<string, string> | undefined
+    let loading = false
+
+    async function loadIndex() {
+      if (!searchIndexUrl || loading || index) return
+      loading = true
+      try {
+        const response = await fetch(searchIndexUrl)
+        if (!response.ok) return
+        const { records }: { records: SearchRecord[] } = await response.json()
+        index = new Map(records.map(({ id, text }) => [id, text]))
+        if (searchInput?.isConnected) applyFilters()
+      } catch {
+        // La búsqueda por título y autor sigue disponible sin conexión.
+      } finally {
+        loading = false
+      }
+    }
 
     const summaryCount = searchSummary && $("[data-search-count]", searchSummary)
     const summaryLabel = searchSummary && $("[data-search-label]", searchSummary)
@@ -236,13 +202,13 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
     const applyFilters = () => {
       const activeButton = $('.filter-btn[data-active="true"]')
       const activeFilter = activeButton?.dataset.filter || "all"
-      const query = normalizeSearch(searchInput.value || "")
+      const query = normalizeSearchText(searchInput.value || "")
       const isSearching = query.length > 0
       let visibleCount = 0
 
       tipCards.forEach((el) => {
         const category = el.dataset.category || ""
-        const indexedSearch = el.dataset.id ? searchState.index?.get(el.dataset.id) : ""
+        const indexedSearch = el.dataset.id ? index?.get(el.dataset.id) : ""
         const searchable = indexedSearch || el.dataset.search || ""
         const matchesCategory = activeFilter === "all" || category === activeFilter
         // Los huecos "Próximamente" no son resultados: se ocultan mientras se busca
@@ -292,19 +258,12 @@ const allTips = Array.from({ length: 100 }, (_, i) => {
       })
     }
 
-    if (searchInput.dataset.searchBound !== "true") {
-      searchInput.dataset.searchBound = "true"
-      searchInput.addEventListener("input", () => {
-        const query = searchInput.value.trim()
-        applyFilters()
-
-        if (searchSummary && !searchSummary.hidden) revealResults(searchSummary)
-
-        if (query.length > 0 && !searchState.index) {
-          void loadSearchIndex().then(applyFilters)
-        }
-      })
-    }
+    searchInput.dataset.searchBound = "true"
+    searchInput.addEventListener("input", () => {
+      applyFilters()
+      if (searchSummary && !searchSummary.hidden) revealResults(searchSummary)
+      if (searchInput.value.trim()) void loadIndex()
+    })
   }
 
   function handleSearchClear(event: MouseEvent) {

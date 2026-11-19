@@ -3,9 +3,6 @@
 User-agent: *
 Allow: /
 Disallow: /404
-Disallow: /infografias
-Disallow: /es
-Disallow: /es/
 Disallow: /search-index.json
 Disallow: /en/search-index.json
 

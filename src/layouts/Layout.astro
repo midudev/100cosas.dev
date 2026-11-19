@@ -95,45 +95,17 @@ const baseJsonLd = {
       "https://youtube.com/@midudev",
       "https://twitch.tv/midudev"
     ]
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://100cosas.dev/?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
   }
 }
 
-// BreadcrumbList para navegación estructurada
-const pathSegments = Astro.url.pathname.split('/').filter(Boolean)
-const breadcrumbItems = [
-  {
-    "@type": "ListItem",
-    "position": 1,
-    "name": "Inicio",
-    "item": "https://100cosas.dev"
-  }
-]
-
-if (pathSegments.length > 0) {
-  let currentPath = ""
-  pathSegments.forEach((segment, index) => {
-    currentPath += `/${segment}`
-    breadcrumbItems.push({
-      "@type": "ListItem",
-      "position": index + 2,
-      "name": segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' '),
-      "item": `https://100cosas.dev${currentPath}`
-    })
-  })
-}
-
+const homeURL = new URL(lang === "es" ? "/" : "/en/", Astro.site)
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": breadcrumbItems
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: lang === "es" ? "Inicio" : "Home", item: homeURL.href },
+    { "@type": "ListItem", position: 2, name: title.split(" | ")[0], item: canonicalURL.href },
+  ],
 }
 ---
 
@@ -203,9 +175,13 @@ const breadcrumbJsonLd = {
     <meta name="format-detection" content="telephone=no" />
 
     <!-- i18n Hreflang -->
-    <link rel="alternate" hreflang={localeCode} href={canonicalURL} />
-    <link rel="alternate" hreflang={alternateLocaleCode} href={alternateURL} />
-    <link rel="alternate" hreflang="x-default" href={xDefaultURL} />
+    {!noindex && (
+      <>
+        <link rel="alternate" hreflang={localeCode} href={canonicalURL} />
+        <link rel="alternate" hreflang={alternateLocaleCode} href={alternateURL} />
+        <link rel="alternate" hreflang="x-default" href={xDefaultURL} />
+      </>
+    )}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
@@ -247,12 +223,15 @@ const breadcrumbJsonLd = {
 
     <!-- Font preload -->
     <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/GeistPixel-Square-digits.woff2" as="font" type="font/woff2" crossorigin />
     <Font cssVariable="--font-newsreader" preload={[{ style: "normal", subset: "latin" }]} />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+    {canonicalURL.href === homeURL.href ? (
+      <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
+    ) : (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+    )}
 
     <ClientRouter fallback="swap" />
   </head>
@@ -260,135 +239,42 @@ const breadcrumbJsonLd = {
     <a class="skip-link" href="#main-content">{skipToContentLabel}</a>
     <slot />
     <script>
-      import { $, $$ } from "../utils/dom"
+      import { $ } from "../utils/dom"
 
-      const TRANSITION_NAMES = {
-        number: "active-tip-number",
-        title: "active-tip-title",
-        avatar: "active-tip-avatar",
-        author: "active-tip-author",
+      const listPaths = new Set(["/", "/es", "/es/", "/en", "/en/"])
+      let activeTipId: string | undefined
+
+      function markTip(root: ParentNode, id?: string) {
+        $("[data-vt-active]", root)?.removeAttribute("data-vt-active")
+        if (!id) return
+        const escaped = CSS.escape(id)
+        $(`.tip-card[data-id="${escaped}"], [data-tip-id="${escaped}"]`, root)
+          ?.setAttribute("data-vt-active", "")
       }
 
-      const STORAGE_KEY = "active-tip-transition-id"
-      const LIST_PATHS = new Set(["/", "/es", "/es/", "/en", "/en/"])
+      document.addEventListener("click", (event) => {
+        const link = (event.target as Element | null)?.closest("a")
+        if (!link || link.target || link.hasAttribute("download")) return
 
-      function clearTipTransitionNames(root: ParentNode = document) {
-        $$("[data-vt-part]", root).forEach((element) => {
-          element.style.viewTransitionName = ""
-        })
-      }
-
-      function markTipTransition(root: ParentNode, id: string | null | undefined) {
-        if (!id) return false
-
-        const container =
-          $(`.tip-card[data-id="${CSS.escape(id)}"]`, root) ||
-          $(`[data-tip-id="${CSS.escape(id)}"]`, root)
-
-        if (!container) return false
-
-        Object.entries(TRANSITION_NAMES).forEach(([part, name]) => {
-          const element = $(`[data-vt-part="${part}"]`, container)
-          if (element) element.style.viewTransitionName = name
-        })
-
-        return true
-      }
-
-      function getCurrentTipId() {
-        return $("[data-tip-id]")?.dataset.tipId
-      }
-
-      function getSourceTipId(sourceElement: EventTarget | null) {
-        if (!(sourceElement instanceof Element)) return null
-        return sourceElement.closest<HTMLElement>(".tip-card")?.dataset.id || null
-      }
-
-      function shouldMarkCurrentTipForLink(link: HTMLAnchorElement) {
-        const currentTipId = getCurrentTipId()
-        if (!currentTipId) return false
-
-        const url = new URL(link.href, location.href)
-        return url.origin === location.origin && LIST_PATHS.has(url.pathname)
-      }
-
-      function setStoredTipId(id: string) {
-        try {
-          sessionStorage.setItem(STORAGE_KEY, id)
-        } catch {}
-      }
-
-      function getStoredTipId() {
-        try {
-          return sessionStorage.getItem(STORAGE_KEY)
-        } catch {
-          return null
+        activeTipId = link.closest<HTMLElement>(".tip-card")?.dataset.id
+        if (!activeTipId && link.origin === location.origin && listPaths.has(link.pathname)) {
+          activeTipId = $("[data-tip-id]")?.dataset.tipId
         }
-      }
+        markTip(document, activeTipId)
+      }, { capture: true })
 
-      function clearStoredTipId() {
-        try {
-          sessionStorage.removeItem(STORAGE_KEY)
-        } catch {}
-      }
+      document.addEventListener("astro:before-swap", (event) => {
+        const { newDocument } = event
+        // Al volver mediante el historial no hay clic del que recuperar el consejo.
+        const fromTip = $("[data-tip-id]")?.dataset.tipId
+        const toTip = $("[data-tip-id]", newDocument)?.dataset.tipId
+        markTip(newDocument, activeTipId ?? (toTip ? undefined : fromTip))
+      })
 
-      const globalTransitionState = globalThis as typeof globalThis & {
-        __tipTransitionsBound?: boolean
-      }
-
-      if (!globalTransitionState.__tipTransitionsBound) {
-        globalTransitionState.__tipTransitionsBound = true
-
-        document.addEventListener(
-          "click",
-          (event) => {
-            const link = (event.target as Element | null)?.closest("a")
-            if (!link || link.target || link.hasAttribute("download")) return
-
-            clearTipTransitionNames()
-
-            const sourceTipId = getSourceTipId(link)
-            if (sourceTipId) {
-              markTipTransition(document, sourceTipId)
-              setStoredTipId(sourceTipId)
-              return
-            }
-
-            if (shouldMarkCurrentTipForLink(link)) {
-              const currentTipId = getCurrentTipId()
-              markTipTransition(document, currentTipId)
-              if (currentTipId) setStoredTipId(currentTipId)
-            }
-          },
-          { capture: true }
-        )
-
-        document.addEventListener("astro:before-swap", (event) => {
-          const transitionEvent = event as CustomEvent & {
-            sourceElement?: EventTarget | null
-            newDocument?: Document
-          }
-          const newDocument = transitionEvent.newDocument
-          if (!newDocument) return
-
-          clearTipTransitionNames(newDocument)
-
-          const sourceTipId = getSourceTipId(transitionEvent.sourceElement)
-          const currentTipId = getCurrentTipId()
-          const storedTipId = getStoredTipId()
-          const targetTipId = $("[data-tip-id]", newDocument)?.dataset.tipId
-          const nextTipId = sourceTipId || (targetTipId ? null : currentTipId) || storedTipId
-
-          if (nextTipId) {
-            markTipTransition(newDocument, nextTipId)
-          }
-        })
-
-        document.addEventListener("astro:page-load", () => {
-          clearTipTransitionNames()
-          clearStoredTipId()
-        })
-      }
+      document.addEventListener("astro:page-load", () => {
+        activeTipId = undefined
+        markTip(document)
+      })
     </script>
   </body>
 </html>
